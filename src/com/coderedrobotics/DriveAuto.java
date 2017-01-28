@@ -58,9 +58,9 @@ public class DriveAuto {
     }
     
     
-    public void turnDegrees(int degrees, double maxPower) {
+    public void turnDegrees(double d, double maxPower) {
     	
-    	double inchesToTravel = degrees/6;
+    	double inchesToTravel = d/6;
   	
     	rightDrivePID.setOutputRange(-maxPower, maxPower);
     	leftDrivePID.setOutputRange(-maxPower, maxPower);
