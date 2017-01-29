@@ -8,7 +8,8 @@ public class Robot extends IterativeRobot {
 	Target target;
 	Drive drive;
 	DriveAuto driveAuto;
-
+	boolean isDriving = false;
+	
 	public void robotInit() {
 		target = new Target();
 		drive = new Drive();
@@ -17,6 +18,8 @@ public class Robot extends IterativeRobot {
 		driveAuto.resetEncoders();
 		drive.set(0, 0);
 		drive.setPIDstate(true);
+		
+		target.displayDetails();
 	}
 	
 	public void autonomousInit() {
@@ -31,10 +34,20 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void teleopPeriodic() {
-		target.displayDetails();
-		if (target.foundTarget()){
-			driveAuto.turnDegrees(-target.degreesOffTarget(), .5);
+
+		if (target.foundTarget() && !target.isOnTarget()){
+			driveAuto.turnDegrees(-target.degreesOffTarget(), 1);
 			SmartDashboard.putNumber("degrees off target", target.degreesOffTarget());
+			isDriving = true;
+		}
+		
+		if (!isDriving && target.isOnTarget() && target.foundTarget()) {
+			driveAuto.driveInches(target.distanceFromGearTarget() - 10, .20);
+			isDriving = true;
+		}
+		
+		if (driveAuto.hasArrived()) {
+			isDriving = false;
 		}
 	}
 

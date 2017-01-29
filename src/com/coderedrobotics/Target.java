@@ -21,8 +21,8 @@ public class Target {
 	double height2 = 0.0;
 
 	// These are going to be the location in between the two images
-	double finalX = 0.0;
-	double finalY = 0.0;
+	double gearX = 0.0;
+	double gearY = 0.0;
 
 	// variables used to set the image resolution
 	int resolutionX = 640;
@@ -36,53 +36,64 @@ public class Target {
 		camera.setResolution(resolutionX, resolutionY);
 
 		visionThread = new VisionThread(camera, new GripPipeline(), gp -> {
-			SmartDashboard.putNumber("timer", System.currentTimeMillis());
-			if (gp.filterContoursOutput().size() == 2) {
+			//SmartDashboard.putNumber("timer", System.currentTimeMillis());
+
+			synchronized (imgLock) {
 				
-				Rect r1 = Imgproc.boundingRect(gp.filterContoursOutput().get(0));
-				Rect r2 = Imgproc.boundingRect(gp.filterContoursOutput().get(1));
-				synchronized (imgLock) {
+				objectsFound = gp.filterContoursOutput().size();
+				
+				if (objectsFound == 2) {
+
+					Rect r1 = Imgproc.boundingRect(gp.filterContoursOutput().get(0));
+					Rect r2 = Imgproc.boundingRect(gp.filterContoursOutput().get(1));
+
 					// This calculates the the centerpoint of each piece of tape
 					centerX1 = r1.x + (r1.width / 2);
 					centerX2 = r2.x + (r2.width / 2);
-					centerY1 = r1.y + (r1.width / 2);
-					centerY2 = r2.y + (r2.width / 2);
+					centerY1 = r1.y + (r1.height / 2);
+					centerY2 = r2.y + (r2.height / 2);
 					height1 = r1.height;
 					height2 = r2.height;
 
 					// This calculates the X and Y of the space between the
 					// pieces of tape
-					finalX = (centerX1 + centerX2) / 2;
-					finalY = (centerY1 + centerY2) / 2;
-					objectsFound = gp.filterContoursOutput().size();
+					gearX = (centerX1 + centerX2) / 2;
+					gearY = (centerY1 + centerY2) / 2;
+
+				} else {
+
+					gearX = -1;
+					gearY = -1;
 				}
-			} else {
-				objectsFound = gp.filterContoursOutput().size();
-				finalX = -1;
-				finalY = -1;
 			}
 
-		});
+		}
+		);
 
 		visionThread.setDaemon(true);
 		visionThread.start();
 	}
 
 	public double degreesOffTarget() {
-		return ((resolutionX / 2) - finalX);
+		return ((resolutionX / 2) - gearX) / 10;
+	}
+	
+	public boolean isOnTarget() {
+		return (Math.abs(degreesOffTarget()) <= 9);
 	}
 
 	public boolean foundTarget() {
-		return (finalX >= 0 && finalY >= 0);
+		return (gearX >= 0 && gearY >= 0);
 	}
-	public double distanceFromGearTarget(){
-		return 3600/height1;
+
+	public double distanceFromGearTarget() {
+		return 3600 / height1;
 	}
 
 	public void displayDetails() {
 		// puts the numbers of the final X and Y on the dashboard
-		SmartDashboard.putNumber("Center X", finalX);
-		SmartDashboard.putNumber("Center Y", finalY);
+		SmartDashboard.putNumber("Center X", gearX);
+		SmartDashboard.putNumber("Center Y", gearY);
 		SmartDashboard.putNumber("Objects Found", objectsFound);
 		SmartDashboard.putNumber("rectangle one height", height1);
 		SmartDashboard.putNumber("rectangle two height", height2);

@@ -29,8 +29,9 @@ public class DriveAuto {
      	leftPIDHolder = new PIDHolder();
      	rightPIDHolder = new PIDHolder();
      	
-        leftDrivePID = new PIDControllerAIAO(.003, 0, 0, new PIDSourceFilter((double value) -> -mainDrive.getLeftEncoderObject().get()), leftPIDHolder,  false, "autoleft");
-        rightDrivePID = new PIDControllerAIAO(.003, 0, 0, new PIDSourceFilter((double value) -> -mainDrive.getRightEncoderObject().get()), rightPIDHolder, false, "autoright");
+     	// was P = .003
+        leftDrivePID = new PIDControllerAIAO(.01, 0, 0, new PIDSourceFilter((double value) -> -mainDrive.getLeftEncoderObject().get()), leftPIDHolder,  false, "autoleft");
+        rightDrivePID = new PIDControllerAIAO(.01, 0, 0, new PIDSourceFilter((double value) -> -mainDrive.getRightEncoderObject().get()), rightPIDHolder, false, "autoright");
  
         leftDrivePID.setAbsoluteTolerance(.5); // half inch
         rightDrivePID.setAbsoluteTolerance(.5);
@@ -43,15 +44,15 @@ public class DriveAuto {
         
     }
    
-    public void driveInches(int inches, double maxPower) {
+    public void driveInches(double d, double maxPower) {
     	rightDrivePID.setOutputRange(-maxPower, maxPower);
     	leftDrivePID.setOutputRange(-maxPower, maxPower);
     	
     	resetEncoders();
     	drivingStraight = true;
 
-    	rightDrivePID.setSetpoint(-mainDrive.getRightEncoderObject().get() + convertToTicks(inches));
-    	leftDrivePID.setSetpoint(-mainDrive.getLeftEncoderObject().get() + convertToTicks(inches));
+    	rightDrivePID.setSetpoint(-mainDrive.getRightEncoderObject().get() + convertToTicks(d));
+    	leftDrivePID.setSetpoint(-mainDrive.getLeftEncoderObject().get() + convertToTicks(d));
     	
     	rightDrivePID.enable();
     	leftDrivePID.enable();
