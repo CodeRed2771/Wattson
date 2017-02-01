@@ -155,5 +155,17 @@ public class DriveAuto {
        	   	
       	//SmartDashboard.putNumber("Right Setpoint: ", rightDrivePID.getSetpoint());
     }
+    public void showPIDValues(){
+    	//This will show the PID values of the driveAuto (so they can be used within other objects)
+    	SmartDashboard.putNumber("P (DriveAuto): ", leftDrivePID.getP());
+    	SmartDashboard.putNumber("I (DriveAuto): ", leftDrivePID.getI());
+    	SmartDashboard.putNumber("D (DriveAuto): ", leftDrivePID.getD());
+    	
+    }
+    public void updatePIDValues(){
+    	//Changes the PID values to the values in SmartDashboard
+    	leftDrivePID.setPID(SmartDashboard.getNumber("P (DriveAuto): ",0), SmartDashboard.getNumber("I (DriveAuto): ",0), SmartDashboard.getNumber("D (DriveAuto): ",0));
+    	rightDrivePID.setPID(SmartDashboard.getNumber("P (DriveAuto): ",0),SmartDashboard.getNumber("I (DriveAuto): ",0),SmartDashboard.getNumber("D (DriveAuto): ",0));
+    }
    
 }

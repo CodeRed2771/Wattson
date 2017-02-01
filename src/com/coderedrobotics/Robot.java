@@ -20,6 +20,9 @@ public class Robot extends IterativeRobot {
 		drive.setPIDstate(true);
 		
 		target.displayDetails();
+		
+		driveAuto.showPIDValues();
+		drive.disablePID();
 	}
 	
 	public void autonomousInit() {
@@ -34,7 +37,10 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void teleopPeriodic() {
-
+		
+		//update the pid values based on numbers entered into the SmartDashboard
+		driveAuto.updatePIDValues();
+		
 		if (target.foundTarget() && !target.isOnTarget()){
 			driveAuto.turnDegrees(-target.degreesOffTarget(), 1);
 			SmartDashboard.putNumber("degrees off target", target.degreesOffTarget());
