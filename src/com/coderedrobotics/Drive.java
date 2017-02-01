@@ -44,12 +44,12 @@ public class Drive {
         drivePid = new PIDControllerAIAO(0, 0, 0, new PIDSourceFilter(
                 new PIDDerivativeCalculator(
                         new PIDSourceFilter((double value) -> leftEncoder.getRaw() + rightEncoder.getRaw()), 10),
-                (double value) -> value / Calibration.DRIVE_TOP_SPEED), tankDrive.getYPIDOutput(), false, "drive");
+                (double value) -> value / Calibration2016.DRIVE_TOP_SPEED), tankDrive.getYPIDOutput(), false, "drive");
 
         rotPid = new PIDControllerAIAO(0, 0, 0, new PIDSourceFilter(
                 new PIDDerivativeCalculator(
                         new PIDSourceFilter((double value) -> leftEncoder.getRaw() - rightEncoder.getRaw()), 10),
-                (double value) -> value / Calibration.ROT_TOP_SPEED), tankDrive.getRotPIDOutput(), true, "rot");
+                (double value) -> value / Calibration2016.ROT_TOP_SPEED), tankDrive.getRotPIDOutput(), true, "rot");
 
         setPIDstate(false);
 
@@ -101,8 +101,8 @@ public class Drive {
             drivePid.setPID(0, 0, 0, 1);
             rotPid.setPID(0, 0, 0, 1);
         } else {
-            drivePid.setPID(Calibration.DRIVE_P, Calibration.DRIVE_I, Calibration.DRIVE_D, 1);
-            rotPid.setPID(Calibration.ROT_P, Calibration.ROT_I, Calibration.ROT_D, 1);
+            drivePid.setPID(Calibration2016.DRIVE_P, Calibration2016.DRIVE_I, Calibration2016.DRIVE_D, 1);
+            rotPid.setPID(Calibration2016.ROT_P, Calibration2016.ROT_I, Calibration2016.ROT_D, 1);
         }
 
         double rot = (left - right) / 2;

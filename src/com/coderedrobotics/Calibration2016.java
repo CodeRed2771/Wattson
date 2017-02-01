@@ -4,7 +4,7 @@ package com.coderedrobotics;
  *
  * @author michael
  */
-public class Calibration {
+public class Calibration2016 {
     
     public static final double PICKUP_INTAKE_SPEED = .75;
     public static final double PICKUP_OUTPUT_SPEED  = 1;

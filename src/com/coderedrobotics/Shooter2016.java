@@ -7,7 +7,7 @@ import com.ctre.CANTalon;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 
-public class Shooter {
+public class Shooter2016 {
 
     private final CANTalon shooter1;
     private final PWMController shooter2;
@@ -18,11 +18,11 @@ public class Shooter {
     private long timeout;
     private boolean hasBeenSpunUp = false;
 
-    public Shooter(int talon, int victor) {
+    public Shooter2016(int talon, int victor) {
         shooter1 = new CANTalon(talon);
         shooter2 = new PWMController(victor, false);
-        pid = new PIDControllerAIAO(Calibration.SHOOTER_P, Calibration.SHOOTER_I,
-                Calibration.SHOOTER_D, Calibration.SHOOTER_F, new PIDSource() {
+        pid = new PIDControllerAIAO(Calibration2016.SHOOTER_P, Calibration2016.SHOOTER_I,
+                Calibration2016.SHOOTER_D, Calibration2016.SHOOTER_F, new PIDSource() {
             @Override
             public void setPIDSourceType(PIDSourceType pidSource) {
             }
@@ -54,7 +54,7 @@ public class Shooter {
     
     
     public boolean isSpunUp() {
-        boolean spunUp = Math.abs(pid.getError()) < Calibration.SHOOTER_ERROR_TOLERANCE;
+        boolean spunUp = Math.abs(pid.getError()) < Calibration2016.SHOOTER_ERROR_TOLERANCE;
         hasBeenSpunUp = spunUp || hasBeenSpunUp;
         return spunUp;
     }
@@ -65,7 +65,7 @@ public class Shooter {
     }
 
     public void spinUp() {
-        pid.setSetpoint(Calibration.SHOOTER_SPIN_SPEED);
+        pid.setSetpoint(Calibration2016.SHOOTER_SPIN_SPEED);
         pid.enable();
     }
 
@@ -79,7 +79,7 @@ public class Shooter {
 
     public void stopWithDelay() {
         stopping = true;
-        timeout = System.currentTimeMillis() + Calibration.SHOOTER_STOP_TIMEOUT;
+        timeout = System.currentTimeMillis() + Calibration2016.SHOOTER_STOP_TIMEOUT;
     }
 
     public boolean hasFired() {
@@ -104,12 +104,12 @@ public class Shooter {
         private long time = -1;
 
         boolean tick() {
-            if (hasBeenSpunUp && Math.abs(pid.getError()) > Calibration.SHOOTER_BALL_ERROR_THRESHOLD && time == -1) {
+            if (hasBeenSpunUp && Math.abs(pid.getError()) > Calibration2016.SHOOTER_BALL_ERROR_THRESHOLD && time == -1) {
                 hasFired = true;
                 time = System.currentTimeMillis();
             }
            
-            return hasFired && System.currentTimeMillis() > Calibration.SHOOTER_AUTOSTOP_DELAY + time;
+            return hasFired && System.currentTimeMillis() > Calibration2016.SHOOTER_AUTOSTOP_DELAY + time;
         }
 
         void reset() {

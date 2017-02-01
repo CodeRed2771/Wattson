@@ -5,7 +5,7 @@ import com.coderedrobotics.libs.Logger;
 import com.coderedrobotics.libs.PWMController;
 import java.util.function.Function;
 
-public class Pickup {
+public class Pickup2016 {
     
     private final CurrentBreaker frontBreaker;
     private final PWMController frontWheels;
@@ -14,13 +14,13 @@ public class Pickup {
     
     private boolean pickingUp = false;
     
-    public Pickup(int frontWheelPort, int rearWheelPort, Function pickupEvent) {
+    public Pickup2016(int frontWheelPort, int rearWheelPort, Function pickupEvent) {
         frontWheels = new PWMController(frontWheelPort, false); // 1 --> suck in
         rearWheels = new PWMController(rearWheelPort, true);
         frontBreaker = new CurrentBreaker(null, Wiring.PICKUP_FRONT_PDP, 
-                Calibration.PICKUP_FRONT_CURRENT_THRESHOLD, 
-                Calibration.PICKUP_FRONT_CURRENT_TIMEOUT, 
-                Calibration.PICKUP_FRONT_CURRENT_IGNORE_DURATION);
+                Calibration2016.PICKUP_FRONT_CURRENT_THRESHOLD, 
+                Calibration2016.PICKUP_FRONT_CURRENT_TIMEOUT, 
+                Calibration2016.PICKUP_FRONT_CURRENT_IGNORE_DURATION);
         this.pickupEvent = pickupEvent;
     }
     
@@ -32,16 +32,16 @@ public class Pickup {
     
     public void feedIn() {
         frontBreaker.reset();
-        frontWheels.set(Calibration.PICKUP_INTAKE_SPEED);
+        frontWheels.set(Calibration2016.PICKUP_INTAKE_SPEED);
         pickingUp = true;
     }
     
     public void feedOut() {
-        frontWheels.set(-Calibration.PICKUP_OUTPUT_SPEED);
+        frontWheels.set(-Calibration2016.PICKUP_OUTPUT_SPEED);
     }
     
     public void feedInNudge() {
-        frontWheels.set(Calibration.PICKUP_NUDGE_SPEED);
+        frontWheels.set(Calibration2016.PICKUP_NUDGE_SPEED);
         pickingUp = false; // no auto
     }
     
@@ -53,7 +53,7 @@ public class Pickup {
     }
     
     public void dropBallInShooter() {
-        rearWheels.set(Calibration.PICKUP_SHOOTER_DROP_SPEED);
+        rearWheels.set(Calibration2016.PICKUP_SHOOTER_DROP_SPEED);
 //        droppingInShooter = true;
     }
     
