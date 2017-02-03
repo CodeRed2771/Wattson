@@ -34,6 +34,11 @@ public class Robot extends IterativeRobot {
 
 	}
 
+	@Override
+	public void teleopInit() {
+		driveAuto.resetEncoders();
+		drive.set(0, 0);
+	}
 	
 	@Override
 	public void teleopPeriodic() {

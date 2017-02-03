@@ -34,6 +34,7 @@ public class Target {
 	public Target() {
 		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
 		camera.setResolution(resolutionX, resolutionY);
+		camera.setExposureManual(10);
 
 		visionThread = new VisionThread(camera, new GripPipeline(), gp -> {
 			//SmartDashboard.putNumber("timer", System.currentTimeMillis());
