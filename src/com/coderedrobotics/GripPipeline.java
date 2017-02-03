@@ -24,7 +24,7 @@ public class GripPipeline implements VisionPipeline {
 	NetworkTable netTable;
 
 	// Outputs
-	private Mat hslThresholdOutput = new Mat();
+	private Mat rgbThresholdOutput = new Mat();
 	private ArrayList<MatOfPoint> findContoursOutput = new ArrayList<MatOfPoint>();
 	private ArrayList<MatOfPoint> filterContoursOutput = new ArrayList<MatOfPoint>();
 
@@ -40,65 +40,46 @@ public class GripPipeline implements VisionPipeline {
 	 * This is the primary method that runs the entire pipeline and updates the
 	 * outputs.
 	 */
-	@Override
-	public void process(Mat source0) {
-		// Step HSL_Threshold0:
-		Mat hslThresholdInput = source0;
-		double[] hslThresholdHue = { 0.0, 178.4641638225256 };
-		double[] hslThresholdSaturation = { 61.915467625899275, 255.0 };
-		double[] hslThresholdLuminance = { 210.97122302158272, 255.0 };
-		hslThreshold(hslThresholdInput, hslThresholdHue, hslThresholdSaturation, hslThresholdLuminance,
-				hslThresholdOutput);
+	@Override	public void process(Mat source0) {
+		// Step RGB_Threshold0:
+		Mat rgbThresholdInput = source0;
+		double[] rgbThresholdRed = {0.0, 98.34470989761093};
+		double[] rgbThresholdGreen = {103.19244604316548, 255.0};
+		double[] rgbThresholdBlue = {32.10431654676259, 194.07849829351537};
+		rgbThreshold(rgbThresholdInput, rgbThresholdRed, rgbThresholdGreen, rgbThresholdBlue, rgbThresholdOutput);
 
 		// Step Find_Contours0:
-		Mat findContoursInput = hslThresholdOutput;
+		Mat findContoursInput = rgbThresholdOutput;
 		boolean findContoursExternalOnly = false;
 		findContours(findContoursInput, findContoursExternalOnly, findContoursOutput);
 
 		// Step Filter_Contours0:
 		ArrayList<MatOfPoint> filterContoursContours = findContoursOutput;
-		double filterContoursMinArea = 200.0;
+		double filterContoursMinArea = 21.0;
 		double filterContoursMinPerimeter = 0.0;
-		double filterContoursMinWidth = 5.0;
+		double filterContoursMinWidth = 0.0;
 		double filterContoursMaxWidth = 1000.0;
-		double filterContoursMinHeight = 10.0;
+		double filterContoursMinHeight = 0.0;
 		double filterContoursMaxHeight = 1000.0;
-		double[] filterContoursSolidity = { 0.0, 100.0 };
+		double[] filterContoursSolidity = {0.0, 100.0};
 		double filterContoursMaxVertices = 1000000.0;
 		double filterContoursMinVertices = 0.0;
-		double filterContoursMinRatio = 0.4;
-		double filterContoursMaxRatio = 0.7;
-		filterContours(filterContoursContours, filterContoursMinArea, filterContoursMinPerimeter,
-				filterContoursMinWidth, filterContoursMaxWidth, filterContoursMinHeight, filterContoursMaxHeight,
-				filterContoursSolidity, filterContoursMaxVertices, filterContoursMinVertices, filterContoursMinRatio,
-				filterContoursMaxRatio, filterContoursOutput);
-		
-		netTable.putNumber("Objects Found", filterContoursOutput().size());
-
-		for (int i = 0; i <= filterContoursOutput.size()-1; i++) {
-			Rect r = Imgproc.boundingRect(filterContoursOutput().get(i));
-			netTable.putNumber("X " + i, r.x);
-			netTable.putNumber("Y " + i, r.y);
-			netTable.putNumber("Height " + i, r.height);
-			netTable.putNumber("Width " + i, r.width);
-			netTable.putNumber("Area " + i, r.area());
-			netTable.putNumber("Ratio " + i, (double) r.width / (double) r.height);
-		}
+		double filterContoursMinRatio = 0.0;
+		double filterContoursMaxRatio = 1000.0;
+		filterContours(filterContoursContours, filterContoursMinArea, filterContoursMinPerimeter, filterContoursMinWidth, filterContoursMaxWidth, filterContoursMinHeight, filterContoursMaxHeight, filterContoursSolidity, filterContoursMaxVertices, filterContoursMinVertices, filterContoursMinRatio, filterContoursMaxRatio, filterContoursOutput);
 
 	}
 
 	/**
-	 * This method is a generated getter for the output of a HSL_Threshold.
-	 * 
-	 * @return Mat output from HSL_Threshold.
+	 * This method is a generated getter for the output of a RGB_Threshold.
+	 * @return Mat output from RGB_Threshold.
 	 */
-	public Mat hslThresholdOutput() {
-		return hslThresholdOutput;
+	public Mat rgbThresholdOutput() {
+		return rgbThresholdOutput;
 	}
 
 	/**
 	 * This method is a generated getter for the output of a Find_Contours.
-	 * 
 	 * @return ArrayList<MatOfPoint> output from Find_Contours.
 	 */
 	public ArrayList<MatOfPoint> findContoursOutput() {
@@ -107,59 +88,52 @@ public class GripPipeline implements VisionPipeline {
 
 	/**
 	 * This method is a generated getter for the output of a Filter_Contours.
-	 * 
 	 * @return ArrayList<MatOfPoint> output from Filter_Contours.
 	 */
 	public ArrayList<MatOfPoint> filterContoursOutput() {
 		return filterContoursOutput;
 	}
 
+
 	/**
-	 * Segment an image based on hue, saturation, and luminance ranges.
-	 *
-	 * @param input
-	 *            The image on which to perform the HSL threshold.
-	 * @param hue
-	 *            The min and max hue
-	 * @param sat
-	 *            The min and max saturation
-	 * @param lum
-	 *            The min and max luminance
-	 * @param output
-	 *            The image in which to store the output.
+	 * Segment an image based on color ranges.
+	 * @param input The image on which to perform the RGB threshold.
+	 * @param red The min and max red.
+	 * @param green The min and max green.
+	 * @param blue The min and max blue.
+	 * @param output The image in which to store the output.
 	 */
-	private void hslThreshold(Mat input, double[] hue, double[] sat, double[] lum, Mat out) {
-		Imgproc.cvtColor(input, out, Imgproc.COLOR_BGR2HLS);
-		Core.inRange(out, new Scalar(hue[0], lum[0], sat[0]), new Scalar(hue[1], lum[1], sat[1]), out);
+	private void rgbThreshold(Mat input, double[] red, double[] green, double[] blue,
+		Mat out) {
+		Imgproc.cvtColor(input, out, Imgproc.COLOR_BGR2RGB);
+		Core.inRange(out, new Scalar(red[0], green[0], blue[0]),
+			new Scalar(red[1], green[1], blue[1]), out);
 	}
 
 	/**
-	 * Sets the values of pixels in a binary image to their distance to the
-	 * nearest black pixel.
-	 * 
-	 * @param input
-	 *            The image on which to perform the Distance Transform.
-	 * @param type
-	 *            The Transform.
-	 * @param maskSize
-	 *            the size of the mask.
-	 * @param output
-	 *            The image in which to store the output.
+	 * Sets the values of pixels in a binary image to their distance to the nearest black pixel.
+	 * @param input The image on which to perform the Distance Transform.
+	 * @param type The Transform.
+	 * @param maskSize the size of the mask.
+	 * @param output The image in which to store the output.
 	 */
-	private void findContours(Mat input, boolean externalOnly, List<MatOfPoint> contours) {
+	private void findContours(Mat input, boolean externalOnly,
+		List<MatOfPoint> contours) {
 		Mat hierarchy = new Mat();
 		contours.clear();
 		int mode;
 		if (externalOnly) {
 			mode = Imgproc.RETR_EXTERNAL;
-		} else {
+		}
+		else {
 			mode = Imgproc.RETR_LIST;
 		}
 		int method = Imgproc.CHAIN_APPROX_SIMPLE;
 		Imgproc.findContours(input, contours, hierarchy, mode, method);
 	}
 
-	/**
+
+		/**
 	 * Filters out contours that do not meet certain criteria.
 	 * 
 	 * @param inputContours
