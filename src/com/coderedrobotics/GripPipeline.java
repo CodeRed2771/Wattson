@@ -1,15 +1,15 @@
 package com.coderedrobotics;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.wpi.cscore.CvSource;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.vision.VisionPipeline;
 
 import org.opencv.core.*;
 import org.opencv.imgproc.*;
-
 
 /**
  * GripPipeline class.
@@ -20,8 +20,10 @@ import org.opencv.imgproc.*;
  * @author GRIP
  */
 public class GripPipeline implements VisionPipeline {
-	
+
 	NetworkTable netTable;
+//	CvSource outputRawStream = CameraServer.getInstance().putVideo("TargetInfoRaw", 640, 480);
+	CvSource outputFilteredStream = CameraServer.getInstance().putVideo("TargetInfoFiltered", 640, 480);
 
 	// Outputs
 	private Mat rgbThresholdOutput = new Mat();
@@ -35,17 +37,20 @@ public class GripPipeline implements VisionPipeline {
 	public GripPipeline() {
 		netTable = NetworkTable.getTable("Vision Grip");
 	}
-	
+
 	/**
 	 * This is the primary method that runs the entire pipeline and updates the
 	 * outputs.
 	 */
-	@Override	public void process(Mat source0) {
+	@Override
+	public void process(Mat source0) {
 		// Step RGB_Threshold0:
 		Mat rgbThresholdInput = source0;
-		double[] rgbThresholdRed = {0.0, 98.34470989761093};
-		double[] rgbThresholdGreen = {103.19244604316548, 255.0};
-		double[] rgbThresholdBlue = {32.10431654676259, 194.07849829351537};
+		Mat origMat = new Mat();
+		rgbThresholdInput.copyTo(origMat);
+		double[] rgbThresholdRed = { 0.0, 98.34470989761093 };
+		double[] rgbThresholdGreen = { 103.19244604316548, 255.0 };
+		double[] rgbThresholdBlue = { 32.10431654676259, 194.07849829351537 };
 		rgbThreshold(rgbThresholdInput, rgbThresholdRed, rgbThresholdGreen, rgbThresholdBlue, rgbThresholdOutput);
 
 		// Step Find_Contours0:
@@ -53,25 +58,53 @@ public class GripPipeline implements VisionPipeline {
 		boolean findContoursExternalOnly = false;
 		findContours(findContoursInput, findContoursExternalOnly, findContoursOutput);
 
+		netTable.putNumber("Contours Found Unfiltered", findContoursOutput.size());
+
+		// display rectangles around all items found
+	//	addRectangles(findContoursInput, findContoursOutput);
+		
+	//	outputRawStream.putFrame(findContoursInput);
+		
+
 		// Step Filter_Contours0:
 		ArrayList<MatOfPoint> filterContoursContours = findContoursOutput;
 		double filterContoursMinArea = 21.0;
 		double filterContoursMinPerimeter = 0.0;
-		double filterContoursMinWidth = 0.0;
-		double filterContoursMaxWidth = 1000.0;
-		double filterContoursMinHeight = 0.0;
-		double filterContoursMaxHeight = 1000.0;
-		double[] filterContoursSolidity = {0.0, 100.0};
+		double filterContoursMinWidth = 5.0;
+		double filterContoursMaxWidth = findContoursInput.width() / 10;
+		double filterContoursMinHeight = findContoursInput.height() / 50;
+		double filterContoursMaxHeight = findContoursInput.height() / 3;
+		double[] filterContoursSolidity = { 0.0, 100.0 };
 		double filterContoursMaxVertices = 1000000.0;
 		double filterContoursMinVertices = 0.0;
-		double filterContoursMinRatio = 0.0;
-		double filterContoursMaxRatio = 1000.0;
-		filterContours(filterContoursContours, filterContoursMinArea, filterContoursMinPerimeter, filterContoursMinWidth, filterContoursMaxWidth, filterContoursMinHeight, filterContoursMaxHeight, filterContoursSolidity, filterContoursMaxVertices, filterContoursMinVertices, filterContoursMinRatio, filterContoursMaxRatio, filterContoursOutput);
+		double filterContoursMinRatio = 0.3;
+		double filterContoursMaxRatio = 0.7;
+		filterContours(filterContoursContours, filterContoursMinArea, filterContoursMinPerimeter,
+				filterContoursMinWidth, filterContoursMaxWidth, filterContoursMinHeight, filterContoursMaxHeight,
+				filterContoursSolidity, filterContoursMaxVertices, filterContoursMinVertices, filterContoursMinRatio,
+				filterContoursMaxRatio, filterContoursOutput);
+
+		netTable.putNumber("Contours Found Filtered", filterContoursOutput.size());
+
+		// display rectangles around the filtered list of items found
+		addRectangles(origMat, filterContoursOutput);
+		
+		outputFilteredStream.putFrame(origMat);
 
 	}
 
+	private void addRectangles(Mat image, List<MatOfPoint> contours) {
+		for (int i = 0; i < contours.size(); i++) {
+			final MatOfPoint contour = contours.get(i);
+			final Rect bb = Imgproc.boundingRect(contour);
+
+			Imgproc.rectangle(image, new Point(bb.x, bb.y), new Point(bb.x+bb.width, bb.y+bb.height), new Scalar(255, 255, 255),	3);
+		}
+	}
+	
 	/**
 	 * This method is a generated getter for the output of a RGB_Threshold.
+	 * 
 	 * @return Mat output from RGB_Threshold.
 	 */
 	public Mat rgbThresholdOutput() {
@@ -80,6 +113,7 @@ public class GripPipeline implements VisionPipeline {
 
 	/**
 	 * This method is a generated getter for the output of a Find_Contours.
+	 * 
 	 * @return ArrayList<MatOfPoint> output from Find_Contours.
 	 */
 	public ArrayList<MatOfPoint> findContoursOutput() {
@@ -88,52 +122,59 @@ public class GripPipeline implements VisionPipeline {
 
 	/**
 	 * This method is a generated getter for the output of a Filter_Contours.
+	 * 
 	 * @return ArrayList<MatOfPoint> output from Filter_Contours.
 	 */
 	public ArrayList<MatOfPoint> filterContoursOutput() {
 		return filterContoursOutput;
 	}
 
-
 	/**
 	 * Segment an image based on color ranges.
-	 * @param input The image on which to perform the RGB threshold.
-	 * @param red The min and max red.
-	 * @param green The min and max green.
-	 * @param blue The min and max blue.
-	 * @param output The image in which to store the output.
+	 * 
+	 * @param input
+	 *            The image on which to perform the RGB threshold.
+	 * @param red
+	 *            The min and max red.
+	 * @param green
+	 *            The min and max green.
+	 * @param blue
+	 *            The min and max blue.
+	 * @param output
+	 *            The image in which to store the output.
 	 */
-	private void rgbThreshold(Mat input, double[] red, double[] green, double[] blue,
-		Mat out) {
+	private void rgbThreshold(Mat input, double[] red, double[] green, double[] blue, Mat out) {
 		Imgproc.cvtColor(input, out, Imgproc.COLOR_BGR2RGB);
-		Core.inRange(out, new Scalar(red[0], green[0], blue[0]),
-			new Scalar(red[1], green[1], blue[1]), out);
+		Core.inRange(out, new Scalar(red[0], green[0], blue[0]), new Scalar(red[1], green[1], blue[1]), out);
 	}
 
 	/**
-	 * Sets the values of pixels in a binary image to their distance to the nearest black pixel.
-	 * @param input The image on which to perform the Distance Transform.
-	 * @param type The Transform.
-	 * @param maskSize the size of the mask.
-	 * @param output The image in which to store the output.
+	 * Sets the values of pixels in a binary image to their distance to the
+	 * nearest black pixel.
+	 * 
+	 * @param input
+	 *            The image on which to perform the Distance Transform.
+	 * @param type
+	 *            The Transform.
+	 * @param maskSize
+	 *            the size of the mask.
+	 * @param output
+	 *            The image in which to store the output.
 	 */
-	private void findContours(Mat input, boolean externalOnly,
-		List<MatOfPoint> contours) {
+	private void findContours(Mat input, boolean externalOnly, List<MatOfPoint> contours) {
 		Mat hierarchy = new Mat();
 		contours.clear();
 		int mode;
 		if (externalOnly) {
 			mode = Imgproc.RETR_EXTERNAL;
-		}
-		else {
+		} else {
 			mode = Imgproc.RETR_LIST;
 		}
 		int method = Imgproc.CHAIN_APPROX_SIMPLE;
 		Imgproc.findContours(input, contours, hierarchy, mode, method);
 	}
 
-
-		/**
+	/**
 	 * Filters out contours that do not meet certain criteria.
 	 * 
 	 * @param inputContours
@@ -166,8 +207,11 @@ public class GripPipeline implements VisionPipeline {
 	private void filterContours(List<MatOfPoint> inputContours, double minArea, double minPerimeter, double minWidth,
 			double maxWidth, double minHeight, double maxHeight, double[] solidity, double maxVertexCount,
 			double minVertexCount, double minRatio, double maxRatio, List<MatOfPoint> output) {
+		
 		final MatOfInt hull = new MatOfInt();
+		
 		output.clear();
+		
 		// operation
 		for (int i = 0; i < inputContours.size(); i++) {
 			final MatOfPoint contour = inputContours.get(i);
@@ -197,6 +241,7 @@ public class GripPipeline implements VisionPipeline {
 			final double ratio = bb.width / (double) bb.height;
 			if (ratio < minRatio || ratio > maxRatio)
 				continue;
+			
 			output.add(contour);
 		}
 	}
