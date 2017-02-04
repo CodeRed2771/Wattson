@@ -12,6 +12,17 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Drive {
 
+	
+	private double xPos;
+	private double yPos;
+	private double rot;
+	private int encoderLeftOld;
+	private int encoderRightOld;
+	
+	
+	
+	
+	
     private TankDrive tankDrive;
 
     private Encoder leftEncoder;
@@ -53,7 +64,72 @@ public class Drive {
 
         setPIDstate(false);
 
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
     }
+    
+    
+    
+    public void step(){
+    	
+    	
+    	int newLeft = leftEncoder.getRaw();
+    	int newRight = rightEncoder.getRaw();
+    	double leftDelta = newLeft - encoderLeftOld;
+    	double rightDelta = newRight - encoderRightOld;
+    	double rotChange = leftDelta - rightDelta;
+    	rot = rot + rotChange * .211;
+    	double distanceTraveled = (leftDelta + rightDelta) / 2;
+    	yPos += distanceTraveled * 16 * Math.sin(Math.toRadians(rot));
+    	xPos += distanceTraveled * 16 * Math.cos(Math.toRadians(rot));
+    	
+    	SmartDashboard.putNumber("X: ", xPos);
+    	SmartDashboard.putNumber("Y: ", yPos);
+    	SmartDashboard.putNumber("Rotation: ", rot);
+    	
+    }
+    
+    public void setRobotPos(double rot, double yPos, double xPos){
+    	
+    	this.rot = rot;
+    	this.xPos = xPos;
+    	this.yPos = yPos;
+    	
+    }
+    
+    
+    public void setRobotPosbyC(double camFAngle, double camDistance, double camTAngle){ //camFAngle = A, camDistance = B, cmaTAngle = C
+    	
+    	camTAngle += 90;
+    	camFAngle += 90;
+    	double cX = camDistance * Math.cos(Math.toRadians(camFAngle));
+    	double cY = camDistance * Math.sin(Math.toRadians(camFAngle));
+    	// (cX, cY) are the coordinates of the camera
+    	xPos = cX + (18 * Math.cos(Math.toRadians(camFAngle - camTAngle)));
+    	yPos = cY + (18 * Math.sin(Math.toRadians(camFAngle - camTAngle)));
+    	// (mX, mY) are the coordinates of the middle of the robot
+    	rot = ((camFAngle - camTAngle) + 180);
+    	
+    	
+    	
+    	
+    }
+    
+    
+    
+    
+    
+    
+    
     
     public void setPIDstate(boolean isEnabled) {
     	if (isEnabled) {

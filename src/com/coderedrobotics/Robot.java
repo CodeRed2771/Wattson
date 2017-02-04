@@ -1,5 +1,9 @@
 package com.coderedrobotics;
 
+import com.coderedrobotics.libs.HID.HID;
+import com.coderedrobotics.libs.HID.HID.ButtonState;
+import com.coderedrobotics.libs.HID.LogitechF310;
+
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -9,6 +13,10 @@ public class Robot extends IterativeRobot {
 	Drive drive;
 	DriveAuto driveAuto;
 	boolean isDriving = false;
+	
+	LogitechF310 gamepad;
+	ButtonState state;
+	
 	
 	public void robotInit() {
 		target = new Target();
@@ -20,6 +28,9 @@ public class Robot extends IterativeRobot {
 		drive.setPIDstate(true);
 		
 		target.displayDetails();
+		
+		gamepad = new LogitechF310(0);
+		state = HID.newButtonState();
 		
 		driveAuto.showPIDValues();
 		drive.disablePID();
@@ -60,6 +71,10 @@ public class Robot extends IterativeRobot {
 		if (driveAuto.hasArrived()) {
 			isDriving = false;
 		}
+		if (gamepad.buttonPressed(LogitechF310.A, state))
+		drive.setRobotPosbyC(23, 52, 30);
+		drive.step();
+		
 	}
 
 	@Override

@@ -30,8 +30,8 @@ public class DriveAuto {
      	rightPIDHolder = new PIDHolder();
      	
      	// was P = .003
-        leftDrivePID = new PIDControllerAIAO(.01, 0, 0, new PIDSourceFilter((double value) -> -mainDrive.getLeftEncoderObject().get()), leftPIDHolder,  false, "autoleft");
-        rightDrivePID = new PIDControllerAIAO(.01, 0, 0, new PIDSourceFilter((double value) -> -mainDrive.getRightEncoderObject().get()), rightPIDHolder, false, "autoright");
+        leftDrivePID = new PIDControllerAIAO(.0, 0, 0, new PIDSourceFilter((double value) -> -mainDrive.getLeftEncoderObject().get()), leftPIDHolder,  false, "autoleft");
+        rightDrivePID = new PIDControllerAIAO(.0, 0, 0, new PIDSourceFilter((double value) -> -mainDrive.getRightEncoderObject().get()), rightPIDHolder, false, "autoright");
  
         leftDrivePID.setAbsoluteTolerance(.5); // half inch
         rightDrivePID.setAbsoluteTolerance(.5);
@@ -164,8 +164,8 @@ public class DriveAuto {
     }
     public void updatePIDValues(){
     	//Changes the PID values to the values in SmartDashboard
-    	leftDrivePID.setPID(SmartDashboard.getNumber("P (DriveAuto): ",0), SmartDashboard.getNumber("I (DriveAuto): ",0), SmartDashboard.getNumber("D (DriveAuto): ",0));
-    	rightDrivePID.setPID(SmartDashboard.getNumber("P (DriveAuto): ",0),SmartDashboard.getNumber("I (DriveAuto): ",0),SmartDashboard.getNumber("D (DriveAuto): ",0));
+    	//leftDrivePID.setPID(SmartDashboard.getNumber("P (DriveAuto): ",0), SmartDashboard.getNumber("I (DriveAuto): ",0), SmartDashboard.getNumber("D (DriveAuto): ",0));
+    	//rightDrivePID.setPID(SmartDashboard.getNumber("P (DriveAuto): ",0),SmartDashboard.getNumber("I (DriveAuto): ",0),SmartDashboard.getNumber("D (DriveAuto): ",0));
     }
    
 }
