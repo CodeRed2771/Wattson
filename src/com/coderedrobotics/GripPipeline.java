@@ -26,7 +26,7 @@ public class GripPipeline implements VisionPipeline {
 	CvSource outputFilteredStream = CameraServer.getInstance().putVideo("TargetInfoFiltered", 640, 480);
 
 	// Outputs
-	private Mat rgbThresholdOutput = new Mat();
+	private Mat hslThresholdOutput = new Mat();
 	private ArrayList<MatOfPoint> findContoursOutput = new ArrayList<MatOfPoint>();
 	private ArrayList<MatOfPoint> filterContoursOutput = new ArrayList<MatOfPoint>();
 
@@ -45,16 +45,17 @@ public class GripPipeline implements VisionPipeline {
 	@Override
 	public void process(Mat source0) {
 		// Step RGB_Threshold0:
-		Mat rgbThresholdInput = source0;
+		Mat hslThresholdInput = source0;
 		Mat origMat = new Mat();
-		rgbThresholdInput.copyTo(origMat);
-		double[] rgbThresholdRed = { 0.0, 98.34470989761093 };
-		double[] rgbThresholdGreen = { 103.19244604316548, 255.0 };
-		double[] rgbThresholdBlue = { 32.10431654676259, 194.07849829351537 };
-		rgbThreshold(rgbThresholdInput, rgbThresholdRed, rgbThresholdGreen, rgbThresholdBlue, rgbThresholdOutput);
+		hslThresholdInput.copyTo(origMat);
+
+		double[] hslThresholdHue = {40.46762589928058, 104.74402730375427};
+		double[] hslThresholdSaturation = {43.57014388489208, 174.4965870307167};
+		double[] hslThresholdLuminance = {82.55395683453237, 246.29692832764508};
+		hslThreshold(hslThresholdInput, hslThresholdHue, hslThresholdSaturation, hslThresholdLuminance, hslThresholdOutput);
 
 		// Step Find_Contours0:
-		Mat findContoursInput = rgbThresholdOutput;
+		Mat findContoursInput = hslThresholdOutput;
 		boolean findContoursExternalOnly = false;
 		findContours(findContoursInput, findContoursExternalOnly, findContoursOutput);
 
@@ -102,13 +103,8 @@ public class GripPipeline implements VisionPipeline {
 		}
 	}
 	
-	/**
-	 * This method is a generated getter for the output of a RGB_Threshold.
-	 * 
-	 * @return Mat output from RGB_Threshold.
-	 */
-	public Mat rgbThresholdOutput() {
-		return rgbThresholdOutput;
+	public Mat hslThresholdOutput() {
+		return hslThresholdOutput;
 	}
 
 	/**
@@ -130,22 +126,19 @@ public class GripPipeline implements VisionPipeline {
 	}
 
 	/**
-	 * Segment an image based on color ranges.
-	 * 
-	 * @param input
-	 *            The image on which to perform the RGB threshold.
-	 * @param red
-	 *            The min and max red.
-	 * @param green
-	 *            The min and max green.
-	 * @param blue
-	 *            The min and max blue.
-	 * @param output
-	 *            The image in which to store the output.
+	 * Segment an image based on hue, saturation, and luminance ranges.
+	 *
+	 * @param input The image on which to perform the HSL threshold.
+	 * @param hue The min and max hue
+	 * @param sat The min and max saturation
+	 * @param lum The min and max luminance
+	 * @param output The image in which to store the output.
 	 */
-	private void rgbThreshold(Mat input, double[] red, double[] green, double[] blue, Mat out) {
-		Imgproc.cvtColor(input, out, Imgproc.COLOR_BGR2RGB);
-		Core.inRange(out, new Scalar(red[0], green[0], blue[0]), new Scalar(red[1], green[1], blue[1]), out);
+	private void hslThreshold(Mat input, double[] hue, double[] sat, double[] lum,
+		Mat out) {
+		Imgproc.cvtColor(input, out, Imgproc.COLOR_BGR2HLS);
+		Core.inRange(out, new Scalar(hue[0], lum[0], sat[0]),
+			new Scalar(hue[1], lum[1], sat[1]), out);
 	}
 
 	/**
