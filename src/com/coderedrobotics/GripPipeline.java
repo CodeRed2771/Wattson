@@ -6,6 +6,7 @@ import java.util.List;
 import edu.wpi.cscore.CvSource;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.vision.VisionPipeline;
 
 import org.opencv.core.*;
@@ -36,6 +37,13 @@ public class GripPipeline implements VisionPipeline {
 
 	public GripPipeline() {
 		netTable = NetworkTable.getTable("Vision Grip");
+
+		//SmartDashboard.putNumber("Hue Low", 40);
+		//SmartDashboard.putNumber("Hue High", 104);
+		//SmartDashboard.putNumber("Saturation Low", 43);
+		//SmartDashboard.putNumber("Saturation High", 174);
+		//SmartDashboard.putNumber("Value Low", 82);
+		//SmartDashboard.putNumber("Value High", 246);
 	}
 
 	/**
@@ -49,13 +57,18 @@ public class GripPipeline implements VisionPipeline {
 		Mat origMat = new Mat();
 		hslThresholdInput.copyTo(origMat);
 
-		double[] hslThresholdHue = {40.46762589928058, 104.74402730375427};
-		double[] hslThresholdSaturation = {43.57014388489208, 174.4965870307167};
-		double[] hslThresholdLuminance = {82.55395683453237, 246.29692832764508};
+		//double[] hslThresholdHue = {SmartDashboard.getNumber("Hue Low", 0), SmartDashboard.getNumber("Hue High", 0)};
+		//double[] hslThresholdSaturation = {SmartDashboard.getNumber("Saturation Low", 0), SmartDashboard.getNumber("Saturation High", 0)};
+		//double[] hslThresholdLuminance = {SmartDashboard.getNumber("Value Low", 0), SmartDashboard.getNumber("Value High", 0)};
+		
+		double[] hslThresholdHue = {55, 85};
+		double[] hslThresholdSaturation = {110, 180};
+		double[] hslThresholdLuminance = {40, 255};
 		hslThreshold(hslThresholdInput, hslThresholdHue, hslThresholdSaturation, hslThresholdLuminance, hslThresholdOutput);
 
 		// Step Find_Contours0:
 		Mat findContoursInput = hslThresholdOutput;
+	  	outputRawStream.putFrame(findContoursInput);
 		boolean findContoursExternalOnly = false;
 		findContours(findContoursInput, findContoursExternalOnly, findContoursOutput);
 
@@ -64,7 +77,6 @@ public class GripPipeline implements VisionPipeline {
 		// display rectangles around all items found
 	//	addRectangles(findContoursInput, findContoursOutput);
 		
-	//	outputRawStream.putFrame(findContoursInput);
 		
 
 		// Step Filter_Contours0:
@@ -169,8 +181,6 @@ public class GripPipeline implements VisionPipeline {
 		}
 		int method = Imgproc.CHAIN_APPROX_SIMPLE;
 		Imgproc.findContours(input, contours, hierarchy, mode, method);
-		
-		//hierarchy.release();
 	}
 
 	/**

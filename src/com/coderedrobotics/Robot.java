@@ -42,6 +42,7 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void teleopPeriodic() {
+		target.displayDetails();
 		
 		//update the pid values based on numbers entered into the SmartDashboard
 		driveAuto.updatePIDValues();
