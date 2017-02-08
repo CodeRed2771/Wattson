@@ -88,7 +88,9 @@ public class Target {
 	}
 
 	public double distanceFromGearTarget() {
-		return 3600 / height1;
+		//k(constant) = d (distance) * h (average pixel height)
+		//3300 is the constant
+		return 3300 / ((height1+height2)/2);
 	}
 
 	public void displayDetails() {

@@ -92,9 +92,9 @@ public class GripPipeline implements VisionPipeline {
 		
 		outputFilteredStream.putFrame(origMat);
 		
-		hslThresholdOutput.release();
+		//hslThresholdOutput.release();
 		origMat.release();
-		findContoursInput.release();
+		//findContoursInput.release();
 
 	}
 
@@ -170,7 +170,7 @@ public class GripPipeline implements VisionPipeline {
 		int method = Imgproc.CHAIN_APPROX_SIMPLE;
 		Imgproc.findContours(input, contours, hierarchy, mode, method);
 		
-		hierarchy.release();
+		//hierarchy.release();
 	}
 
 	/**

@@ -45,6 +45,7 @@ public class Robot extends IterativeRobot {
 		
 		//update the pid values based on numbers entered into the SmartDashboard
 		driveAuto.updatePIDValues();
+		target.displayDetails();
 		
 		if (target.foundTarget() && !target.isOnTarget()){
 			driveAuto.turnDegrees(-target.degreesOffTarget(), 1);

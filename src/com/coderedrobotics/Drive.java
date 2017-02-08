@@ -98,8 +98,8 @@ public class Drive {
 	public void set(double left, double right) {
 		if (encoderError = (rightPwmSplitter2X.getPWMControllerA().encoderHasError()
 				|| leftPwmSplitter2X.getPWMControllerA().encoderHasError()) || disablePID) {
-			drivePid.setPID(0, 0, 0, 0);
-			rotPid.setPID(0, 0, 0, 0);
+			drivePid.setPID(0, 0, 0, 1);
+			rotPid.setPID(0, 0, 0, 1);
 		} else {
 			drivePid.setPID(Calibration2016.DRIVE_P, Calibration2016.DRIVE_I, Calibration2016.DRIVE_D, 1);
 			rotPid.setPID(Calibration2016.ROT_P, Calibration2016.ROT_I, Calibration2016.ROT_D, 1);
