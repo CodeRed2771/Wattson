@@ -1,8 +1,11 @@
 package com.coderedrobotics;
 
 /**
- *
- * @author michael
+
+	THIS FILE IS ONLY FOR REFERENCE
+	
+	DO NOT USE IT FOR 2017
+
  */
 public class Calibration2016 {
     
