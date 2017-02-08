@@ -91,6 +91,10 @@ public class GripPipeline implements VisionPipeline {
 		addRectangles(origMat, filterContoursOutput);
 		
 		outputFilteredStream.putFrame(origMat);
+		
+		hslThresholdOutput.release();
+		origMat.release();
+		findContoursInput.release();
 
 	}
 
@@ -165,6 +169,8 @@ public class GripPipeline implements VisionPipeline {
 		}
 		int method = Imgproc.CHAIN_APPROX_SIMPLE;
 		Imgproc.findContours(input, contours, hierarchy, mode, method);
+		
+		hierarchy.release();
 	}
 
 	/**
@@ -238,5 +244,4 @@ public class GripPipeline implements VisionPipeline {
 			output.add(contour);
 		}
 	}
-
 }
