@@ -68,7 +68,7 @@ public class GripPipeline implements VisionPipeline {
 
 		// Step Find_Contours0:
 		Mat findContoursInput = hslThresholdOutput;
-	  	outputRawStream.putFrame(findContoursInput);
+	  	//outputRawStream.putFrame(findContoursInput);
 		boolean findContoursExternalOnly = false;
 		findContours(findContoursInput, findContoursExternalOnly, findContoursOutput);
 
