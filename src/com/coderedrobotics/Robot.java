@@ -72,7 +72,7 @@ public class Robot extends IterativeRobot {
 			isDriving = false;
 		}
 		if (gamepad.buttonPressed(LogitechF310.A, state))
-		drive.setRobotPosbyC(23, 52, 30);
+		drive.setRobotPosbyC(25, 52, 30);
 		drive.step();
 		
 	}

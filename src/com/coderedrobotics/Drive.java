@@ -63,17 +63,6 @@ public class Drive {
                 (double value) -> value / Calibration2016.ROT_TOP_SPEED), tankDrive.getRotPIDOutput(), true, "rot");
 
         setPIDstate(false);
-
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         
     }
     
