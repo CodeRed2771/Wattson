@@ -59,4 +59,12 @@ public class Timer {
     public void nextStage() {
         this.stage++;
     }
+    
+    public double getTimeRemainingMilliseconds() {
+    	return endTime - System.currentTimeMillis();
+    }
+    
+    public double getTimeRemainingSeconds() {
+    	return (endTime - System.currentTimeMillis())/1000;
+    }
 }
