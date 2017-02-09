@@ -26,31 +26,23 @@ public class Robot extends IterativeRobot {
 	}
 	
 	public void autonomousInit() {
-
+		//driveAuto.driveInches(20, .3);
 	}
 
 	@Override
 	public void autonomousPeriodic() {
 
-	}
 
-	@Override
-	public void teleopInit() {
-		driveAuto.resetEncoders();
-		drive.set(0, 0);
-	}
-	
-	@Override
-	public void teleopPeriodic() {
-		target.displayDetails();
+		SmartDashboard.putBoolean("IsDriving", isDriving);
+		driveAuto.showEncoderValues();
 		
 		//update the pid values based on numbers entered into the SmartDashboard
 		driveAuto.updatePIDValues();
 		target.displayDetails();
 		
-		if (target.foundTarget() && !target.isOnTarget()){
+		if (!isDriving && target.foundTarget() && !target.isOnTarget()){
 			driveAuto.turnDegrees(-target.degreesOffTarget(), 1);
-			SmartDashboard.putNumber("degrees off target", target.degreesOffTarget());
+			
 			isDriving = true;
 		}
 		
@@ -62,6 +54,17 @@ public class Robot extends IterativeRobot {
 		if (driveAuto.hasArrived()) {
 			isDriving = false;
 		}
+	}
+
+	@Override
+	public void teleopInit() {
+		driveAuto.resetEncoders();
+		drive.set(0, 0);
+	}
+	
+	@Override
+	public void teleopPeriodic() {
+	
 	}
 
 	@Override

@@ -80,7 +80,7 @@ public class Target {
 	}
 	
 	public boolean isOnTarget() {
-		return (Math.abs(degreesOffTarget()) <= 9);
+		return (Math.abs(degreesOffTarget()) <= 10);
 	}
 
 	public boolean foundTarget() {
@@ -101,5 +101,6 @@ public class Target {
 		SmartDashboard.putNumber("rectangle one height", height1);
 		SmartDashboard.putNumber("rectangle two height", height2);
 		SmartDashboard.putNumber("Distance From Target", distanceFromGearTarget());
+		SmartDashboard.putNumber("degrees off target", degreesOffTarget());
 	}
 }
