@@ -11,6 +11,48 @@ public class AutoTargetTest extends AutoBaseClass {
 	}
 	
 	public void tick() {
+		
+		if (isRunning()) {
+			switch (getCurrentStep()) {
+			case 0:
+				setTimerAndAdvanceStage(5000);
+				driveAuto().turnDegrees(-degreesOffTarget(), 1);
+
+				break;
+			case 1:
+				if (driveAuto().hasArrived()) 
+					advanceStage();
+				break;
+				
+			case 2:
+				setTimerAndAdvanceStage(5000);
+				driveInches(distanceFromTarget() - 10, .20);
+				break;
+				
+			case 3: 
+				break;
+			case 4:
+				stop();
+				break;
+			}
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		//SmartDashboard.putBoolean("IsDriving", isDriving());
 //		driveAuto.showEncoderValues();
 //		
