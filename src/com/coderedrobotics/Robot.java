@@ -53,6 +53,8 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		drive.set(gamepad.getRawAxis(1), gamepad.getRawAxis(5));
 		// Sets the motor speeds of the robot correlating to the value of the joystix 
+		// Needs Work - Not able to receive Y-Values from gamepad
+		// Just sample code to run when "they" need it to test
 	}
 	
 	public void autonomousInit() {
