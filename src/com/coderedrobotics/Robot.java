@@ -4,6 +4,7 @@ import com.coderedrobotics.libs.AutoBaseClass;
 import com.coderedrobotics.libs.Logger;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -18,6 +19,7 @@ public class Robot extends IterativeRobot {
 	final String autoTargetTest = "Target Test";
 	String autoSelected;
 	AutoBaseClass mAutoProgram;
+	Joystick gamepad = new Joystick(0);
 	
 	public void robotInit() {
 		target = new Target();
@@ -49,7 +51,8 @@ public class Robot extends IterativeRobot {
 	
 
 	public void teleopPeriodic() {
-	
+		drive.set(gamepad.getRawAxis(1), gamepad.getRawAxis(5));
+		// Sets the motor speeds of the robot correlating to the value of the joystix 
 	}
 	
 	public void autonomousInit() {
