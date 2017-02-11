@@ -1,20 +1,19 @@
 package com.coderedrobotics;
 
+import com.coderedrobotics.libs.PWMController;
+
 public class Pickup {
 
 	private final PWMController leftExtender;
 	private final PWMController rightExtender;
-	private final PWMController mainMotor;
+	private final PWMController sweeperMotor;
 	
-	private boolean picking up = false;
+	private boolean pickingup = false;
 	
-	public Pickup(int leftExtender, int rightExtender, Function pickupEvent) {
-		leftExtender = new PWMController(leftExtender,false);
-		rightExtender = new PWMController(rightExtender, true);
-		mainMotor = new PWMController(null, wiring.PICKUP_FRONT_DPD.
-				Calibration.PICKUP_FRONT_CURRENT_THRESHOLD,
-				Calibration.PICKUP_FRONT_CURRENT_TIMEOUT,
-				Calibration.PICKUP_FRONT_CURRENT_IGNORE_DURATION);
+	public Pickup() {
+		leftExtender = new PWMController(Wiring.LEFT_EXTENDER,false);
+		rightExtender = new PWMController(Wiring.RIGHT_EXTENDER, true);
+		sweeperMotor = new PWMController(Wiring.SWEEPER_MOTOR,false);
 		
 				
 	}
