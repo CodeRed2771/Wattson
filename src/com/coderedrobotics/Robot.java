@@ -64,17 +64,15 @@ public class Robot extends IterativeRobot {
 			drive.set(gamepad.getLeftAxis(), gamepad.getRightAxis());
 		
 			//Shooter
-				//Start shooter
-				if(gamepad.getStartShooterWheelsAndShooterIntakeButton()){
-					shooter.spinUpShooter();
-					
+				//Start/stop shooter
+				if(gamepad.getShooterWheelsButton()){
+					gamepad.toggleShooterWheels();
 				}
-				//Stop shooter
-				if(gamepad.getStopShooterWheelsAndShooterIntakeButton()){
-					shooter.stopShooter();
+				//Start/stop shooter intake
+				if(gamepad.getShooterWheelsIntakeButton()){
+					gamepad.toggleShooterWheelsIntake();
 				}
-				//Shooter ball in-take
-			
+				
 			//Agitator
 			
 		//Gamepad two
