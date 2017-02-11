@@ -1,6 +1,7 @@
 package com.coderedrobotics;
 
 import com.coderedrobotics.libs.PIDControllerAIAO;
+import com.coderedrobotics.libs.PIDVirtualCANTalonWrapper;
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.TalonControlMode;
@@ -9,16 +10,18 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Shooter {
 	CANTalon ballFeeder;
-	CANTalon shooter;
+	PIDVirtualCANTalonWrapper shooter;
 	PIDControllerAIAO pid;
 
 	public Shooter() {
 		ballFeeder = new CANTalon(Wiring.SHOOTER_MOTOR_FEEDER);
-		shooter = new CANTalon(Wiring.SHOOTER_MOTOR_SHOOTER);
+		shooter = new PIDVirtualCANTalonWrapper(Wiring.SHOOTER_MOTOR_SHOOTER, "Shooter", true);
 		shooter.setPID(Calibration2016.SHOOTER_P, Calibration2016.SHOOTER_I, Calibration2016.SHOOTER_D);
 		shooter.setFeedbackDevice(FeedbackDevice.QuadEncoder);
 		ballFeeder.setFeedbackDevice(FeedbackDevice.QuadEncoder);
 
+		pid = new PIDControllerAIAO(1, 0, 0, ballFeeder, ballFeeder, true, "asdf");
+		
 		shooter.reverseSensor(true);
 		ballFeeder.reverseSensor(true);
 
@@ -50,6 +53,8 @@ public class Shooter {
 		shooter.setD(SmartDashboard.getNumber("Set D", 0));
 		shooter.setF(SmartDashboard.getNumber("Set F", 0));
 		SmartDashboard.putNumber("Display Error", shooter.getError());
+		shooter.setSetpoint(4);
+		pid.setSetpoint(1);
 	}
 
 	public boolean isSpunUp() {

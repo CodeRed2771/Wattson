@@ -43,10 +43,10 @@ class PIDNetworkTuner implements Runnable {
         return instance;
     }
 
-    void addPIDController(PIDControllerAIAO controller) {
-        controllerData.put(controller.getName(), new PIDData());
+    void addPIDController(String name) {
+        controllerData.put(name, new PIDData());
 //        System.out.println(controllerData.size());
-        System.out.println(controller.getName());
+        System.out.println(name);
     }
     
     boolean networkHasP(String name) {

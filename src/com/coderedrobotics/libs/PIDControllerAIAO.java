@@ -179,7 +179,7 @@ public class PIDControllerAIAO implements PIDInterface, LiveWindowSendable {
         this.name = name;
         this.network = useNetwork;
         if (useNetwork) {
-            PIDNetworkTuner.getInstance().addPIDController(this);
+            PIDNetworkTuner.getInstance().addPIDController(name);
         }
         
         m_controlLoop.schedule(new PIDTask(this), 0L, (long) (m_period * 1000));

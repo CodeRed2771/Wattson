@@ -20,6 +20,7 @@ public class Robot extends IterativeRobot {
 	String autoSelected;
 	AutoBaseClass mAutoProgram;
 	Joystick gamepad = new Joystick(0);
+	Shooter shooter;
 	
 	public void robotInit() {
 		target = new Target();
@@ -31,6 +32,8 @@ public class Robot extends IterativeRobot {
 		drive.setPIDstate(true);
 		
 		target.displayDetails();
+		
+		shooter = new Shooter();
 		
 		driveAuto.showPIDValues();
 		drive.disablePID();
@@ -47,12 +50,13 @@ public class Robot extends IterativeRobot {
 	public void teleopInit() {
 		driveAuto.resetEncoders();
 		drive.set(0, 0);
+		shooter.spinUpShooter();
 	}
 	
 
 	public void teleopPeriodic() {
-		drive.set(gamepad.getRawAxis(1), gamepad.getRawAxis(5));
-		// Sets the motor speeds of the robot correlating to the value of the joystix 
+		drive.set((0.5 * gamepad.getRawAxis(1)), (0.5 * gamepad.getRawAxis(5)));
+		// Sets the motor speeds of the robot correlating to the 1/2 value of the joystix 
 		// Needs Work - Not able to receive Y-Values from gamepad
 		// Just sample code to run when "they" need it to test
 	}
