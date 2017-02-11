@@ -9,51 +9,55 @@ import com.ctre.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Shooter {
+	CANTalon shooterFollower;
+	CANTalon shooter;
 	CANTalon ballFeeder;
-	PIDVirtualCANTalonWrapper shooter;
 	PIDControllerAIAO pid;
+	boolean isShooting = false;
 
 	public Shooter() {
-		ballFeeder = new CANTalon(Wiring.SHOOTER_MOTOR_FEEDER);
-		shooter = new PIDVirtualCANTalonWrapper(Wiring.SHOOTER_MOTOR_SHOOTER, "Shooter", true);
-		shooter.setPID(Calibration2016.SHOOTER_P, Calibration2016.SHOOTER_I, Calibration2016.SHOOTER_D);
+		shooter = new CANTalon(Wiring.SHOOTER_MOTOR_SHOOTER);
+		shooter.setPID(Calibration.SHOOTER_P, Calibration.SHOOTER_I, Calibration.SHOOTER_D);
 		shooter.setFeedbackDevice(FeedbackDevice.QuadEncoder);
-		ballFeeder.setFeedbackDevice(FeedbackDevice.QuadEncoder);
+
+		shooterFollower = new CANTalon(Wiring.SHOOTER_MOTOR_FOLLOWER);
+		shooterFollower.changeControlMode(CANTalon.TalonControlMode.Follower);
+		shooterFollower.set(Wiring.SHOOTER_MOTOR_SHOOTER);
+
+		ballFeeder = new CANTalon(Wiring.SHOOTER_MOTOR_FEEDER);
+		ballFeeder.setPID(Calibration.FEEDER_P, Calibration.FEEDER_I, Calibration.FEEDER_D);
 
 		pid = new PIDControllerAIAO(1, 0, 0, ballFeeder, ballFeeder, true, "asdf");
 		
 		shooter.reverseSensor(true);
-		ballFeeder.reverseSensor(true);
+		shooterFollower.reverseSensor(true);
 
-		shooter.configNominalOutputVoltage(0,6);
-		ballFeeder.configNominalOutputVoltage(0,6);
-		
+		shooter.configPeakOutputVoltage(0, 6);
+		shooterFollower.configPeakOutputVoltage(0, 6);
+		ballFeeder.configPeakOutputVoltage(0, 6);
+
 		shooter.configEncoderCodesPerRev(0);
-		ballFeeder.configEncoderCodesPerRev(0);
 
 		shooter.setProfile(0);
 		shooter.setPID(0, 0, 0);
 		shooter.changeControlMode(TalonControlMode.Speed);
-		
-		ballFeeder.setProfile(0);
-		ballFeeder.setPID(0, 0, 0);
-		ballFeeder.changeControlMode(TalonControlMode.Speed);
+
 		SmartDashboard.putNumber("Shooter Setpoint", 0);
-		SmartDashboard.putNumber("Set P", 0);
-		SmartDashboard.putNumber("Set I", 0);
-		SmartDashboard.putNumber("Set D", 0);
-		SmartDashboard.putNumber("Set F", 0);
+		SmartDashboard.putNumber("Shooter P", 0);
+		SmartDashboard.putNumber("Shooter I", 0);
+		SmartDashboard.putNumber("Shooter D", 0);
+		SmartDashboard.putNumber("Shooter F", 0);
+		
+		SmartDashboard.putNumber("Feeder Setpoint", 0);
+		SmartDashboard.putNumber("Feeder P", 0);
+		SmartDashboard.putNumber("Feeder I", 0);
+		SmartDashboard.putNumber("Feeder D", 0);
+		SmartDashboard.putNumber("Feeder F", 0);
+
 	}
 
 	public void spinUpShooter() {
-		shooter.setSetpoint(SmartDashboard.getNumber("Shooter Setpoint", 0));
-		shooter.setP(SmartDashboard.getNumber("Set P", 0));
-		shooter.setI(SmartDashboard.getNumber("Set I", 0));
-		shooter.setD(SmartDashboard.getNumber("Set D", 0));
-		shooter.setF(SmartDashboard.getNumber("Set F", 0));
-		SmartDashboard.putNumber("Display Error", shooter.getError());
-		shooter.setSetpoint(4);
-		pid.setSetpoint(1);
+		isShooting = true;
 	}
 
 	public boolean isSpunUp() {
@@ -62,9 +66,30 @@ public class Shooter {
 
 	public void stopShooter() {
 		shooter.setSetpoint(0);
+		ballFeeder.setSetpoint(0);
+		isShooting = false;
 	}
 
 	public void feedShooter() {
 		ballFeeder.setSetpoint(SmartDashboard.getNumber("Ball Feeder Setpoint", 0));
+	}
+	
+	public void tick() {
+		if (isShooting) {
+			shooter.setSetpoint(SmartDashboard.getNumber("Shooter Setpoint", 0));
+			shooter.setP(SmartDashboard.getNumber("Shooter P", 0));
+			shooter.setI(SmartDashboard.getNumber("Shooter I", 0));
+			shooter.setD(SmartDashboard.getNumber("Shooter D", 0));
+			shooter.setF(SmartDashboard.getNumber("Shooter F", 0));
+			SmartDashboard.putNumber("Shooter Error", shooter.getError());
+
+			ballFeeder.setSetpoint(SmartDashboard.getNumber("Ball Feeder Setpoint", 0));
+			ballFeeder.setP(SmartDashboard.getNumber("Ball Feeder P", 0));
+			ballFeeder.setI(SmartDashboard.getNumber("Ball Feeder I", 0));
+			ballFeeder.setD(SmartDashboard.getNumber("Ball Feeder D", 0));
+			ballFeeder.setF(SmartDashboard.getNumber("Ball Feeder F", 0));
+			SmartDashboard.putNumber("Ball Feeder Error", ballFeeder.getError());
+
+		}
 	}
 }

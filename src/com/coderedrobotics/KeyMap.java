@@ -19,6 +19,9 @@ public class KeyMap {
     private boolean reverseDrive = false;
     private boolean singleControllerMode = false;
     private boolean reduceSpeed = false;
+    
+    private boolean shooterWheels = false;
+    private boolean shooterWheelsIntake = false;
 
     // CONTROLLER 0
     private final HID.Button reverseDriveButton = LogitechF310.BUMPER_LEFT;
@@ -29,6 +32,10 @@ public class KeyMap {
     private final HID.Button fireButton = LogitechF310.TRIGGER_RIGHT;
     private final HID.Button fireOverrideButton = LogitechF310.TRIGGER_LEFT;
     private final HID.Button cancelFireButton = LogitechF310.X;
+    
+    private final HID.Button shooterWheelsButton = LogitechF310.BUMPER_RIGHT;
+    private final HID.Button shooterWheelsIntakeButton = LogitechF310.BUMPER_LEFT;
+    
     
     // CONTROLLER 1
     private final HID.Button feedInButton = LogitechF310.A;
@@ -44,6 +51,10 @@ public class KeyMap {
     private final HID.ButtonState reverseDriveButtonState = HID.newButtonState();
     private final HID.ButtonState singleControllerModeState = HID.newButtonState();
     private final HID.ButtonState reduceSpeedButtonState = HID.newButtonState();
+    
+    private final HID.ButtonState shooterWheelsButtonState = HID.newButtonState();
+    private final HID.ButtonState shooterWheelsIntakeButtonState = HID.newButtonState();
+    
 
     public KeyMap() {
 
@@ -63,98 +74,116 @@ public class KeyMap {
             return gp1;
         }
     }
-
-    public boolean getReverseDriveButton() {
-        return getHID(gamepad1).buttonPressed(reverseDriveButton, reverseDriveButtonState);
+    //NEW STUFF - 2017
+    
+    public boolean getShooterWheelsButton(){
+    	return getHID(gamepad1).buttonPressed(shooterWheelsButton, shooterWheelsButtonState);
     }
-
-    public void toggleReverseDrive() {
-        reverseDrive = !reverseDrive;
-    }
-
-    public boolean getReverseDrive() {
-        return reverseDrive;
-    }
-
-    public boolean getReduceSpeedButton() {
-        return getHID(gamepad1).buttonPressed(reduceSpeedButton, reduceSpeedButtonState);
-    }
-
-    public void toggleReduceSpeed() {
-        reduceSpeed = !reduceSpeed;
-    }
-
-    public boolean getReduceSpeed() {
-        return reduceSpeed;
-    }
-
-    public void setSingleControllerMode(boolean state) {
-        singleControllerMode = state;
-    }
-
-    public boolean getSingleControllerMode() {
-        return singleControllerMode;
-    }
-
-    public void toggleSingleControllerMode() {
-        singleControllerMode = !singleControllerMode;
-    }
-
-    public boolean getSingleControllerToggleButton() {
-        return getHID(gamepad1).buttonPressed(singleControllerModeButton, singleControllerModeState);
-    }
-
-    public boolean getFireButton() {
-        return getHID(gamepad1).button(fireButton);
-    }
-
-    public boolean getFireOverrideButton() {
-        return getHID(gamepad1).button(fireOverrideButton);
+    public void toggleShooterWheels(){
+    	shooterWheels = !shooterWheels;
     }
     
+    public boolean getShooterWheelsIntakeButton(){
+    	return getHID(gamepad1).buttonPressed(shooterWheelsIntakeButton, shooterWheelsIntakeButtonState);
+    }
+    public void toggleShooterWheelsIntake(){
+    	shooterWheelsIntake = !shooterWheelsIntake;
+    }
+    
+    
+    //NEW STUFF - 2017
+
+//    public boolean getReverseDriveButton() {
+//        return getHID(gamepad1).buttonPressed(reverseDriveButton, reverseDriveButtonState);
+//    }
+//
+//    public void toggleReverseDrive() {
+//        reverseDrive = !reverseDrive;
+//    }
+//
+//    public boolean getReverseDrive() {
+//        return reverseDrive;
+//    }
+//
+//    public boolean getReduceSpeedButton() {
+//        return getHID(gamepad1).buttonPressed(reduceSpeedButton, reduceSpeedButtonState);
+//    }
+//
+//    public void toggleReduceSpeed() {
+//        reduceSpeed = !reduceSpeed;
+//    }
+//
+//    public boolean getReduceSpeed() {
+//        return reduceSpeed;
+//    }
+//
+//    public void setSingleControllerMode(boolean state) {
+//        singleControllerMode = state;
+//    }
+//
+//    public boolean getSingleControllerMode() {
+//        return singleControllerMode;
+//    }
+//
+//    public void toggleSingleControllerMode() {
+//        singleControllerMode = !singleControllerMode;
+//    }
+//
+//    public boolean getSingleControllerToggleButton() {
+//        return getHID(gamepad1).buttonPressed(singleControllerModeButton, singleControllerModeState);
+//    }
+//
+//    public boolean getFireButton() {
+//        return getHID(gamepad1).button(fireButton);
+//    }
+//
+//    public boolean getFireOverrideButton() {
+//        return getHID(gamepad1).button(fireOverrideButton);
+//    }
+//    
     public double getLeftAxis() {
     	return (reverseDrive ? -(getHID(gamepad1).axis(driveRightAxis)) : (getHID(gamepad1).axis(driveLeftAxis))) *
-    			(reduceSpeed ? Calibration2016.DRIVE_TRAIN_REDUCTION_FACTOR : 1);
+    			(reduceSpeed ? Calibration.DRIVE_TRAIN_REDUCTION_FACTOR : 1);
     }
     
     public double getRightAxis() {
     	return (reverseDrive ? -(getHID(gamepad1).axis(driveLeftAxis)) : (getHID(gamepad1).axis(driveRightAxis))) *
-    			(reduceSpeed ? Calibration2016.DRIVE_TRAIN_REDUCTION_FACTOR : 1);
+    			(reduceSpeed ? Calibration.DRIVE_TRAIN_REDUCTION_FACTOR : 1);
     }
-    
-    public boolean getDriverCancelFireButton() {
-        return getHID(gamepad1).button(cancelFireButton);
-    }
-    
-    public double getArmAxis() {
-        return -getHID(gamepad2).axis(armAxis);
-    }
-
-    public boolean getFeedInButton() {
-        return getHID(gamepad2).button(feedInButton);
-    }
-
-    public boolean getFeedOutButton() {
-        return getHID(gamepad2).button(feedOutButton);
-    }
-
-    public boolean getFeedStopButton() {
-        return getHID(gamepad2).button(feedStopButton);
-    }
-
-    public boolean getGotoShootPositionButton() {
-        return getHID(gamepad2).button(gotoShooterPositionButton);
-    }
-
-    public boolean getOverrideArmPIDButton() {
-        return getHID(gamepad2).button(overrideArmPIDButton);
-    }
-    
-    public boolean getOverrideDrivePIDButton() {
-        return getHID(gamepad2).button(overrideDrivePIDButton);
-    }
-    
-    public boolean getOverrideShooterPIDButton() {
-        return getHID(gamepad2).button(overrideShooterPIDButton);
-    }
+//    
+//    public boolean getDriverCancelFireButton() {
+//        return getHID(gamepad1).button(cancelFireButton);
+//    }
+//    
+//    public double getArmAxis() {
+//        return -getHID(gamepad2).axis(armAxis);
+//    }
+//
+//    public boolean getFeedInButton() {
+//        return getHID(gamepad2).button(feedInButton);
+//    }
+//
+//    public boolean getFeedOutButton() {
+//        return getHID(gamepad2).button(feedOutButton);
+//    }
+//
+//    public boolean getFeedStopButton() {
+//        return getHID(gamepad2).button(feedStopButton);
+//    }
+//
+//    public boolean getGotoShootPositionButton() {
+//        return getHID(gamepad2).button(gotoShooterPositionButton);
+//    }
+//
+//    public boolean getOverrideArmPIDButton() {
+//        return getHID(gamepad2).button(overrideArmPIDButton);
+//    }
+//    
+//    public boolean getOverrideDrivePIDButton() {
+//        return getHID(gamepad2).button(overrideDrivePIDButton);
+//    }
+//    
+//    public boolean getOverrideShooterPIDButton() {
+//        return getHID(gamepad2).button(overrideShooterPIDButton);
+//    }
 }
