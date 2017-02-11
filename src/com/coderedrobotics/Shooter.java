@@ -10,22 +10,27 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Shooter {
 	CANTalon shooterFollower;
 	CANTalon shooter;
+	CANTalon ballFeeder;
 	PIDControllerAIAO pid;
 
 	public Shooter() {
 		shooter = new CANTalon(Wiring.SHOOTER_MOTOR_SHOOTER);
-		shooter.setPID(Calibration2016.SHOOTER_P, Calibration2016.SHOOTER_I, Calibration2016.SHOOTER_D);
+		shooter.setPID(Calibration.SHOOTER_P, Calibration.SHOOTER_I, Calibration.SHOOTER_D);
 		shooter.setFeedbackDevice(FeedbackDevice.QuadEncoder);
 
-		shooterFollower = new CANTalon(3);
+		shooterFollower = new CANTalon(Wiring.SHOOTER_MOTOR_FOLLOWER);
 		shooterFollower.changeControlMode(CANTalon.TalonControlMode.Follower);
-		shooterFollower.set(2);
+		shooterFollower.set(Wiring.SHOOTER_MOTOR_SHOOTER);
+
+		ballFeeder = new CANTalon(Wiring.SHOOTER_MOTOR_FEEDER);
+		ballFeeder.setPID(Calibration.FEEDER_P, Calibration.FEEDER_I, Calibration.FEEDER_D);
 
 		shooter.reverseSensor(true);
 		shooterFollower.reverseSensor(true);
 
-		shooter.configNominalOutputVoltage(0, 6);
-		shooterFollower.configNominalOutputVoltage(0, 6);
+		shooter.configPeakOutputVoltage(0, 6);
+		shooterFollower.configPeakOutputVoltage(0, 6);
+		ballFeeder.configPeakOutputVoltage(0, 6);
 
 		shooter.configEncoderCodesPerRev(0);
 
@@ -38,7 +43,6 @@ public class Shooter {
 		SmartDashboard.putNumber("Set I", 0);
 		SmartDashboard.putNumber("Set D", 0);
 		SmartDashboard.putNumber("Set F", 0);
-
 	}
 
 	public void spinUpShooter() {
@@ -56,9 +60,10 @@ public class Shooter {
 
 	public void stopShooter() {
 		shooter.setSetpoint(0);
+		ballFeeder.setSetpoint(0);
 	}
 
 	public void feedShooter() {
-		shooterFollower.setSetpoint(SmartDashboard.getNumber("Ball Feeder Setpoint", 0));
+		ballFeeder.setSetpoint(SmartDashboard.getNumber("Ball Feeder Setpoint", 0));
 	}
 }

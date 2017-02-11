@@ -25,6 +25,7 @@ public class Wiring {
     public static final int SWEEPER_MOTOR = 2;
     public static final int SHOOTER_MOTOR_FEEDER = 3;
     public static final int SHOOTER_MOTOR_SHOOTER = 4;
+    public static final int SHOOTER_MOTOR_FOLLOWER = 5;
     
     // DIGITAL INPUT
     public static final int ARM_LIMIT_SWITCH = 0;
