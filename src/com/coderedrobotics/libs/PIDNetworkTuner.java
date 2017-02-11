@@ -83,14 +83,15 @@ class PIDNetworkTuner implements Runnable {
         return controllerData.get(name).setpoint;
     }
 
-    void update(String name, double result, double error, double robot_P,
+    synchronized void update(String name, double result, double error, double robot_P,
             double robot_I, double robot_D, double robot_Setpoint) {
         String data = name + ":" + result + ":" + error + ":" + robot_P + ":"
                 + robot_I + ":" + robot_D + ":" + robot_Setpoint;
         try {
             byte[] dataBytes = PrimitiveSerializer.toByteArray(data);
             short length = (short) dataBytes.length;
-            output.write(PrimitiveSerializer.toByteArray(length));
+            byte[] lengthBytes = PrimitiveSerializer.toByteArray(length);
+            output.write(lengthBytes);
             output.write(dataBytes);
 //            System.out.println("Done writing update: " + name);
         } catch (IOException ex) {

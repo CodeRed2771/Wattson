@@ -43,7 +43,6 @@ public class Shooter {
 		SmartDashboard.putNumber("Set I", 0);
 		SmartDashboard.putNumber("Set D", 0);
 		SmartDashboard.putNumber("Set F", 0);
-		
 	}
 
 	public void spinUpShooter() {
