@@ -116,10 +116,10 @@ public class DriveAuto {
     }
       
     private int convertToTicks(int inches) {
-    	return (int)(inches * Calibration2016.DRIVE_DISTANCE_TICKS_PER_INCH);
+    	return (int)(inches * Calibration.DRIVE_DISTANCE_TICKS_PER_INCH);
     }
     private int convertToTicks(double inches) {
-    	return (int)(inches * Calibration2016.DRIVE_DISTANCE_TICKS_PER_INCH);
+    	return (int)(inches * Calibration.DRIVE_DISTANCE_TICKS_PER_INCH);
     }
    
 	private class PIDHolder implements PIDOutput {

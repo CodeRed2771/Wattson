@@ -143,12 +143,12 @@ public class KeyMap {
 //    
     public double getLeftAxis() {
     	return (reverseDrive ? -(getHID(gamepad1).axis(driveRightAxis)) : (getHID(gamepad1).axis(driveLeftAxis))) *
-    			(reduceSpeed ? Calibration2016.DRIVE_TRAIN_REDUCTION_FACTOR : 1);
+    			(reduceSpeed ? Calibration.DRIVE_TRAIN_REDUCTION_FACTOR : 1);
     }
     
     public double getRightAxis() {
     	return (reverseDrive ? -(getHID(gamepad1).axis(driveLeftAxis)) : (getHID(gamepad1).axis(driveRightAxis))) *
-    			(reduceSpeed ? Calibration2016.DRIVE_TRAIN_REDUCTION_FACTOR : 1);
+    			(reduceSpeed ? Calibration.DRIVE_TRAIN_REDUCTION_FACTOR : 1);
     }
 //    
 //    public boolean getDriverCancelFireButton() {
