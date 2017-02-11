@@ -69,16 +69,15 @@ public class GripPipeline implements VisionPipeline {
 		// Step Find_Contours0:
 		Mat findContoursInput = hslThresholdOutput;
 	  	//outputRawStream.putFrame(findContoursInput);
+		
 		boolean findContoursExternalOnly = false;
 		findContours(findContoursInput, findContoursExternalOnly, findContoursOutput);
 
 		netTable.putNumber("Contours Found Unfiltered", findContoursOutput.size());
 
 		// display rectangles around all items found
-	//	addRectangles(findContoursInput, findContoursOutput);
+		// addRectangles(findContoursInput, findContoursOutput);
 		
-		
-
 		// Step Filter_Contours0:
 		ArrayList<MatOfPoint> filterContoursContours = findContoursOutput;
 		double filterContoursMinArea = 21.0;
@@ -103,11 +102,8 @@ public class GripPipeline implements VisionPipeline {
 		addRectangles(origMat, filterContoursOutput);
 		
 		outputFilteredStream.putFrame(origMat);
-		
-		//hslThresholdOutput.release();
-		origMat.release();
-		//findContoursInput.release();
 
+		origMat.release();
 	}
 
 	private void addRectangles(Mat image, List<MatOfPoint> contours) {
@@ -123,20 +119,10 @@ public class GripPipeline implements VisionPipeline {
 		return hslThresholdOutput;
 	}
 
-	/**
-	 * This method is a generated getter for the output of a Find_Contours.
-	 * 
-	 * @return ArrayList<MatOfPoint> output from Find_Contours.
-	 */
 	public ArrayList<MatOfPoint> findContoursOutput() {
 		return findContoursOutput;
 	}
 
-	/**
-	 * This method is a generated getter for the output of a Filter_Contours.
-	 * 
-	 * @return ArrayList<MatOfPoint> output from Filter_Contours.
-	 */
 	public ArrayList<MatOfPoint> filterContoursOutput() {
 		return filterContoursOutput;
 	}

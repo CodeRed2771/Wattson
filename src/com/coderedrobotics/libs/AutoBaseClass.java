@@ -74,10 +74,14 @@ public abstract class AutoBaseClass {
 	public double distanceFromTarget() {
 		return mTarget.distanceFromGearTarget();
 	}
+	
 	public void advanceStage() {
 		mAutoTimer.stopTimerAndAdvanceStage();
 	}
 	
+	// starts a timer for the time indicated and then immediately advances the stage counter
+	// this is typically used when starting a driving maneuver because the next stage would
+	// be watching to see when the maneuver was completed.
 	public void setTimerAndAdvanceStage(long milliseconds) {
 		mAutoTimer.setTimerAndAdvanceStage(milliseconds);
 	}
