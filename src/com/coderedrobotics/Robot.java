@@ -2,6 +2,7 @@ package com.coderedrobotics;
 
 import com.coderedrobotics.libs.AutoBaseClass;
 import com.coderedrobotics.libs.Logger;
+import com.coderedrobotics.libs.HID.HID;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
@@ -19,7 +20,9 @@ public class Robot extends IterativeRobot {
 	final String autoTargetTest = "Target Test";
 	String autoSelected;
 	AutoBaseClass mAutoProgram;
-	Joystick gamepad = new Joystick(0);
+	
+	KeyMap gamepad;
+	Shooter shooter;
 	
 	public void robotInit() {
 		target = new Target();
@@ -41,6 +44,9 @@ public class Robot extends IterativeRobot {
 		autoChooser.addDefault(autoTargetTest, autoTargetTest);
 	        
 	    SmartDashboard.putData("Auto choices", autoChooser);
+	    
+	    gamepad = new KeyMap();
+	    shooter = new Shooter();
 	}
 	
 	
@@ -51,10 +57,32 @@ public class Robot extends IterativeRobot {
 	
 
 	public void teleopPeriodic() {
-		drive.set(gamepad.getRawAxis(1), gamepad.getRawAxis(5));
-		// Sets the motor speeds of the robot correlating to the value of the joystix 
-		// Needs Work - Not able to receive Y-Values from gamepad
-		// Just sample code to run when "they" need it to test
+		
+		//Gamepad one
+	
+			//Drive
+			drive.set(gamepad.getLeftAxis(), gamepad.getRightAxis());
+		
+			//Shooter
+				//Start shooter
+				if(gamepad.getStartShooterWheelsAndShooterIntakeButton()){
+					shooter.spinUpShooter();
+					
+				}
+				//Stop shooter
+				if(gamepad.getStopShooterWheelsAndShooterIntakeButton()){
+					shooter.stopShooter();
+				}
+				//Shooter ball in-take
+			
+			//Agitator
+			
+		//Gamepad two
+			
+			//Pickup extender
+			
+			//Pickup wheels
+		
 	}
 	
 	public void autonomousInit() {

@@ -30,6 +30,9 @@ public class KeyMap {
     private final HID.Button fireOverrideButton = LogitechF310.TRIGGER_LEFT;
     private final HID.Button cancelFireButton = LogitechF310.X;
     
+    private final HID.Button startShooterWheelsAndShooterIntake = LogitechF310.BUMPER_RIGHT;
+    private final HID.Button stopShooterWheelsAndShooterIntake = LogitechF310.BUMPER_LEFT;
+    
     // CONTROLLER 1
     private final HID.Button feedInButton = LogitechF310.A;
     private final HID.Button feedOutButton = LogitechF310.B;
@@ -157,4 +160,17 @@ public class KeyMap {
     public boolean getOverrideShooterPIDButton() {
         return getHID(gamepad2).button(overrideShooterPIDButton);
     }
+    
+    //New Methods
+    
+    public boolean getStartShooterWheelsAndShooterIntakeButton(){
+    	return getHID(gamepad1).button(startShooterWheelsAndShooterIntake);
+    }
+    public boolean getStopShooterWheelsAndShooterIntakeButton(){
+    	return getHID(gamepad1).button(stopShooterWheelsAndShooterIntake);
+    }
+//    public boolean getStartWheelIntake(){
+//    	return getHID(gamepad1).button(startShooterWheels);
+//    }
+    
 }
