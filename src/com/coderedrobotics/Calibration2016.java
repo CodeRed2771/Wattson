@@ -1,8 +1,11 @@
 package com.coderedrobotics;
 
 /**
- *
- * @author michael
+
+	THIS FILE IS ONLY FOR REFERENCE
+	
+	DO NOT USE IT FOR 2017
+
  */
 public class Calibration2016 {
     
@@ -35,7 +38,7 @@ public class Calibration2016 {
     public static final double DRIVE_D = 0.6;
 
     public static final double DRIVE_DISTANCE_PER_PULSE = .073;
-    public static final double DRIVE_DISTANCE_TICKS_PER_INCH = 16.276;
+    public static final double DRIVE_DISTANCE_TICKS_PER_INCH = 12.764;
     
     public static final double ROT_TOP_SPEED = 10;
     public static final double ROT_P = 1;
