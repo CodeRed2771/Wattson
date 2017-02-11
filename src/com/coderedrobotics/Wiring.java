@@ -13,6 +13,7 @@ public class Wiring {
     public static final int RIGHT_DRIVE_MOTOR2 = 3;
     public static final int RIGHT_EXTENDER = 4;
     public static final int LEFT_EXTENDER = 5;
+    public static final int CLIMBER = 6;
     
     // MOTOR CONTROLLER PDP PORTS
     public static final int PICKUP_FRONT_PDP = 10;

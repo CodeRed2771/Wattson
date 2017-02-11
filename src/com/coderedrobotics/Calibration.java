@@ -16,7 +16,7 @@ public class Calibration {
 	public static final double FEEDER_D = 0;
 	public static final double FEEDER_F = 0;
 	
-	 public static final double DRIVE_TOP_SPEED = 13;
+   public static final double DRIVE_TOP_SPEED = 13;
    public static final double DRIVE_P = 1;
    public static final double DRIVE_I = 0;
    public static final double DRIVE_D = 0.6;
@@ -30,4 +30,5 @@ public class Calibration {
    public static final double ROT_D = 0;
    
    public static final double DRIVE_TRAIN_REDUCTION_FACTOR = 0.5;
+   public static final double CLIMBER_POWER = .75;
 }
