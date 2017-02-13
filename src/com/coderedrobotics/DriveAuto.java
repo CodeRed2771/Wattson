@@ -78,7 +78,8 @@ public class DriveAuto {
     
     private double encoderAdjust() {
     	if (drivingStraight) 
-    		return (mainDrive.getRightEncoderObject().get() - mainDrive.getLeftEncoderObject().get()) * .01;
+    		// (2016) return (mainDrive.getRightEncoderObject().get() - mainDrive.getLeftEncoderObject().get()) * .01;
+    		return 0;
     	else
     		return 0;
     }

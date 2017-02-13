@@ -1,7 +1,6 @@
 package com.coderedrobotics;
 
 import com.coderedrobotics.libs.PIDControllerAIAO;
-import com.coderedrobotics.libs.PIDVirtualCANTalonWrapper;
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.TalonControlMode;
@@ -14,11 +13,18 @@ public class Shooter {
 	CANTalon ballFeeder;
 	PIDControllerAIAO pid;
 	boolean isShooting = false;
+	boolean isFeeding = false;
 
 	public Shooter() {
 		shooter = new CANTalon(Wiring.SHOOTER_MOTOR_SHOOTER);
 		shooter.setPID(Calibration.SHOOTER_P, Calibration.SHOOTER_I, Calibration.SHOOTER_D);
+		shooter.setF(Calibration.SHOOTER_F);
 		shooter.setFeedbackDevice(FeedbackDevice.QuadEncoder);
+		shooter.configEncoderCodesPerRev(256); // RANDOM AT THE MOMENT
+		shooter.setProfile(0);
+		shooter.changeControlMode(TalonControlMode.Speed);
+		shooter.reverseSensor(true);
+		shooter.configPeakOutputVoltage(0, 13);
 
 		shooterFollower = new CANTalon(Wiring.SHOOTER_MOTOR_FOLLOWER);
 		shooterFollower.changeControlMode(CANTalon.TalonControlMode.Follower);
@@ -26,38 +32,28 @@ public class Shooter {
 
 		ballFeeder = new CANTalon(Wiring.SHOOTER_MOTOR_FEEDER);
 		ballFeeder.setPID(Calibration.FEEDER_P, Calibration.FEEDER_I, Calibration.FEEDER_D);
+		ballFeeder.setF(Calibration.FEEDER_F);
+		ballFeeder.configPeakOutputVoltage(0, 13);
 
-		pid = new PIDControllerAIAO(1, 0, 0, ballFeeder, ballFeeder, true, "asdf");
-		
-		shooter.reverseSensor(true);
-		shooterFollower.reverseSensor(true);
+		// pid = new PIDControllerAIAO(1, 0, 0, ballFeeder, ballFeeder, true,"asdf");
 
-		shooter.configPeakOutputVoltage(0, 6);
-		shooterFollower.configPeakOutputVoltage(0, 6);
-		ballFeeder.configPeakOutputVoltage(0, 6);
+		SmartDashboard.putNumber("Shooter Setpoint", Calibration.SHOOTER_SETPOINT);
+		SmartDashboard.putNumber("Shooter P", Calibration.SHOOTER_P);
+		SmartDashboard.putNumber("Shooter I", Calibration.SHOOTER_I);
+		SmartDashboard.putNumber("Shooter D", Calibration.SHOOTER_D);
+		SmartDashboard.putNumber("Shooter F", Calibration.SHOOTER_F);
 
-		shooter.configEncoderCodesPerRev(0);
-
-		shooter.setProfile(0);
-		shooter.setPID(0, 0, 0);
-		shooter.changeControlMode(TalonControlMode.Speed);
-
-		SmartDashboard.putNumber("Shooter Setpoint", 0);
-		SmartDashboard.putNumber("Shooter P", 0);
-		SmartDashboard.putNumber("Shooter I", 0);
-		SmartDashboard.putNumber("Shooter D", 0);
-		SmartDashboard.putNumber("Shooter F", 0);
-		
-		SmartDashboard.putNumber("Feeder Setpoint", 0);
-		SmartDashboard.putNumber("Feeder P", 0);
-		SmartDashboard.putNumber("Feeder I", 0);
-		SmartDashboard.putNumber("Feeder D", 0);
-		SmartDashboard.putNumber("Feeder F", 0);
+		SmartDashboard.putNumber("Feeder Setpoint", Calibration.FEEDER_SETPOINT);
+		SmartDashboard.putNumber("Feeder P", Calibration.FEEDER_P);
+		SmartDashboard.putNumber("Feeder I", Calibration.FEEDER_I);
+		SmartDashboard.putNumber("Feeder D", Calibration.FEEDER_D);
+		SmartDashboard.putNumber("Feeder F", Calibration.FEEDER_F);
 
 	}
 
 	public void spinUpShooter() {
 		isShooting = true;
+		shooter.set(Calibration.SHOOTER_SETPOINT);
 	}
 
 	public boolean isSpunUp() {
@@ -65,30 +61,47 @@ public class Shooter {
 	}
 
 	public void stopShooter() {
+		stopFeeder();
 		shooter.setSetpoint(0);
 		ballFeeder.setSetpoint(0);
 		isShooting = false;
 	}
 
 	public void feedShooter() {
-		ballFeeder.setSetpoint(SmartDashboard.getNumber("Ball Feeder Setpoint", 0));
+		if (!isFeeding && isSpunUp()) {
+			ballFeeder.setSetpoint(Calibration.FEEDER_SETPOINT);
+			isFeeding = true;
+		}
 	}
 	
-	public void tick() {
-		if (isShooting) {
-			shooter.setSetpoint(SmartDashboard.getNumber("Shooter Setpoint", 0));
-			shooter.setP(SmartDashboard.getNumber("Shooter P", 0));
-			shooter.setI(SmartDashboard.getNumber("Shooter I", 0));
-			shooter.setD(SmartDashboard.getNumber("Shooter D", 0));
-			shooter.setF(SmartDashboard.getNumber("Shooter F", 0));
-			SmartDashboard.putNumber("Shooter Error", shooter.getError());
+	public void stopFeeder() {
+		ballFeeder.set(0);
+		isFeeding = false;
+	}
 
-			ballFeeder.setSetpoint(SmartDashboard.getNumber("Ball Feeder Setpoint", 0));
-			ballFeeder.setP(SmartDashboard.getNumber("Ball Feeder P", 0));
-			ballFeeder.setI(SmartDashboard.getNumber("Ball Feeder I", 0));
-			ballFeeder.setD(SmartDashboard.getNumber("Ball Feeder D", 0));
-			ballFeeder.setF(SmartDashboard.getNumber("Ball Feeder F", 0));
+	public void tick() {
+		SmartDashboard.putBoolean("SHOOTER SPUN UP", isSpunUp());
+		
+		if (isShooting) {
+			shooter.setSetpoint(SmartDashboard.getNumber("Shooter Setpoint", Calibration.SHOOTER_SETPOINT));
+			shooter.setP(SmartDashboard.getNumber("Shooter P", Calibration.SHOOTER_P));
+			shooter.setI(SmartDashboard.getNumber("Shooter I", Calibration.SHOOTER_I));
+			shooter.setD(SmartDashboard.getNumber("Shooter D", Calibration.SHOOTER_D));
+			shooter.setF(SmartDashboard.getNumber("Shooter F", Calibration.SHOOTER_F));
+
+			SmartDashboard.putNumber("Shooter Error", shooter.getError());
+			SmartDashboard.putNumber("Shooter Get", shooter.get());
+		}
+		
+		if (isFeeding) {
+			ballFeeder.setSetpoint(SmartDashboard.getNumber("Ball Feeder Setpoint", Calibration.FEEDER_SETPOINT));
+			ballFeeder.setP(SmartDashboard.getNumber("Ball Feeder P", Calibration.FEEDER_P));
+			ballFeeder.setI(SmartDashboard.getNumber("Ball Feeder I", Calibration.FEEDER_I));
+			ballFeeder.setD(SmartDashboard.getNumber("Ball Feeder D", Calibration.FEEDER_D));
+			ballFeeder.setF(SmartDashboard.getNumber("Ball Feeder F", Calibration.FEEDER_F));
+
 			SmartDashboard.putNumber("Ball Feeder Error", ballFeeder.getError());
+			SmartDashboard.putNumber("Ball Feeder Get", ballFeeder.get());
 
 		}
 	}
