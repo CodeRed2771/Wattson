@@ -63,16 +63,15 @@ public class Robot extends IterativeRobot {
 
 		// Shooter
 		// Start/stop shooter
-		if (gamepad.getShooterWheelsButton()) {
-			gamepad.toggleShooterWheels();
+		if (gamepad.getShooterWheelsButton() == true){
+			shooter.spinUpShooter();
 		}
 		// Start/stop shooter intake
 		if (gamepad.getShooterWheelsIntakeButton()) {
 			gamepad.toggleShooterWheelsIntake();
 		}
-
 		// Agitator
-
+		
 		// Gamepad two
 
 		// Pickup extender
