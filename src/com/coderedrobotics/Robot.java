@@ -23,6 +23,7 @@ public class Robot extends IterativeRobot {
 
 	KeyMap gamepad;
 	Shooter shooter;
+	boolean shooterActive = false;
 
 	public void robotInit() {
 		target = new Target();
@@ -63,12 +64,17 @@ public class Robot extends IterativeRobot {
 
 		// Shooter
 		// Start/stop shooter
-		if (gamepad.getShooterWheelsButton() == true){
-			shooter.spinUpShooter();
+		if(gamepad.getShooterWheelButton()){
+			gamepad.toggleShooter();
+			if(gamepad.getShooter()){
+				shooter.spinUpShooter();
+			}else{
+				shooter.stopShooter();
+			}
 		}
 		// Start/stop shooter intake
-		if (gamepad.getShooterWheelsIntakeButton()) {
-			gamepad.toggleShooterWheelsIntake();
+		if(gamepad.getShooterIntake() && gamepad.getShooter() ){
+			shooter.feedShooter();
 		}
 		// Agitator
 		
@@ -78,9 +84,9 @@ public class Robot extends IterativeRobot {
 
 		// Pickup wheels
 
-		shooter.spinUpShooter();
-
-		shooter.tick();
+//		shooter.spinUpShooter();
+//
+//		shooter.tick();
 	}
 
 	public void autonomousInit() {
