@@ -57,6 +57,7 @@ public class KeyMap {
     }
     //NEW STUFF - 2017
 
+    
     public boolean getShooterWheelButton(){
     	return getHID(gamepad1).buttonPressed(shooterButton, shooterButtonState);
     }
@@ -68,6 +69,18 @@ public class KeyMap {
     }
     public boolean getShooterIntake(){
     	return getHID(gamepad1).button(shooterIntakeButton);
+    }
+    public boolean gearRecieverExtend() {
+    	return false;
+    }
+    public boolean gearRecieverRetract() {
+    	return false;
+    }
+    public boolean pickUpGear() {
+    	return false;
+    }
+    public boolean releaseGear() {
+    	return false;
     }
     
     //NEW STUFF - 2017
