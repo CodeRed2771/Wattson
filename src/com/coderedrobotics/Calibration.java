@@ -2,9 +2,9 @@ package com.coderedrobotics;
 
 public class Calibration {
 
-	public static final double PICKUP_FRONT_CURRENT_THRESHOLD = 20;
-	public static final double PICKUP_REAR_CURRENT_THRESHOLD = 2;
-	public static final int PICKUP_REAR_CURRENT_TIMEOUT = 200;
+	public static final double CLIMBER_CURRENT_THRESHOLD = 20;
+	public static final int CLIMBER_CURRENT_TIMEOUT = 200;
+	public static final int CLIMBER_CURRENT_IGNORE_DURATION = 200;
 
 	public static final double SHOOTER_P = 0.0001;
 	public static final double SHOOTER_I = 0;

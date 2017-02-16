@@ -1,17 +1,21 @@
 package com.coderedrobotics;
 
+import com.coderedrobotics.libs.CurrentBreaker;
+
 import edu.wpi.first.wpilibj.VictorSP;
 
 public class Climber {
 	VictorSP climberMotor;
 	boolean isClimbing = false;
+	CurrentBreaker climberBreaker;
 	
 	public Climber(){
 		climberMotor = new VictorSP(Wiring.CLIMBER);
-		
+		climberBreaker = new CurrentBreaker(null, Wiring.CLIMBER_PDP, Calibration.CLIMBER_CURRENT_THRESHOLD,
+				Calibration.CLIMBER_CURRENT_TIMEOUT, Calibration.CLIMBER_CURRENT_IGNORE_DURATION);	
 	}
 	
-	public void start(){
+	public void climb(){
 		climberMotor.set(Calibration.CLIMBER_POWER);
 		isClimbing = true;
 	}
@@ -20,10 +24,11 @@ public class Climber {
 		climberMotor.set(0);
 		isClimbing = false;
 	}
+	
 	public boolean isStalled(){
-		//PUT IN CODE TO DETECT CURRENT DRAW
-		return false;
+		return climberBreaker.tripped(); 
 	}
+	
 	public void tick() {
 		if (isClimbing && isStalled()){
 			stop();
