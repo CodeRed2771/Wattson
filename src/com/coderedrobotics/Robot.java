@@ -23,6 +23,7 @@ public class Robot extends IterativeRobot {
 
 	KeyMap gamepad;
 	Shooter shooter;
+	GearReciever gearReciever;
 	boolean shooterActive = false;
 
 	public void robotInit() {
@@ -37,6 +38,7 @@ public class Robot extends IterativeRobot {
 		target.displayDetails();
 		
 		shooter = new Shooter();
+		gearReciever = new GearReciever();
 		driveAuto.showPIDValues();
 		drive.disablePID();
 
@@ -83,6 +85,9 @@ public class Robot extends IterativeRobot {
 		// Pickup extender
 
 		// Pickup wheels
+		
+		// Gear door
+		
 
 //		shooter.spinUpShooter();
 //
