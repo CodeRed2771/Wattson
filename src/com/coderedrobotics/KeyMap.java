@@ -1,6 +1,7 @@
 package com.coderedrobotics;
 
 import com.coderedrobotics.libs.HID.HID;
+import com.coderedrobotics.libs.HID.HID.Axis;
 import com.coderedrobotics.libs.HID.LogitechF310;
 
 /**
@@ -120,13 +121,15 @@ public class KeyMap {
 //    }
 //    
     public double getLeftAxis() {
-    	return (reverseDrive ? -(getHID(gamepad1).axis(driveRightAxis)) : (getHID(gamepad1).axis(driveLeftAxis))) *
-    			(reduceSpeed ? Calibration.DRIVE_TRAIN_REDUCTION_FACTOR : 1);
+    	//return (reverseDrive ? -(getHID(gamepad1).axis(driveRightAxis)) : (getHID(gamepad1).axis(driveLeftAxis))) *
+    			//(reduceSpeed ? Calibration.DRIVE_TRAIN_REDUCTION_FACTOR : 1);
+    	return 0; // This is here so it is not mad
     }
     
     public double getRightAxis() {
-    	return (reverseDrive ? -(getHID(gamepad1).axis(driveLeftAxis)) : (getHID(gamepad1).axis(driveRightAxis))) *
-    			(reduceSpeed ? Calibration.DRIVE_TRAIN_REDUCTION_FACTOR : 1);
+    	//return (reverseDrive ? -(getHID(gamepad1).axis(driveLeftAxis)) : (getHID(gamepad1).axis(driveRightAxis))) *
+    			//(reduceSpeed ? Calibration.DRIVE_TRAIN_REDUCTION_FACTOR : 1);
+    	return 0; // this is also here so that it is not mad
     }
 //    
 //    public boolean getDriverCancelFireButton() {
