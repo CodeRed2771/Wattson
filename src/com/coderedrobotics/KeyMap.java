@@ -21,14 +21,39 @@ public class KeyMap {
     private boolean singleControllerMode = false;
     private boolean reduceSpeed = false;
     private boolean shooter = false;
-    
-   
+    private boolean shooterWheels = false;
+    private boolean shooterWheelsIntake = false;
+
     // CONTROLLER 0
     private final HID.Button shooterButton = LogitechF310.BUMPER_RIGHT;
     private final HID.Button shooterIntakeButton = LogitechF310.BUMPER_LEFT;
+    private final HID.Button reverseDriveButton = LogitechF310.BUMPER_LEFT;
+    private final HID.Button reduceSpeedButton = LogitechF310.BUMPER_RIGHT;
+    private final HID.Button singleControllerModeButton = LogitechF310.STICK_RIGHT;
+    private final HID.Axis driveLeftAxis = LogitechF310.STICK_LEFT_Y;
+    private final HID.Axis driveRightAxis = LogitechF310.STICK_RIGHT_Y;
+    private final HID.Button fireButton = LogitechF310.TRIGGER_RIGHT;
+    private final HID.Button fireOverrideButton = LogitechF310.TRIGGER_LEFT;
+    private final HID.Button cancelFireButton = LogitechF310.X;
+    
+    private final HID.Button shooterWheelsButton = LogitechF310.BUMPER_RIGHT;
+    private final HID.Button shooterWheelsIntakeButton = LogitechF310.BUMPER_LEFT;
     
     
     // CONTROLLER 1
+
+
+
+    private final HID.Button agitatorButton = LogitechF310.A;
+    
+    private final HID.Button feedInButton = LogitechF310.A;
+    private final HID.Button feedOutButton = LogitechF310.B;
+    private final HID.Button feedStopButton = LogitechF310.X;
+    private final HID.Button gotoShooterPositionButton = LogitechF310.Y;
+    private final HID.Button overrideArmPIDButton = LogitechF310.DPAD_UP;
+    private final HID.Button overrideDrivePIDButton = LogitechF310.DPAD_LEFT;
+    private final HID.Button overrideShooterPIDButton = LogitechF310.DPAD_DOWN;
+    private final HID.Axis armAxis = LogitechF310.STICK_LEFT_Y;
 
 
     // BUTTON STATES
@@ -81,6 +106,11 @@ public class KeyMap {
     }
     public boolean releaseGear() {
     	return false;
+    }
+
+    
+    public boolean getAgitatorButton(){
+    	return getHID(gamepad2).button(agitatorButton);
     }
     
     //NEW STUFF - 2017

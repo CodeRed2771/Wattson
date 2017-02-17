@@ -81,6 +81,9 @@ public class Robot extends IterativeRobot {
 			shooter.feedShooter();
 		}
 		// Agitator
+		if (gamepad.getAgitatorButton()) {
+			// insert code for agitator here
+		}
 		
 		// Gamepad two
 
