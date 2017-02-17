@@ -15,6 +15,7 @@ public class Wiring {
     public static final int LEFT_EXTENDER = 5;
     public static final int CLIMBER = 6;
     public static final int GEAR_RECIEVER_MOTOR = 9;
+    public static final int GEAR_PICKUP_FINGERS = 7;
     
     // MOTOR CONTROLLER PDP PORTS
     public static final int PICKUP_FRONT_PDP = 10;
@@ -27,10 +28,11 @@ public class Wiring {
     // CAN MOTOR CONTROLLERS
     public static final int ARM_MOTOR = 1;
     public static final int SHOOTER_MOTOR_1 = 2;
-    public static final int SWEEPER_MOTOR = 2;
-    public static final int SHOOTER_MOTOR_FEEDER = 3;
-    public static final int SHOOTER_MOTOR_SHOOTER = 4;
-    public static final int SHOOTER_MOTOR_FOLLOWER = 5;
+    public static final int SWEEPER_MOTOR = 3;
+    public static final int SHOOTER_MOTOR_FEEDER = 4;
+    public static final int SHOOTER_MOTOR_SHOOTER = 5;
+    public static final int SHOOTER_MOTOR_FOLLOWER = 6;
+    public static final int GEAR_PICKUP_ARM = 7;
     
     // DIGITAL INPUT
     public static final int ARM_LIMIT_SWITCH = 0;
