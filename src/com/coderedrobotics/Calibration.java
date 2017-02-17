@@ -5,6 +5,7 @@ public class Calibration {
 	public static final double CLIMBER_CURRENT_THRESHOLD = 20;
 	public static final int CLIMBER_CURRENT_TIMEOUT = 200;
 	public static final int CLIMBER_CURRENT_IGNORE_DURATION = 200;
+	public static final int GEAR_RECIEVER__TIMEOUT = 200;
 
 	public static final double SHOOTER_P = 0.0001;
 	public static final double SHOOTER_I = 0;
@@ -33,4 +34,6 @@ public class Calibration {
 
 	public static final double DRIVE_TRAIN_REDUCTION_FACTOR = 0.5;
 	public static final double CLIMBER_POWER = .75;
+	public static final double GEAR_PRESENT_VOLTAGE = .5;
+	public static final double GEAR_RECIEVER_POWER = .75;
 }
