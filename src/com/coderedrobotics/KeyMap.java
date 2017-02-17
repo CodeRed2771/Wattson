@@ -107,6 +107,9 @@ public class KeyMap {
     public boolean releaseGear() {
     	return false;
     }
+    public boolean startPickup() {
+    	return false;
+    }
 
     
     public boolean getAgitatorButton(){
