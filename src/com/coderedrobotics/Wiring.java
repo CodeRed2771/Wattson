@@ -23,6 +23,7 @@ public class Wiring {
     public static final int SHOOTER_PDP = 12;
     public static final int CLIMBER_PDP = 13;
     public static final int GEAR_RECIEVER_PDP = 14;
+    public static final int PICKUP_FINGER_PDP = 13;
     
 
     // CAN MOTOR CONTROLLERS

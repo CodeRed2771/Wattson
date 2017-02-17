@@ -6,6 +6,10 @@ public class Calibration {
 	public static final int CLIMBER_CURRENT_TIMEOUT = 200;
 	public static final int CLIMBER_CURRENT_IGNORE_DURATION = 200;
 	public static final int GEAR_RECIEVER__TIMEOUT = 200;
+	
+	public static final double PICKUP_FINGER_CURRECT_THRESHOLD = 20;
+	public static final int PICKUP_FINGER_CURRECT_TIMEOUT = 200;
+	public static final int PICKUP_FINGER_CURRECT_DURATION = 200;
 
 	public static final double SHOOTER_P = 0.0001;
 	public static final double SHOOTER_I = 0;
