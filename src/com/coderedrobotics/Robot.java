@@ -23,8 +23,11 @@ public class Robot extends IterativeRobot {
 
 	KeyMap gamepad;
 	Shooter shooter;
-	GearReciever gearReciever;
+	GearReciever gearReceiver; // The class name "GearReciever" should be spelled "GearReceiver"
 	Climber climber;
+	Pickup pickup;
+
+	
 	boolean shooterActive = false;
 
 	public void robotInit() {
@@ -39,8 +42,10 @@ public class Robot extends IterativeRobot {
 		target.displayDetails();
 		
 		shooter = new Shooter();
-		gearReciever = new GearReciever();
+		gearReceiver = new GearReciever();
 		climber = new Climber();
+		pickup = new Pickup();
+		
 		driveAuto.showPIDValues();
 		drive.disablePID();
 
@@ -61,7 +66,7 @@ public class Robot extends IterativeRobot {
 
 	public void teleopPeriodic() {
 
-		// Gamepad one
+
 
 		// Drive
 		drive.set(gamepad.getLeftAxis(), gamepad.getRightAxis());
@@ -84,17 +89,20 @@ public class Robot extends IterativeRobot {
 		if (gamepad.getAgitatorButton()) {
 			// insert code for agitator here
 		}
-		
-		// Gamepad two
 
-		// Pickup extender
-
-		// Pickup wheels
+		// Start Pickup
+		if (gamepad.startPickup()) {
+			pickup.sweeperStart();
+		}
 		
-		// Gear door
+		// Gear receiver
+		if (gamepad.gearRecieverExtend()) {
+			
+		}
 		
 		climber.tick();
 		shooter.tick();
+		pickup.tick();
 	}
 
 	public void autonomousInit() {
