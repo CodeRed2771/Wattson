@@ -10,10 +10,10 @@ public class AutoPegCS extends AutoBaseClass {
 
 	public void tick() {
 		if (isRunning()) {
-			switch(getCurrentStep()){
+			switch (getCurrentStep()) {
 			case 0:
 				setTimerAndAdvanceStage(3000);
-				
+
 			}
 		}
 	}

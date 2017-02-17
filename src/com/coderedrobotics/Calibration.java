@@ -5,8 +5,8 @@ public class Calibration {
 	public static final double CLIMBER_CURRENT_THRESHOLD = 20;
 	public static final int CLIMBER_CURRENT_TIMEOUT = 200;
 	public static final int CLIMBER_CURRENT_IGNORE_DURATION = 200;
-	public static final int GEAR_RECIEVER__TIMEOUT = 200;
-	
+	public static final int GEAR_RECEIVER__TIMEOUT = 200;
+
 	public static final double PICKUP_FINGER_CURRECT_THRESHOLD = 20;
 	public static final int PICKUP_FINGER_CURRECT_TIMEOUT = 200;
 	public static final int PICKUP_FINGER_CURRECT_DURATION = 200;
@@ -27,7 +27,7 @@ public class Calibration {
 	public static final double DRIVE_P = 1;
 	public static final double DRIVE_I = 0;
 	public static final double DRIVE_D = 0.6;
-	
+
 	public static final double GEAR_PICKUP_ARM_P = 0.0001;
 	public static final double GEAR_PICKUP_ARM_I = 0;
 	public static final double GEAR_PICKUP_ARM_D = 0;
@@ -45,5 +45,5 @@ public class Calibration {
 	public static final double DRIVE_TRAIN_REDUCTION_FACTOR = 0.5;
 	public static final double CLIMBER_POWER = .75;
 	public static final double GEAR_PRESENT_VOLTAGE = .5;
-	public static final double GEAR_RECIEVER_POWER = .75;
+	public static final double GEAR_RECEIVER_POWER = .75;
 }

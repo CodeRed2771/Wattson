@@ -8,29 +8,29 @@ public class Climber {
 	VictorSP climberMotor;
 	boolean isClimbing = false;
 	CurrentBreaker climberBreaker;
-	
-	public Climber(){
+
+	public Climber() {
 		climberMotor = new VictorSP(Wiring.CLIMBER);
 		climberBreaker = new CurrentBreaker(null, Wiring.CLIMBER_PDP, Calibration.CLIMBER_CURRENT_THRESHOLD,
-				Calibration.CLIMBER_CURRENT_TIMEOUT, Calibration.CLIMBER_CURRENT_IGNORE_DURATION);	
+				Calibration.CLIMBER_CURRENT_TIMEOUT, Calibration.CLIMBER_CURRENT_IGNORE_DURATION);
 	}
-	
-	public void climb(){
+
+	public void climb() {
 		climberMotor.set(Calibration.CLIMBER_POWER);
 		isClimbing = true;
 	}
-	
-	public void stop(){
+
+	public void stop() {
 		climberMotor.set(0);
 		isClimbing = false;
 	}
-	
-	public boolean isStalled(){
-		return climberBreaker.tripped(); 
+
+	public boolean isStalled() {
+		return climberBreaker.tripped();
 	}
-	
+
 	public void tick() {
-		if (isClimbing && isStalled()){
+		if (isClimbing && isStalled()) {
 			stop();
 		}
 	}
