@@ -11,6 +11,7 @@ public class Shooter {
 	CANTalon shooterFollower;
 	CANTalon shooter;
 	CANTalon ballFeeder;
+	Agitator agitator;
 	PIDControllerAIAO pid;
 	boolean isShooting = false;
 	boolean isFeeding = false;
@@ -19,10 +20,11 @@ public class Shooter {
 		shooter = new CANTalon(Wiring.SHOOTER_MOTOR_SHOOTER);
 		shooter.setPID(Calibration.SHOOTER_P, Calibration.SHOOTER_I, Calibration.SHOOTER_D);
 		shooter.setF(Calibration.SHOOTER_F);
-		shooter.setFeedbackDevice(FeedbackDevice.QuadEncoder);
+		shooter.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 		shooter.configEncoderCodesPerRev(256); // RANDOM AT THE MOMENT
 		shooter.setProfile(0);
 		shooter.changeControlMode(TalonControlMode.Speed);
+		shooter.setCloseLoopRampRate(1); // take one second for full power
 		shooter.reverseSensor(true);
 		shooter.configPeakOutputVoltage(0, 13);
 
@@ -31,11 +33,16 @@ public class Shooter {
 		shooterFollower.set(Wiring.SHOOTER_MOTOR_SHOOTER);
 
 		ballFeeder = new CANTalon(Wiring.SHOOTER_MOTOR_FEEDER);
+		ballFeeder.changeControlMode(TalonControlMode.Speed);
+		ballFeeder.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 		ballFeeder.setPID(Calibration.FEEDER_P, Calibration.FEEDER_I, Calibration.FEEDER_D);
 		ballFeeder.setF(Calibration.FEEDER_F);
 		ballFeeder.configPeakOutputVoltage(0, 13);
 
-		// pid = new PIDControllerAIAO(1, 0, 0, ballFeeder, ballFeeder, true,"asdf");
+		agitator = new Agitator();
+	
+		// pid = new PIDControllerAIAO(1, 0, 0, ballFeeder, ballFeeder,
+		// true,"asdf");
 
 		SmartDashboard.putNumber("Shooter Setpoint", Calibration.SHOOTER_SETPOINT);
 		SmartDashboard.putNumber("Shooter P", Calibration.SHOOTER_P);
@@ -63,25 +70,35 @@ public class Shooter {
 	public void stopShooter() {
 		stopFeeder();
 		shooter.setSetpoint(0);
-		ballFeeder.setSetpoint(0);
 		isShooting = false;
 	}
 
 	public void feedShooter() {
 		if (!isFeeding && isSpunUp()) {
 			ballFeeder.setSetpoint(Calibration.FEEDER_SETPOINT);
+			agitator.start();
 			isFeeding = true;
 		}
 	}
-	
+
 	public void stopFeeder() {
 		ballFeeder.set(0);
+		agitator.stop();
 		isFeeding = false;
+	}
+
+	public void toggleShooter() {
+		isShooting = !isShooting;
+		if (isShooting) {
+			spinUpShooter();
+		} else {
+			stopShooter();
+		}
 	}
 
 	public void tick() {
 		SmartDashboard.putBoolean("SHOOTER SPUN UP", isSpunUp());
-		
+
 		if (isShooting) {
 			shooter.setSetpoint(SmartDashboard.getNumber("Shooter Setpoint", Calibration.SHOOTER_SETPOINT));
 			shooter.setP(SmartDashboard.getNumber("Shooter P", Calibration.SHOOTER_P));
@@ -90,9 +107,10 @@ public class Shooter {
 			shooter.setF(SmartDashboard.getNumber("Shooter F", Calibration.SHOOTER_F));
 
 			SmartDashboard.putNumber("Shooter Error", shooter.getError());
+			SmartDashboard.putNumber("Shooter Closed Loop Error", shooter.getClosedLoopError());
 			SmartDashboard.putNumber("Shooter Get", shooter.get());
 		}
-		
+
 		if (isFeeding) {
 			ballFeeder.setSetpoint(SmartDashboard.getNumber("Ball Feeder Setpoint", Calibration.FEEDER_SETPOINT));
 			ballFeeder.setP(SmartDashboard.getNumber("Ball Feeder P", Calibration.FEEDER_P));
@@ -105,12 +123,5 @@ public class Shooter {
 
 		}
 	}
-	public void toggleShooter(){
-		isShooting = !isShooting;
-		if(isShooting = true){
-			spinUpShooter();
-		}else{
-			stopFeeder();
-		}
-	}
+
 }

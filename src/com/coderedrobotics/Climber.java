@@ -10,7 +10,7 @@ public class Climber {
 	CurrentBreaker climberBreaker;
 
 	public Climber() {
-		climberMotor = new VictorSP(Wiring.CLIMBER);
+		climberMotor = new VictorSP(Wiring.CLIMBER_MOTOR);
 		climberBreaker = new CurrentBreaker(null, Wiring.CLIMBER_PDP, Calibration.CLIMBER_CURRENT_THRESHOLD,
 				Calibration.CLIMBER_CURRENT_TIMEOUT, Calibration.CLIMBER_CURRENT_IGNORE_DURATION);
 	}

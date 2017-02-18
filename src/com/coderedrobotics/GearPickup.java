@@ -24,6 +24,7 @@ public class GearPickup {
 		fingerBreaker = new CurrentBreaker(null, Wiring.PICKUP_FINGER_PDP, Calibration.PICKUP_FINGER_CURRECT_THRESHOLD,
 				Calibration.PICKUP_FINGER_CURRECT_TIMEOUT, Calibration.PICKUP_FINGER_CURRECT_DURATION);	
 		
+		fingerBreaker.reset();
 	}
 	
 	
@@ -31,7 +32,6 @@ public class GearPickup {
 		// Lift gear pickup up far enough to pick up the ball mechanism.
 		isReleased = true;
 		gearPickupArm.set(Calibration.GEAR_PICKUP_ARM_SETPOINT);
-		
 	}
 	
 	public void readyPosition() {
@@ -41,9 +41,14 @@ public class GearPickup {
 		gearPickupArm.setSetpoint(1);
 	}
 	
+	public void pickupPosition() {
+		// right on the gear, ready to squeeze fingers
+	}
+	
 	public void pickUpGear() {
 		// Reach down the rest of the way and pick up the gear
-		gearPickupFinger.set(0.2);
+		pickupPosition();
+		pinchGear();
 	}
 	
 	public boolean isPickedup(){
@@ -51,22 +56,25 @@ public class GearPickup {
 	}
 	
 	public void verticalArm() {
-		// Arm goes all the way up to gear placing thingy
+		// Arm goes vertical - ready to place gear
 	}
 	
 	public void releaseGear(){
-		// Releases gear
-		if(hasGear /*&& if button is pressed*/){
-			//need code for release the gear
-		}
-		
+		gearPickupFinger.set(-.2);
+		fingerBreaker.reset();
+	}
+	
+	public void pinchGear() {
+		fingerBreaker.reset();
+		gearPickupFinger.set(0.2);
 	}
 	
 	public void tick(){
 		//check if the fingers have gear
 		if(fingerBreaker.tripped()){
 			hasGear = true;
-			gearPickupFinger.set(0.01);
+			gearPickupFinger.set(0.01); // keep light pressure on fingers
+			verticalArm(); // lift up as soon as we have gear
 		}
 		
 	}
