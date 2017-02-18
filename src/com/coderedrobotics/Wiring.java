@@ -16,6 +16,7 @@ public class Wiring {
 	public static final int CLIMBER = 6;
 	public static final int GEAR_RECEIVER_MOTOR = 9;
 	public static final int GEAR_PICKUP_FINGERS = 7;
+	public static final int AGITATOR_MOTOR = 8;
 
 	// MOTOR CONTROLLER PDP PORTS
 	public static final int PICKUP_FRONT_PDP = 10;
