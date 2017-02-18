@@ -23,7 +23,7 @@ public class Robot extends IterativeRobot {
 
 	KeyMap gamepad;
 	Shooter shooter;
-	GearReciever gearReceiver; // The class name "GearReciever" should be spelled "GearReceiver"
+	GearReceiver gearReceiver;
 	Climber climber;
 	Pickup pickup;
 
@@ -42,7 +42,7 @@ public class Robot extends IterativeRobot {
 		target.displayDetails();
 		
 		shooter = new Shooter();
-		gearReceiver = new GearReciever();
+		gearReceiver = new GearReceiver();
 		climber = new Climber();
 		pickup = new Pickup();
 		
