@@ -86,12 +86,6 @@ public class KeyMap {
     public boolean getShooterWheelButton(){
     	return getHID(gamepad1).buttonPressed(shooterButton, shooterButtonState);
     }
-    public void toggleShooter(){
-    	shooter = !shooter;
-    }
-    public boolean getShooter(){
-    	return shooter;
-    }
     public boolean getShooterIntake(){
     	return getHID(gamepad1).button(shooterIntakeButton);
     }

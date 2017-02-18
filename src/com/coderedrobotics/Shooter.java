@@ -105,4 +105,12 @@ public class Shooter {
 
 		}
 	}
+	public void toggleShooter(){
+		isShooting = !isShooting;
+		if(isShooting = true){
+			spinUpShooter();
+		}else{
+			stopFeeder();
+		}
+	}
 }
