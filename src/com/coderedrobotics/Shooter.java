@@ -5,12 +5,13 @@ import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.TalonControlMode;
 
+import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Shooter {
 	CANTalon shooterFollower;
 	CANTalon shooter;
-	CANTalon ballFeeder;
+	VictorSP ballFeeder;
 	Agitator agitator;
 	PIDControllerAIAO pid;
 	boolean isShooting = false;
@@ -32,12 +33,13 @@ public class Shooter {
 		shooterFollower.changeControlMode(CANTalon.TalonControlMode.Follower);
 		shooterFollower.set(Wiring.SHOOTER_MOTOR_SHOOTER);
 
-		ballFeeder = new CANTalon(Wiring.SHOOTER_MOTOR_FEEDER);
-		ballFeeder.changeControlMode(TalonControlMode.Speed);
-		ballFeeder.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
-		ballFeeder.setPID(Calibration.FEEDER_P, Calibration.FEEDER_I, Calibration.FEEDER_D);
-		ballFeeder.setF(Calibration.FEEDER_F);
-		ballFeeder.configPeakOutputVoltage(0, 13);
+//		ballFeeder = new CANTalon(Wiring.SHOOTER_MOTOR_FEEDER);
+//		ballFeeder.changeControlMode(TalonControlMode.Speed);
+//		ballFeeder.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
+//		ballFeeder.setPID(Calibration.FEEDER_P, Calibration.FEEDER_I, Calibration.FEEDER_D);
+//		ballFeeder.setF(Calibration.FEEDER_F);
+//		ballFeeder.configPeakOutputVoltage(0, 13);
+		ballFeeder = new VictorSP(Wiring.SHOOTER_MOTOR_FEEDER);
 
 		agitator = new Agitator();
 	
@@ -75,7 +77,7 @@ public class Shooter {
 
 	public void feedShooter() {
 		if (!isFeeding && isSpunUp()) {
-			ballFeeder.setSetpoint(Calibration.FEEDER_SETPOINT);
+			ballFeeder.set(.8); //needs to be a talon srx
 			agitator.start();
 			isFeeding = true;
 		}
@@ -110,15 +112,15 @@ public class Shooter {
 			SmartDashboard.putNumber("Shooter Get", shooter.get());
 		}
 
-		if (isFeeding) {
-			ballFeeder.setSetpoint(SmartDashboard.getNumber("Ball Feeder Setpoint", Calibration.FEEDER_SETPOINT));
-			ballFeeder.setP(SmartDashboard.getNumber("Ball Feeder P", Calibration.FEEDER_P));
-			ballFeeder.setI(SmartDashboard.getNumber("Ball Feeder I", Calibration.FEEDER_I));
-			ballFeeder.setD(SmartDashboard.getNumber("Ball Feeder D", Calibration.FEEDER_D));
-			ballFeeder.setF(SmartDashboard.getNumber("Ball Feeder F", Calibration.FEEDER_F));
-
-			SmartDashboard.putNumber("Ball Feeder Error", ballFeeder.getError());
-			SmartDashboard.putNumber("Ball Feeder Get", ballFeeder.get());
+		if (isFeeding) { //need to switch ballfeeder VictorSP to TalonSRX
+//			ballFeeder.setSetpoint(SmartDashboard.getNumber("Ball Feeder Setpoint", Calibration.FEEDER_SETPOINT));
+//			ballFeeder.setP(SmartDashboard.getNumber("Ball Feeder P", Calibration.FEEDER_P));
+//			ballFeeder.setI(SmartDashboard.getNumber("Ball Feeder I", Calibration.FEEDER_I));
+//			ballFeeder.setD(SmartDashboard.getNumber("Ball Feeder D", Calibration.FEEDER_D));
+//			ballFeeder.setF(SmartDashboard.getNumber("Ball Feeder F", Calibration.FEEDER_F));
+//
+//			SmartDashboard.putNumber("Ball Feeder Error", ballFeeder.getError());
+//			SmartDashboard.putNumber("Ball Feeder Get", ballFeeder.get());
 
 		}
 	}

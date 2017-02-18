@@ -17,15 +17,18 @@ public class KeyMap {
     private final int gamepad2 = 1;
 
     // MANAGEMENT BOOLEANS
-    //private boolean reverseDrive = false;
+    private boolean reverseDrive = false;
     private boolean singleControllerMode = false;
-    //private boolean reduceSpeed = false;
+    private boolean reduceSpeed = false;
     //private boolean shooter = false;
     //private boolean shooterWheels = false;
     //private boolean shooterWheelsIntake = false;
 
     // CONTROLLER 0
     private final HID.Button shooterIntakeButton = LogitechF310.TRIGGER_RIGHT;
+    private final HID.Axis driveRightAxis = LogitechF310.STICK_RIGHT_Y;
+    private final HID.Axis driveLeftAxis = LogitechF310.STICK_LEFT_Y;
+    
 
     
     // CONTROLLER 1
@@ -144,15 +147,15 @@ public class KeyMap {
 //    }
 //    
     public double getLeftAxis() {
-    	//return (reverseDrive ? -(getHID(gamepad1).axis(driveRightAxis)) : (getHID(gamepad1).axis(driveLeftAxis))) *
-    			//(reduceSpeed ? Calibration.DRIVE_TRAIN_REDUCTION_FACTOR : 1);
-    	return 0; // This is here so it is not mad
+    	return (reverseDrive ? -(getHID(gamepad1).axis(driveRightAxis)) : (getHID(gamepad1).axis(driveLeftAxis))) *
+    			(reduceSpeed ? Calibration.DRIVE_TRAIN_REDUCTION_FACTOR : 1);
+    	//return 0; // This is here so it is not mad
     }
     
     public double getRightAxis() {
-    	//return (reverseDrive ? -(getHID(gamepad1).axis(driveLeftAxis)) : (getHID(gamepad1).axis(driveRightAxis))) *
-    			//(reduceSpeed ? Calibration.DRIVE_TRAIN_REDUCTION_FACTOR : 1);
-    	return 0; // this is also here so that it is not mad
+    	return (reverseDrive ? -(getHID(gamepad1).axis(driveLeftAxis)) : (getHID(gamepad1).axis(driveRightAxis))) *
+    			(reduceSpeed ? Calibration.DRIVE_TRAIN_REDUCTION_FACTOR : 1);
+    	//return 0; // this is also here so that it is not mad
     }
 //    
 //    public boolean getDriverCancelFireButton() {

@@ -7,7 +7,8 @@ public class Wiring {
 	public static final int LEFT_DRIVE_MOTOR2 = 1;
 	public static final int RIGHT_DRIVE_MOTOR1 = 2;
 	public static final int RIGHT_DRIVE_MOTOR2 = 3;
-	public static final int GEAR_RECEIVER_MOTOR = 4;
+	public static final int GEAR_RECEIVER_MOTOR = 10;
+	public static final int SHOOTER_MOTOR_FEEDER = 4;
 	public static final int GEAR_PICKUP_FINGERS = 5;
 	public static final int AGITATOR_TOP_MOTOR = 6;
 	public static final int AGITATOR_BOTTOM_MOTOR1 = 7;
@@ -26,7 +27,6 @@ public class Wiring {
 	public static final int ARM_MOTOR = 1;
 	public static final int SHOOTER_MOTOR_1 = 2;
 	public static final int SWEEPER_MOTOR = 3;
-	public static final int SHOOTER_MOTOR_FEEDER = 4;
 	public static final int SHOOTER_MOTOR_SHOOTER = 5;
 	public static final int SHOOTER_MOTOR_FOLLOWER = 6;
 	public static final int GEAR_PICKUP_ARM = 7;
