@@ -17,51 +17,36 @@ public class KeyMap {
     private final int gamepad2 = 1;
 
     // MANAGEMENT BOOLEANS
-    private boolean reverseDrive = false;
+    //private boolean reverseDrive = false;
     private boolean singleControllerMode = false;
-    private boolean reduceSpeed = false;
-    private boolean shooter = false;
-    private boolean shooterWheels = false;
-    private boolean shooterWheelsIntake = false;
+    //private boolean reduceSpeed = false;
+    //private boolean shooter = false;
+    //private boolean shooterWheels = false;
+    //private boolean shooterWheelsIntake = false;
 
     // CONTROLLER 0
-    private final HID.Button shooterButton = LogitechF310.BUMPER_RIGHT;
-    private final HID.Button shooterIntakeButton = LogitechF310.BUMPER_LEFT;
-    private final HID.Button reverseDriveButton = LogitechF310.BUMPER_LEFT;
-    private final HID.Button reduceSpeedButton = LogitechF310.BUMPER_RIGHT;
-    private final HID.Button singleControllerModeButton = LogitechF310.STICK_RIGHT;
-    private final HID.Axis driveLeftAxis = LogitechF310.STICK_LEFT_Y;
-    private final HID.Axis driveRightAxis = LogitechF310.STICK_RIGHT_Y;
-    private final HID.Button fireButton = LogitechF310.TRIGGER_RIGHT;
-    private final HID.Button fireOverrideButton = LogitechF310.TRIGGER_LEFT;
-    private final HID.Button cancelFireButton = LogitechF310.X;
-    
-    private final HID.Button shooterWheelsButton = LogitechF310.BUMPER_RIGHT;
-    private final HID.Button shooterWheelsIntakeButton = LogitechF310.BUMPER_LEFT;
-    
+    private final HID.Button shooterIntakeButton = LogitechF310.TRIGGER_RIGHT;
+
     
     // CONTROLLER 1
-
-
-
-    private final HID.Button agitatorButton = LogitechF310.A;
+    private final HID.Button shooterButton = LogitechF310.BUMPER_RIGHT;
+    private final HID.Button agitatorButton = LogitechF310.B;
+    private final HID.Button pickupButton = LogitechF310.A;
+    private final HID.Button gearArmPickupButton = LogitechF310.BUMPER_LEFT;
+    private final HID.Button gearFingersPickupOpenButton = LogitechF310.DPAD_LEFT;
+    private final HID.Button gearFingersPickupCloseButton = LogitechF310.DPAD_RIGHT;
+    private final HID.Button gearGateButton = LogitechF310.Y;
     
-    private final HID.Button feedInButton = LogitechF310.A;
-    private final HID.Button feedOutButton = LogitechF310.B;
-    private final HID.Button feedStopButton = LogitechF310.X;
-    private final HID.Button gotoShooterPositionButton = LogitechF310.Y;
-    private final HID.Button overrideArmPIDButton = LogitechF310.DPAD_UP;
-    private final HID.Button overrideDrivePIDButton = LogitechF310.DPAD_LEFT;
-    private final HID.Button overrideShooterPIDButton = LogitechF310.DPAD_DOWN;
-    private final HID.Axis armAxis = LogitechF310.STICK_LEFT_Y;
-
 
     // BUTTON STATES
     private final HID.ButtonState shooterButtonState = HID.newButtonState();
-
+    private final HID.ButtonState agitatorButtonState = HID.newButtonState();
+    private final HID.ButtonState pickupButtonState = HID.newButtonState();
+    private final HID.ButtonState gearArmPickupButtonState = HID.newButtonState();
+    //private final HID.ButtonState gearFingersPickupButtonState = HID.newButtonState();
+    private final HID.ButtonState gearGateButtonState = HID.newButtonState();
     
     
-
     public KeyMap() {
 
     }
@@ -83,31 +68,29 @@ public class KeyMap {
     //NEW STUFF - 2017
 
     
-    public boolean getShooterWheelButton(){
-    	return getHID(gamepad1).buttonPressed(shooterButton, shooterButtonState);
+    public boolean shooterWheels(){
+    	return getHID(gamepad2).buttonPressed(shooterButton, shooterButtonState);
     }
-    public boolean getShooterIntake(){
+    public boolean shooterIntake(){
     	return getHID(gamepad1).button(shooterIntakeButton);
     }
-    public boolean gearRecieverExtend() {
-    	return false;
+    public boolean gearGate() {
+    	return getHID(gamepad2).buttonPressed(gearGateButton, gearGateButtonState);
     }
-    public boolean gearRecieverRetract() {
-    	return false;
+    public boolean gearFingersOpen() {
+    	return getHID(gamepad2).button(gearFingersPickupOpenButton);
     }
-    public boolean pickUpGear() {
-    	return false;
+    public boolean gearFingersClosed() {
+    	return getHID(gamepad2).button(gearFingersPickupCloseButton);
     }
-    public boolean releaseGear() {
-    	return false;
+    public boolean agitator(){
+    	return getHID(gamepad2).buttonPressed(agitatorButton, agitatorButtonState);
     }
-    public boolean startPickup() {
-    	return false;
+    public boolean pickup(){
+    	return getHID(gamepad2).buttonPressed(pickupButton, pickupButtonState);
     }
-
-    
-    public boolean getAgitatorButton(){
-    	return getHID(gamepad2).button(agitatorButton);
+    public boolean gearArm(){
+    	return getHID(gamepad2).buttonPressed(gearArmPickupButton, gearArmPickupButtonState);
     }
     
     //NEW STUFF - 2017

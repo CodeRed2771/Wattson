@@ -71,11 +71,11 @@ public class Robot extends IterativeRobot {
 
 		// Shooter
 		// Start/stop shooter (TOP)
-		if(gamepad.getShooterWheelButton()){
+		if(gamepad.shooterWheels()){
 			shooter.toggleShooter();
 		}
 		// Start/stop shooter intake (BOTTOM)
-		if(gamepad.getShooterIntake() && shooter.isShooting ){
+		if(gamepad.shooterIntake() && shooter.isShooting ){
 			shooter.feedShooter();
 		}
 		// Agitator
