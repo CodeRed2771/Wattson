@@ -90,7 +90,7 @@ public class Robot extends IterativeRobot {
 
 		// Gear receiver
 		if (gamepad.gearRecieverExtend()) {
-
+			gearReceiver.toggleReceiver();
 		}
 
 		climber.tick();

@@ -17,6 +17,7 @@ public class GearReceiver {
 		gearReceiver.set(5);
 		isExtending = true;
 		isRetracting = false;
+		
 	}
 
 	public void retract() {
@@ -31,6 +32,15 @@ public class GearReceiver {
 
 	public boolean isExtended() {
 		return isExtended;
+	}
+	
+	public void toggleReceiver() {
+		isExtended = !isExtended;
+		if (isExtended()) {
+			retract();
+		}else{
+			extend();
+		}
 	}
 
 	public void tick() {
