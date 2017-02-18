@@ -2,14 +2,19 @@ package com.coderedrobotics;
 
 import com.coderedrobotics.libs.CurrentBreaker;
 import com.coderedrobotics.libs.PWMController;
+import com.ctre.CANTalon;
 
 public class Pickup {
 
-	private final PWMController sweeperMotor;
+	private CANTalon sweeperMotor;
+	private CANTalon sweeperFollower;
 	private boolean pickingUp = false;
 	
 	public Pickup() {
-		sweeperMotor = new PWMController(Wiring.SWEEPER_MOTOR, false);
+		sweeperMotor = new CANTalon(Wiring.SWEEPER_MOTOR);
+		sweeperFollower = new CANTalon(Wiring.SWEEPER_MOTOR_FOLLOWER);
+		sweeperFollower.changeControlMode(CANTalon.TalonControlMode.Follower);
+		sweeperFollower.set(Wiring.SWEEPER_MOTOR);
 	}
 
 	public void sweeperStart() {
