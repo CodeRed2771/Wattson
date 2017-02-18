@@ -79,19 +79,20 @@ public class Robot extends IterativeRobot {
 			shooter.feedShooter();
 		}
 		// Agitator
-		if (gamepad.getAgitatorButton()) {
+		if (gamepad.agitator()) {
 			// insert code for agitator here
 		}
 
 		// Start Pickup
-		if (gamepad.startPickup()) {
+		if (gamepad.pickup()) {
 			pickup.sweeperStart();
 		}
 
 		// Gear receiver
-		if (gamepad.gearRecieverExtend()) {
+		if (gamepad.gearArm()) {
 			gearReceiver.toggleReceiver();
 		}
+		//add code for gear arm and fingers
 
 		climber.tick();
 		shooter.tick();
