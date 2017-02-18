@@ -88,11 +88,10 @@ public class Shooter {
 	}
 
 	public void toggleShooter() {
-		isShooting = !isShooting;
 		if (isShooting) {
-			spinUpShooter();
-		} else {
 			stopShooter();
+		} else {
+			spinUpShooter();
 		}
 	}
 

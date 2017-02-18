@@ -26,7 +26,7 @@ public class Agitator {
 		agitatorRunning = false;
 	}
 
-	public void toggle() {
+	public void toggleAgitator() {
 		if(agitatorRunning) {
 			start();
 		}else{

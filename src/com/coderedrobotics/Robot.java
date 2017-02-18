@@ -26,6 +26,7 @@ public class Robot extends IterativeRobot {
 	GearReceiver gearReceiver;
 	Climber climber;
 	Pickup pickup;
+	Agitator agitator;
 
 	
 	boolean shooterActive = false;
@@ -45,6 +46,7 @@ public class Robot extends IterativeRobot {
 		gearReceiver = new GearReceiver();
 		climber = new Climber();
 		pickup = new Pickup();
+		agitator = new Agitator();
 
 		driveAuto.showPIDValues();
 		drive.disablePID();
@@ -83,12 +85,16 @@ public class Robot extends IterativeRobot {
 
 		// Start Pickup
 		if (gamepad.pickup()) {
-			pickup.sweeperStart();
+			pickup.togglePickup();
 		}
 
 		// Gear receiver
 		if (gamepad.gearArm()) {
 			gearReceiver.toggleReceiver();
+		}
+		
+		if(gamepad.agitator()){
+			agitator.toggleAgitator();
 		}
 		//add code for gear arm and fingers
 

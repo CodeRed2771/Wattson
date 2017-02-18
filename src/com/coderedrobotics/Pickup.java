@@ -26,7 +26,7 @@ public class Pickup {
 		sweeperMotor.set(-1);
 	}
 
-	public void toggle() {
+	public void togglePickup() {
 		if (pickingUp) {
 			sweeperStop();
 		} else
