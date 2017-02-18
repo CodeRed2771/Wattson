@@ -40,12 +40,12 @@ public class Robot extends IterativeRobot {
 		drive.setPIDstate(true);
 
 		target.displayDetails();
-		
+
 		shooter = new Shooter();
 		gearReceiver = new GearReceiver();
 		climber = new Climber();
 		pickup = new Pickup();
-		
+
 		driveAuto.showPIDValues();
 		drive.disablePID();
 
@@ -66,8 +66,6 @@ public class Robot extends IterativeRobot {
 
 	public void teleopPeriodic() {
 
-
-
 		// Drive
 		drive.set(gamepad.getLeftAxis(), gamepad.getRightAxis());
 
@@ -77,7 +75,7 @@ public class Robot extends IterativeRobot {
 			shooter.toggleShooter();
 		}
 		// Start/stop shooter intake
-		if(gamepad.getShooterIntake() && gamepad.getShooter() ){
+		if (gamepad.getShooterIntake() && gamepad.getShooter()) {
 			shooter.feedShooter();
 		}
 		// Agitator
@@ -89,12 +87,12 @@ public class Robot extends IterativeRobot {
 		if (gamepad.startPickup()) {
 			pickup.sweeperStart();
 		}
-		
+
 		// Gear receiver
 		if (gamepad.gearRecieverExtend()) {
-			
+
 		}
-		
+
 		climber.tick();
 		shooter.tick();
 		pickup.tick();
