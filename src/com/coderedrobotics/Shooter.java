@@ -19,26 +19,31 @@ public class Shooter {
 
 	public Shooter() {
 		shooter = new CANTalon(Wiring.SHOOTER_MOTOR_SHOOTER);
+		shooter.setProfile(0);
 		shooter.setPID(Calibration.SHOOTER_P, Calibration.SHOOTER_I, Calibration.SHOOTER_D);
 		shooter.setF(Calibration.SHOOTER_F);
 		shooter.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 		shooter.configEncoderCodesPerRev(256); // RANDOM AT THE MOMENT
-		shooter.setProfile(0);
 		shooter.changeControlMode(TalonControlMode.Speed);
-		shooter.setCloseLoopRampRate(1); // take one second for full power
+		//shooter.setCloseLoopRampRate(1); // take one second for full power
 		shooter.reverseSensor(true);
-		shooter.configPeakOutputVoltage(0, 13);
+		//shooter.configPeakOutputVoltage(0, 13);
+		shooter.enable();
+		
 
 		shooterFollower = new CANTalon(Wiring.SHOOTER_MOTOR_FOLLOWER);
 		shooterFollower.changeControlMode(CANTalon.TalonControlMode.Follower);
 		shooterFollower.set(Wiring.SHOOTER_MOTOR_SHOOTER);
+		shooterFollower.enable();
 
 		ballFeeder = new CANTalon(Wiring.SHOOTER_MOTOR_FEEDER);
+		ballFeeder.setProfile(0);
 		ballFeeder.changeControlMode(TalonControlMode.Speed);
 		ballFeeder.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 		ballFeeder.setPID(Calibration.FEEDER_P, Calibration.FEEDER_I, Calibration.FEEDER_D);
 		ballFeeder.setF(Calibration.FEEDER_F);
 		ballFeeder.configPeakOutputVoltage(0, 13);
+		ballFeeder.enable();
 
 		agitator = new Agitator();
 	
@@ -101,6 +106,7 @@ public class Shooter {
 
 		if (isShooting) {
 			shooter.setSetpoint(SmartDashboard.getNumber("Shooter Setpoint", Calibration.SHOOTER_SETPOINT));
+			
 			shooter.setP(SmartDashboard.getNumber("Shooter P", Calibration.SHOOTER_P));
 			shooter.setI(SmartDashboard.getNumber("Shooter I", Calibration.SHOOTER_I));
 			shooter.setD(SmartDashboard.getNumber("Shooter D", Calibration.SHOOTER_D));

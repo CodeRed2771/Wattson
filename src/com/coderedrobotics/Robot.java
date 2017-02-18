@@ -32,47 +32,50 @@ public class Robot extends IterativeRobot {
 	boolean shooterActive = false;
 
 	public void robotInit() {
-		target = new Target();
+		//target = new Target();
 		drive = new Drive();
-		driveAuto = new DriveAuto(drive);
-		driveAuto.stop();
-		driveAuto.resetEncoders();
+//		driveAuto = new DriveAuto(drive);
+//		driveAuto.stop();
+//		driveAuto.resetEncoders();
 		drive.set(0, 0);
-		drive.setPIDstate(true);
+	//	drive.setPIDstate(true);
 
-		target.displayDetails();
+	//	target.displayDetails();
 		
 		shooter = new Shooter();
-		gearReceiver = new GearReceiver();
-		climber = new Climber();
+//		gearReceiver = new GearReceiver();
+//		climber = new Climber();
 		pickup = new Pickup();
-		agitator = new Agitator();
+//
+//		driveAuto.showPIDValues();
+		//drive.disablePID();
 
-		driveAuto.showPIDValues();
-		drive.disablePID();
-
-		autoChooser = new SendableChooser();
-		autoChooser.addObject(autoPegDVV, autoPegDVV);
-		autoChooser.addObject(autoPegCH, autoPegCH);
-		autoChooser.addDefault(autoTargetTest, autoTargetTest);
-
-		SmartDashboard.putData("Auto choices", autoChooser);
+//		autoChooser = new SendableChooser();
+//		autoChooser.addObject(autoPegDVV, autoPegDVV);
+//		autoChooser.addObject(autoPegCH, autoPegCH);
+//		autoChooser.addDefault(autoTargetTest, autoTargetTest);
+//
+//		SmartDashboard.putData("Auto choices", autoChooser);
 
 		gamepad = new KeyMap();
 	}
 
 	public void teleopInit() {
-		driveAuto.resetEncoders();
-		drive.set(0, 0);
+		//driveAuto.resetEncoders();
+		//drive.set(0, 0);
 	}
 
 	public void teleopPeriodic() {
 
+		SmartDashboard.putNumber("Teleop: ", System.currentTimeMillis());
+	SmartDashboard.putNumber("Left Axis: ", gamepad.getLeftAxis());
+
 		// Drive
 		drive.set(gamepad.getLeftAxis(), gamepad.getRightAxis());
-
-		// Shooter
-		// Start/stop shooter (TOP)
+//
+//		SmartDashboard.putNumber("Left Axis: ", gamepad.getLeftAxis());
+//		// Shooter
+//		// Start/stop shooter (TOP)
 		if(gamepad.shooterWheels()){
 			shooter.toggleShooter();
 		}
@@ -82,58 +85,58 @@ public class Robot extends IterativeRobot {
 			shooter.feedShooter();
 		} else
 			shooter.stopFeeder();
-
-		// Start Pickup
+//
+//		// Start Pickup
 		if (gamepad.pickup()) {
 			pickup.togglePickup();
 		}
 
-		// Gear receiver
-		if (gamepad.gearArm()) {
-			gearReceiver.toggleReceiver();
-		}
-		
-		if(gamepad.agitator()){
-			agitator.toggleAgitator();
-		}
-		//add code for gear arm and fingers
-
-		climber.tick();
+//		// Gear receiver
+//		if (gamepad.gearArm()) {
+//			gearReceiver.toggleReceiver();
+//		}
+//		
+//		if(gamepad.agitator()){
+//			agitator.toggleAgitator();
+//		}
+//		//add code for gear arm and fingers
+//
+//		climber.tick();
 		shooter.tick();
-		pickup.tick();
+//		pickup.tick();
 	}
 
 	public void autonomousInit() {
-		drive.set(0, 0);
-		drive.setPIDstate(true);
-
-		autoSelected = (String) autoChooser.getSelected();
-		SmartDashboard.putString("Auto selected: ", autoSelected);
-
-		switch (autoSelected) {
-		case autoTargetTest:
-			mAutoProgram = new AutoTargetTest(driveAuto, 1);
-			break;
-		case autoPegDVV:
-			mAutoProgram = new AutoPegDVV(driveAuto, 1);
-			break;
-		case autoPegCH:
-			mAutoProgram = new AutoPegCH(driveAuto, 1);
-			break;
-		default:
-			Logger.getInstance().log("UNKNOWN AUTO SELECTED");
-			// SHOULD PICK ONE HERE
-			break;
-		}
-
-		mAutoProgram.start();
-
-		Logger.getInstance().log("start auto");
+//		drive.set(0, 0);
+//		drive.setPIDstate(true);
+//
+//		autoSelected = (String) autoChooser.getSelected();
+//		SmartDashboard.putString("Auto selected: ", autoSelected);
+//
+//		switch (autoSelected) {
+//		case autoTargetTest:
+//			mAutoProgram = new AutoTargetTest(driveAuto, 1);
+//			break;
+//		case autoPegDVV:
+//			mAutoProgram = new AutoPegDVV(driveAuto, 1);
+//			break;
+//		case autoPegCH:
+//			mAutoProgram = new AutoPegCH(driveAuto, 1);
+//			break;
+//		default:
+//			Logger.getInstance().log("UNKNOWN AUTO SELECTED");
+//			// SHOULD PICK ONE HERE
+//			break;
+//		}
+//
+//		mAutoProgram.start();
+//
+//		Logger.getInstance().log("start auto");
 	}
 
 	public void autonomousPeriodic() {
 
-		mAutoProgram.tick();
+	//	mAutoProgram.tick();
 
 	}
 

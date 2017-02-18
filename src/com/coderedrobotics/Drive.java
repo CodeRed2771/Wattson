@@ -96,19 +96,25 @@ public class Drive {
 	}
 
 	public void set(double left, double right) {
-		if (encoderError = (rightPwmSplitter2X.getPWMControllerA().encoderHasError()
-				|| leftPwmSplitter2X.getPWMControllerA().encoderHasError()) || disablePID) {
-			drivePid.setPID(0, 0, 0, 1);
-			rotPid.setPID(0, 0, 0, 1);
-		} else {
-			drivePid.setPID(Calibration.DRIVE_P, Calibration.DRIVE_I, Calibration.DRIVE_D, 1);
-			rotPid.setPID(Calibration.ROT_P, Calibration.ROT_I, Calibration.ROT_D, 1);
-		}
-
-		double rot = (left - right) / 2;
-
-		drivePid.setSetpoint((left + right) / 2);
-		rotPid.setSetpoint(Math.abs(Math.pow(Math.abs(rot), (1 - Math.abs((left + right) / 2)) * 0.9)) * rot);
+		
+		leftPwmSplitter2X.set(left);
+		rightPwmSplitter2X.set(right);
+		
+		return;
+//		
+//		if (encoderError = (rightPwmSplitter2X.getPWMControllerA().encoderHasError()
+//				|| leftPwmSplitter2X.getPWMControllerA().encoderHasError()) || disablePID) {
+//			drivePid.setPID(0, 0, 0, 1);
+//			rotPid.setPID(0, 0, 0, 1);
+//		} else {
+//			drivePid.setPID(Calibration.DRIVE_P, Calibration.DRIVE_I, Calibration.DRIVE_D, 1);
+//			rotPid.setPID(Calibration.ROT_P, Calibration.ROT_I, Calibration.ROT_D, 1);
+//		}
+//
+//		double rot = (left - right) / 2;
+//
+//		drivePid.setSetpoint((left + right) / 2);
+//		rotPid.setSetpoint(Math.abs(Math.pow(Math.abs(rot), (1 - Math.abs((left + right) / 2)) * 0.9)) * rot);
 		// rotPid.setSetpoint(rot);
 	}
 
