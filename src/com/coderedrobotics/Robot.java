@@ -40,7 +40,7 @@ public class Robot extends IterativeRobot {
 		drive.setPIDstate(true);
 
 		target.displayDetails();
-
+		
 		shooter = new Shooter();
 		gearReceiver = new GearReceiver();
 		climber = new Climber();
@@ -70,12 +70,12 @@ public class Robot extends IterativeRobot {
 		drive.set(gamepad.getLeftAxis(), gamepad.getRightAxis());
 
 		// Shooter
-		// Start/stop shooter
+		// Start/stop shooter (TOP)
 		if(gamepad.getShooterWheelButton()){
 			shooter.toggleShooter();
 		}
-		// Start/stop shooter intake
-		if (gamepad.getShooterIntake() && gamepad.getShooter()) {
+		// Start/stop shooter intake (BOTTOM)
+		if(gamepad.getShooterIntake() && shooter.isShooting ){
 			shooter.feedShooter();
 		}
 		// Agitator
