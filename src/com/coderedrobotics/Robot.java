@@ -81,7 +81,7 @@ public class Robot extends IterativeRobot {
 		}
 		
 		// Start/stop shooter intake (BOTTOM) - only shoot while holding the button
-		if(gamepad.shooterIntake() && shooter.isSpunUp() ){
+		if(gamepad.shooterIntake()){
 			shooter.feedShooter();
 		} else
 			shooter.stopFeeder();

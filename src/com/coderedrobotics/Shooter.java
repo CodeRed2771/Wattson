@@ -20,21 +20,26 @@ public class Shooter {
 	public Shooter() {
 		shooter = new CANTalon(Wiring.SHOOTER_MOTOR_SHOOTER);
 		shooter.setProfile(0);
+		//shooter.setInverted(true);
 		shooter.setPID(Calibration.SHOOTER_P, Calibration.SHOOTER_I, Calibration.SHOOTER_D);
 		shooter.setF(Calibration.SHOOTER_F);
 		shooter.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 		shooter.configEncoderCodesPerRev(256); // RANDOM AT THE MOMENT
 		shooter.changeControlMode(TalonControlMode.Speed);
-		//shooter.setCloseLoopRampRate(1); // take one second for full power
-		shooter.reverseSensor(true);
-		//shooter.configPeakOutputVoltage(0, 13);
+		shooter.setCloseLoopRampRate(1); // take one second for full power
+		//shooter.reverseSensor(true);
+		shooter.configPeakOutputVoltage(13, 0);
 		shooter.enable();
 		
 
 		shooterFollower = new CANTalon(Wiring.SHOOTER_MOTOR_FOLLOWER);
-		shooterFollower.changeControlMode(CANTalon.TalonControlMode.Follower);
-		shooterFollower.set(Wiring.SHOOTER_MOTOR_SHOOTER);
-		shooterFollower.enable();
+		shooterFollower.changeControlMode(TalonControlMode.Follower);
+		//shooterFollower.set(arg0);
+		//shooterFollower.setSetpoint(Wiring.SHOOTER_MOTOR_SHOOTER);
+		//shooterFollower.setInverted(true);
+		//shooterFollower.enable();
+		shooterFollower.set(shooter.getDeviceID());
+		
 
 		ballFeeder = new CANTalon(Wiring.SHOOTER_MOTOR_FEEDER);
 		ballFeeder.setProfile(0);
@@ -42,7 +47,7 @@ public class Shooter {
 		ballFeeder.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 		ballFeeder.setPID(Calibration.FEEDER_P, Calibration.FEEDER_I, Calibration.FEEDER_D);
 		ballFeeder.setF(Calibration.FEEDER_F);
-		ballFeeder.configPeakOutputVoltage(0, 13);
+		ballFeeder.configPeakOutputVoltage(13, 0);
 		ballFeeder.enable();
 
 		agitator = new Agitator();
@@ -67,20 +72,23 @@ public class Shooter {
 	public void spinUpShooter() {
 		isShooting = true;
 		shooter.setSetpoint(Calibration.SHOOTER_SETPOINT);
+		//shooterFollower.setSetpoint(Calibration.SHOOTER_SETPOINT);
 	}
 
 	public boolean isSpunUp() {
-		return Math.abs(shooter.getClosedLoopError()) < 20;
+		return Math.abs(shooter.getClosedLoopError()) < 40;
+		
 	}
 
 	public void stopShooter() {
 		stopFeeder();
 		shooter.setSetpoint(0);
+		//shooterFollower.setSetpoint(0);
 		isShooting = false;
 	}
 
 	public void feedShooter() {
-		if (!isFeeding && isSpunUp()) {
+		if (!isFeeding) { //add spun up code
 			ballFeeder.set(.8); //needs to be a talon srx
 			agitator.start();
 			isFeeding = true;
@@ -103,6 +111,11 @@ public class Shooter {
 
 	public void tick() {
 		SmartDashboard.putBoolean("SHOOTER SPUN UP", isSpunUp());
+		SmartDashboard.putBoolean("iShooting", isShooting);
+		SmartDashboard.putNumber("Shooter 1",shooter.getSetpoint());
+		SmartDashboard.putNumber("Shooter 2", shooterFollower.getSetpoint());
+		
+		
 
 		if (isShooting) {
 			shooter.setSetpoint(SmartDashboard.getNumber("Shooter Setpoint", Calibration.SHOOTER_SETPOINT));
