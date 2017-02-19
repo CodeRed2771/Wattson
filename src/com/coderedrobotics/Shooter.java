@@ -128,6 +128,7 @@ public class Shooter {
 			SmartDashboard.putNumber("Shooter Error", shooter.getError());
 			SmartDashboard.putNumber("Shooter Closed Loop Error", shooter.getClosedLoopError());
 			SmartDashboard.putNumber("Shooter Get", shooter.get());
+			SmartDashboard.putNumber("Shooter output voltage", shooter.getOutputVoltage());
 		}
 
 		if (isFeeding) {
