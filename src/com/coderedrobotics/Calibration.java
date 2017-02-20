@@ -13,8 +13,8 @@ public class Calibration {
 
 	public static final double SHOOTER_P = 0;
 	public static final double SHOOTER_I = 0;
-	public static final double SHOOTER_D = 0.15;
-	public static final double SHOOTER_F = 0.02629;
+	public static final double SHOOTER_D = 0.0;
+	public static final double SHOOTER_F = 0.0;
 	public static final double SHOOTER_SETPOINT = 3000;
 
 	public static final double FEEDER_P = .01;
