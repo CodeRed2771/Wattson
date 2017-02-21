@@ -96,8 +96,8 @@ public class Robot extends IterativeRobot {
 //			gearReceiver.toggleReceiver();
 //		}
 //		
-//		if(gamepad.agitator()){
-//			agitator.toggleAgitator();
+		//I edited the Agitator code so that it will now work with the current setup (one bottom motor)
+		
 //		}
 //		//add code for gear arm and fingers
 //
