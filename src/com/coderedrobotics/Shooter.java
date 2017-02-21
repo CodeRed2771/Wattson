@@ -19,25 +19,20 @@ public class Shooter {
 
 	public Shooter() {
 		shooter = new CANTalon(Wiring.SHOOTER_MOTOR_SHOOTER);
-		shooter.setProfile(0);
-		//shooter.setInverted(true);
 		shooter.setPID(Calibration.SHOOTER_P, Calibration.SHOOTER_I, Calibration.SHOOTER_D);
-		shooter.setF(Calibration.SHOOTER_F);
 		shooter.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
-		shooter.configEncoderCodesPerRev(256); // RANDOM AT THE MOMENT
+		shooter.configNominalOutputVoltage(0.0f, 0.0f);
+		shooter.configPeakOutputVoltage(12, 0);
+		shooter.configEncoderCodesPerRev(4096);
+		shooter.setProfile(0);
+		shooter.setPID(Calibration.SHOOTER_P, Calibration.SHOOTER_I, Calibration.SHOOTER_D);
 		shooter.changeControlMode(TalonControlMode.Speed);
-		shooter.setCloseLoopRampRate(1); // take one second for full power
-		//shooter.reverseSensor(true);
-		shooter.configPeakOutputVoltage(13, 0);
-		shooter.enable();
 		
+		shooter.setF(Calibration.SHOOTER_F);
 
+	
 		shooterFollower = new CANTalon(Wiring.SHOOTER_MOTOR_FOLLOWER);
 		shooterFollower.changeControlMode(TalonControlMode.Follower);
-		//shooterFollower.set(arg0);
-		//shooterFollower.setSetpoint(Wiring.SHOOTER_MOTOR_SHOOTER);
-		//shooterFollower.setInverted(true);
-		//shooterFollower.enable();
 		shooterFollower.set(shooter.getDeviceID());
 		
 
@@ -71,19 +66,17 @@ public class Shooter {
 
 	public void spinUpShooter() {
 		isShooting = true;
-		shooter.setSetpoint(Calibration.SHOOTER_SETPOINT);
-		//shooterFollower.setSetpoint(Calibration.SHOOTER_SETPOINT);
+		shooter.set(Calibration.SHOOTER_SETPOINT);
 	}
 
 	public boolean isSpunUp() {
-		return Math.abs(shooter.getClosedLoopError()) < 40;
+		return Math.abs(shooter.getClosedLoopError()) < 5000;
 		
 	}
 
 	public void stopShooter() {
 		stopFeeder();
-		shooter.setSetpoint(0);
-		//shooterFollower.setSetpoint(0);
+		shooter.set(0);
 		isShooting = false;
 	}
 
@@ -116,9 +109,8 @@ public class Shooter {
 		SmartDashboard.putNumber("Shooter 2", shooterFollower.getSetpoint());
 		
 		
-
 		if (isShooting) {
-			shooter.setSetpoint(SmartDashboard.getNumber("Shooter Setpoint", Calibration.SHOOTER_SETPOINT));
+			shooter.set(SmartDashboard.getNumber("Shooter Setpoint", Calibration.SHOOTER_SETPOINT));
 			
 			shooter.setP(SmartDashboard.getNumber("Shooter P", Calibration.SHOOTER_P));
 			shooter.setI(SmartDashboard.getNumber("Shooter I", Calibration.SHOOTER_I));
@@ -129,6 +121,7 @@ public class Shooter {
 			SmartDashboard.putNumber("Shooter Closed Loop Error", shooter.getClosedLoopError());
 			SmartDashboard.putNumber("Shooter Get", shooter.get());
 			SmartDashboard.putNumber("Shooter output voltage", shooter.getOutputVoltage());
+			SmartDashboard.putNumber("Velocity", shooter.getEncVelocity());
 		}
 
 		if (isFeeding) {
