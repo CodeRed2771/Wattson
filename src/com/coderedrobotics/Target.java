@@ -27,12 +27,13 @@ public class Target {
 	// variables used to set the image resolution
 	int resolutionX = 640;
 	int resolutionY = 480;
+	
+	UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
 
 	int objectsFound = 0;
 	private final Object imgLock = new Object();
 
 	public Target() {
-		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
 		camera.setResolution(resolutionX, resolutionY);
 		camera.setExposureManual(10);
 
@@ -66,6 +67,7 @@ public class Target {
 					gearX = -1;
 					gearY = -1;
 				}
+				
 			}
 
 		}
@@ -91,6 +93,14 @@ public class Target {
 		//k(constant) = d (distance) * h (average pixel height)
 		//3300 is the constant
 		return 3300 / ((height1+height2)/2);
+	}
+	
+	public void setBrighter() {
+		camera.setExposureManual(50);
+	}
+	
+	public void setDarker() {
+		camera.setExposureManual(10);
 	}
 
 	public void displayDetails() {
