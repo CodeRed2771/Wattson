@@ -23,7 +23,7 @@ public class Shooter {
 		shooter.setPID(Calibration.SHOOTER_P, Calibration.SHOOTER_I, Calibration.SHOOTER_D);
 		shooter.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 		shooter.configNominalOutputVoltage(0.0f, 0.0f);
-		shooter.configPeakOutputVoltage(13, 0);
+		shooter.configPeakOutputVoltage(12, 0);
 		shooter.configEncoderCodesPerRev(4096);
 		shooter.setProfile(0);
 		shooter.setPID(Calibration.SHOOTER_P, Calibration.SHOOTER_I, Calibration.SHOOTER_D);
@@ -31,20 +31,21 @@ public class Shooter {
 		
 		shooter.setF(Calibration.SHOOTER_F);
 
-	
 		shooterFollower = new CANTalon(Wiring.SHOOTER_MOTOR_FOLLOWER);
 		shooterFollower.changeControlMode(TalonControlMode.Follower);
 		shooterFollower.set(shooter.getDeviceID());
 		
 
 		ballFeeder = new CANTalon(Wiring.SHOOTER_MOTOR_FEEDER);
-		ballFeeder.setProfile(0);
-		ballFeeder.changeControlMode(TalonControlMode.Speed);
 		ballFeeder.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
+		ballFeeder.configPeakOutputVoltage(12, -12);
+		ballFeeder.configNominalOutputVoltage(0.0f, 0.0f);
+		
+		ballFeeder.setProfile(0);
 		ballFeeder.setPID(Calibration.FEEDER_P, Calibration.FEEDER_I, Calibration.FEEDER_D);
 		ballFeeder.setF(Calibration.FEEDER_F);
-		ballFeeder.configPeakOutputVoltage(13, -13);
-		ballFeeder.configNominalOutputVoltage(0.0f, 0.0f);
+
+		ballFeeder.changeControlMode(TalonControlMode.Speed);
 		//ballFeeder.enable();
 
 		agitator = new Agitator();
@@ -134,7 +135,7 @@ public class Shooter {
 			ballFeeder.setD(SmartDashboard.getNumber("Ball Feeder D", Calibration.FEEDER_D));
 			ballFeeder.setF(SmartDashboard.getNumber("Ball Feeder F", Calibration.FEEDER_F));
 
-			SmartDashboard.putNumber("Ball Feeder Error", ballFeeder.getError());
+			SmartDashboard.putNumber("Ball Feeder Error", ballFeeder.getClosedLoopError());
 			SmartDashboard.putNumber("Ball Feeder Get", ballFeeder.get());
 			
 			SmartDashboard.putNumber("System Millis: ", System.currentTimeMillis());
