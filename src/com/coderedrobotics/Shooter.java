@@ -16,13 +16,14 @@ public class Shooter {
 	PIDControllerAIAO pid;
 	boolean isShooting = false;
 	boolean isFeeding = false;
+	double feederStartTime;
 
 	public Shooter() {
 		shooter = new CANTalon(Wiring.SHOOTER_MOTOR_SHOOTER);
 		shooter.setPID(Calibration.SHOOTER_P, Calibration.SHOOTER_I, Calibration.SHOOTER_D);
 		shooter.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 		shooter.configNominalOutputVoltage(0.0f, 0.0f);
-		shooter.configPeakOutputVoltage(12, 0);
+		shooter.configPeakOutputVoltage(13, 0);
 		shooter.configEncoderCodesPerRev(4096);
 		shooter.setProfile(0);
 		shooter.setPID(Calibration.SHOOTER_P, Calibration.SHOOTER_I, Calibration.SHOOTER_D);
@@ -42,8 +43,9 @@ public class Shooter {
 		ballFeeder.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 		ballFeeder.setPID(Calibration.FEEDER_P, Calibration.FEEDER_I, Calibration.FEEDER_D);
 		ballFeeder.setF(Calibration.FEEDER_F);
-		ballFeeder.configPeakOutputVoltage(13, 0);
-		ballFeeder.enable();
+		ballFeeder.configPeakOutputVoltage(13, -13);
+		ballFeeder.configNominalOutputVoltage(0.0f, 0.0f);
+		//ballFeeder.enable();
 
 		agitator = new Agitator();
 	
@@ -82,7 +84,8 @@ public class Shooter {
 
 	public void feedShooter() {
 		if (!isFeeding) { //add spun up code
-			ballFeeder.set(.8); //needs to be a talon srx
+			ballFeeder.set(-Calibration.FEEDER_SETPOINT);
+			feederStartTime = System.currentTimeMillis();
 			agitator.start();
 			isFeeding = true;
 		}
@@ -125,7 +128,7 @@ public class Shooter {
 		}
 
 		if (isFeeding) {
-			ballFeeder.setSetpoint(SmartDashboard.getNumber("Ball Feeder Setpoint", Calibration.FEEDER_SETPOINT));
+			//ballFeeder.setSetpoint(SmartDashboard.getNumber("Ball Feeder Setpoint", Calibration.FEEDER_SETPOINT));
 			ballFeeder.setP(SmartDashboard.getNumber("Ball Feeder P", Calibration.FEEDER_P));
 			ballFeeder.setI(SmartDashboard.getNumber("Ball Feeder I", Calibration.FEEDER_I));
 			ballFeeder.setD(SmartDashboard.getNumber("Ball Feeder D", Calibration.FEEDER_D));
@@ -133,6 +136,14 @@ public class Shooter {
 
 			SmartDashboard.putNumber("Ball Feeder Error", ballFeeder.getError());
 			SmartDashboard.putNumber("Ball Feeder Get", ballFeeder.get());
+			
+			SmartDashboard.putNumber("System Millis: ", System.currentTimeMillis());
+			SmartDashboard.putNumber("feederStartTime: ", feederStartTime);
+			SmartDashboard.putNumber("Setpoint: ", ballFeeder.getSetpoint());
+			
+			if(System.currentTimeMillis()>(feederStartTime+500)){
+				ballFeeder.set(Calibration.FEEDER_SETPOINT);
+			}
 
 		}
 	}

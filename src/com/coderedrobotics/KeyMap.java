@@ -25,7 +25,7 @@ public class KeyMap {
     //private boolean shooterWheelsIntake = false;
 
     // CONTROLLER 0
-    private final HID.Button shooterIntakeButton = LogitechF310.TRIGGER_RIGHT;
+    private final HID.Button shooterIntakeButton = LogitechF310.BUMPER_RIGHT;
     private final HID.Axis driveRightAxis = LogitechF310.STICK_RIGHT_Y;
     private final HID.Axis driveLeftAxis = LogitechF310.STICK_LEFT_Y;
     

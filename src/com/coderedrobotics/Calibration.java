@@ -14,13 +14,13 @@ public class Calibration {
 	public static final double SHOOTER_P = 0.0001;
 	public static final double SHOOTER_I = 0;
 	public static final double SHOOTER_D = 0.1;
-	public static final double SHOOTER_F = 0.023	;   // .03 = 1000   // .028 for 2000
+	public static final double SHOOTER_F = 0.023;   // .03 = 1000   // .028 for 2000
 	public static final double SHOOTER_SETPOINT = 5000;
 
 	public static final double FEEDER_P = .01;
 	public static final double FEEDER_I = 0;
 	public static final double FEEDER_D = 0;
-	public static final double FEEDER_F = 0.02629;
+	public static final double FEEDER_F = 0;
 	public static final double FEEDER_SETPOINT = 3000;
 
 	public static final double DRIVE_TOP_SPEED = 13;
