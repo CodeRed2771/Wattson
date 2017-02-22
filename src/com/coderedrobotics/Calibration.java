@@ -11,11 +11,11 @@ public class Calibration {
 	public static final int PICKUP_FINGER_CURRECT_TIMEOUT = 200;
 	public static final int PICKUP_FINGER_CURRECT_DURATION = 200;
 
-	public static final double SHOOTER_P = 0.0001;
+	public static final double SHOOTER_P = 0.13;
 	public static final double SHOOTER_I = 0;
-	public static final double SHOOTER_D = 0.1;
-	public static final double SHOOTER_F = 0.023;   // .03 = 1000   // .028 for 2000
-	public static final double SHOOTER_SETPOINT = 5000;
+	public static final double SHOOTER_D = 6.0;
+	public static final double SHOOTER_F = 0.025;   // .03 = 1000   // .028 for 2000
+	public static final double SHOOTER_SETPOINT = 3000;
 
 	public static final double FEEDER_P = .01;
 	public static final double FEEDER_I = 0;

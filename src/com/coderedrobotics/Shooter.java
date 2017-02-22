@@ -114,6 +114,7 @@ public class Shooter {
 		
 		if (isShooting) {
 			shooter.set(SmartDashboard.getNumber("Shooter Setpoint", Calibration.SHOOTER_SETPOINT));
+		}
 			
 			shooter.setP(SmartDashboard.getNumber("Shooter P", Calibration.SHOOTER_P));
 			shooter.setI(SmartDashboard.getNumber("Shooter I", Calibration.SHOOTER_I));
@@ -125,7 +126,6 @@ public class Shooter {
 			SmartDashboard.putNumber("Shooter Get", shooter.get());
 			SmartDashboard.putNumber("Shooter output voltage", shooter.getOutputVoltage());
 			SmartDashboard.putNumber("Velocity", shooter.getEncVelocity());
-		}
 
 		if (isFeeding) {
 			//ballFeeder.setSetpoint(SmartDashboard.getNumber("Ball Feeder Setpoint", Calibration.FEEDER_SETPOINT));
