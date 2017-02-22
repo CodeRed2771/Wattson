@@ -35,7 +35,7 @@ public class Target {
 
 	public Target() {
 		camera.setResolution(resolutionX, resolutionY);
-		camera.setExposureManual(10);
+		setDarker();
 
 		visionThread = new VisionThread(camera, new GripPipeline(), gp -> {
 			//SmartDashboard.putNumber("timer", System.currentTimeMillis());
