@@ -21,8 +21,8 @@ public class GearPickup {
 		gearPickupArm = new CANTalon(Wiring.GEAR_PICKUP_ARM);
 		gearPickupArm.setPID(Calibration.GEAR_PICKUP_ARM_P, Calibration.GEAR_PICKUP_ARM_I, Calibration.GEAR_PICKUP_ARM_D);
 		gearPickupArm.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Absolute);
-		fingerBreaker = new CurrentBreaker(null, Wiring.PICKUP_FINGER_PDP, Calibration.PICKUP_FINGER_CURRECT_THRESHOLD,
-				Calibration.PICKUP_FINGER_CURRECT_TIMEOUT, Calibration.PICKUP_FINGER_CURRECT_DURATION);	
+		fingerBreaker = new CurrentBreaker(null, Wiring.PICKUP_FINGER_PDP, Calibration.PICKUP_FINGER_CURRENT_THRESHOLD,
+				Calibration.PICKUP_FINGER_CURRENT_TIMEOUT, Calibration.PICKUP_FINGER_CURRENT_DURATION);	
 		
 		fingerBreaker.reset();
 	}

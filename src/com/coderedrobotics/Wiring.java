@@ -44,6 +44,6 @@ public class Wiring {
 	public static final int GEAR_IR_SENSOR = 0;
 
 	// Relays
-	public static final int RED_AND_GREEN_LEDS = 1;
-	public static final int BLUE_LEDS = 0;
+	public static final int LIGHT_RING_RELAY = 0;
+	
 }

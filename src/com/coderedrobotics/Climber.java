@@ -15,23 +15,23 @@ public class Climber {
 				Calibration.CLIMBER_CURRENT_TIMEOUT, Calibration.CLIMBER_CURRENT_IGNORE_DURATION);
 	}
 
-	public void climb() {
-		climberMotor.set(Calibration.CLIMBER_POWER);
-		isClimbing = true;
+	public void climb(double climbPower) {
+		climberMotor.set(climbPower);
+	//	isClimbing = true;
 	}
 
-	public void stop() {
-		climberMotor.set(0);
-		isClimbing = false;
-	}
+//	public void stop() {
+//		climberMotor.set(0);
+//		isClimbing = false;
+//	}
+//
+//	public boolean isStalled() {
+//		return climberBreaker.tripped();
+//	}
 
-	public boolean isStalled() {
-		return climberBreaker.tripped();
-	}
-
-	public void tick() {
-		if (isClimbing && isStalled()) {
-			stop();
-		}
-	}
+//	public void tick() {
+//		if (isClimbing && isStalled()) {
+//			stop();
+//		}
+//	}
 }

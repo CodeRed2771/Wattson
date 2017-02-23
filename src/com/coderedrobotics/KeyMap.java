@@ -28,7 +28,7 @@ public class KeyMap {
     private final HID.Button shooterIntakeButton = LogitechF310.BUMPER_RIGHT;
     private final HID.Axis driveRightAxis = LogitechF310.STICK_RIGHT_Y;
     private final HID.Axis driveLeftAxis = LogitechF310.STICK_LEFT_Y;
-    
+    private final HID.Axis climberAxis = LogitechF310.TRIGGER_LEFT_AXIS;
 
     
     // CONTROLLER 1
@@ -146,6 +146,10 @@ public class KeyMap {
 //        return getHID(gamepad1).button(fireOverrideButton);
 //    }
 //    
+    
+    public double getClimberAxis() {
+    	return getHID(gamepad1).axis(climberAxis);
+    }
     public double getLeftAxis() {
     	return (reverseDrive ? -(getHID(gamepad1).axis(driveRightAxis)) : (getHID(gamepad1).axis(driveLeftAxis))) *
     			(reduceSpeed ? Calibration.DRIVE_TRAIN_REDUCTION_FACTOR : 1);

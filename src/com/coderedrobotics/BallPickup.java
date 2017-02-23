@@ -6,13 +6,13 @@ import com.ctre.CANTalon;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class Pickup {
+public class BallPickup {
 
 	private CANTalon sweeperMotor;
 	private CANTalon sweeperFollower;
 	private boolean pickingUp = false;
 	
-	public Pickup() {
+	public BallPickup() {
 		sweeperMotor = new CANTalon(Wiring.SWEEPER_MOTOR);
 		sweeperFollower = new CANTalon(Wiring.SWEEPER_MOTOR_FOLLOWER);
 		sweeperFollower.setInverted(true);

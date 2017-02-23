@@ -10,9 +10,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  
 */
 public class AutoTargetTest extends AutoBaseClass {
-
-	public AutoTargetTest(DriveAuto driveAuto, int robotPosition) {
+	Target target;
+	
+	public AutoTargetTest(DriveAuto driveAuto, int robotPosition, Target target) {
 		super(driveAuto, robotPosition);
+		this.target = target;
 	}
 	
 	public void tick() {
@@ -21,6 +23,8 @@ public class AutoTargetTest extends AutoBaseClass {
 			switch (getCurrentStep()) {
 			case 0:
 				// align to the peg target
+				target.enableVisionTargetMode(true);
+				
 				setTimerAndAdvanceStage(5000);
 				turnDegrees(-degreesOffTarget(), 1);
 
@@ -42,6 +46,7 @@ public class AutoTargetTest extends AutoBaseClass {
 				break;
 
 			case 4:
+				target.enableVisionTargetMode(false);
 				stop();
 				break;
 			}

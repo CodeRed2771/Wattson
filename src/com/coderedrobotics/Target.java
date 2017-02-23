@@ -7,10 +7,13 @@ import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.vision.VisionThread;
+import edu.wpi.first.wpilibj.Relay;
+import edu.wpi.first.wpilibj.Relay.Value;
 
 public class Target {
 	Thread visionThread;
-
+	Relay lightRing;
+	
 	// These are the variables that will hold the X and Y values of the two
 	// registered images
 	double centerX1 = 0.0;
@@ -34,8 +37,8 @@ public class Target {
 	private final Object imgLock = new Object();
 
 	public Target() {
+		lightRing = new Relay(Wiring.LIGHT_RING_RELAY);
 		camera.setResolution(resolutionX, resolutionY);
-		setDarker();
 
 		visionThread = new VisionThread(camera, new GripPipeline(), gp -> {
 			//SmartDashboard.putNumber("timer", System.currentTimeMillis());
@@ -95,14 +98,25 @@ public class Target {
 		return 3300 / ((height1+height2)/2);
 	}
 	
-	public void setBrighter() {
-		camera.setExposureManual(50);
+	public void setTargetingExposure(boolean darkFlag) {
+		if (darkFlag)
+			camera.setExposureManual(10);
+		else
+			camera.setExposureManual(50);		
 	}
 	
-	public void setDarker() {
-		camera.setExposureManual(10);
+	public void enableVisionTargetMode(boolean enableFlag) {
+		setTargetingExposure(enableFlag);
+		enableLightRing(enableFlag);
 	}
 
+	public void enableLightRing(boolean turnOn) {
+		if (turnOn) 
+			lightRing.set(Value.kOn);
+		else
+			lightRing.set(Value.kOff);
+	}
+	
 	public void displayDetails() {
 		// puts the numbers of the final X and Y on the dashboard
 		SmartDashboard.putNumber("Center X", gearX);
