@@ -19,19 +19,18 @@ public class BallPickup {
 		
 		sweeperMotor = new CANTalon(Wiring.SWEEPER_MOTOR);
 		
-		sweeperMotor.setPID(Calibration.SHOOTER_P, Calibration.SHOOTER_I, Calibration.SHOOTER_D);
 		sweeperMotor.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Absolute);
 		sweeperMotor.configNominalOutputVoltage(0.0f, 0.0f);
 		sweeperMotor.configPeakOutputVoltage(12, 12);
 		sweeperMotor.setProfile(0);
-		sweeperMotor.setPID(Calibration.SHOOTER_P, Calibration.SHOOTER_I, Calibration.SHOOTER_D);
+		sweeperMotor.setPID(.1, 0, 0);
 		sweeperMotor.changeControlMode(TalonControlMode.PercentVbus);
 		
 		sweeperFollower = new CANTalon(Wiring.SWEEPER_MOTOR_FOLLOWER);
 		
-		sweeperFollower.setInverted(true);
 		sweeperFollower.changeControlMode(CANTalon.TalonControlMode.Follower);
-		sweeperFollower.set(Wiring.SWEEPER_MOTOR);
+		sweeperFollower.reverseOutput(true);
+		sweeperFollower.set(sweeperMotor.getDeviceID());
 		
 		SmartDashboard.putNumber("Pickup speed: ", .35);
 	}
@@ -68,9 +67,9 @@ public class BallPickup {
 			sweeperStop();
 			sweeperMotor.changeControlMode(TalonControlMode.Position);
 
-			sweeperMotor.set(Calibration.PICKUP_PARK_POSITION);
+			sweeperMotor.set(.5);
 			parked = true;
-			SmartDashboard.putNumber("Park Position", Calibration.PICKUP_PARK_POSITION);
+			SmartDashboard.putNumber("Park Position", .5);
 			//sweeperMotor.set(Calibration.PICKUP_PARK_POSITION); // set absolute position
 		} else {
 			sweeperMotor.changeControlMode(TalonControlMode.PercentVbus);
@@ -80,7 +79,8 @@ public class BallPickup {
 
 	public void tick() {
 		if (parked) {
-			sweeperMotor.set(SmartDashboard.getNumber("Park Position", Calibration.PICKUP_PARK_POSITION));
+			SmartDashboard.putNumber("Pickup Position", sweeperMotor.getPosition());
+			sweeperMotor.set(SmartDashboard.getNumber("Park Position", .5));
 		}
 	}
 }

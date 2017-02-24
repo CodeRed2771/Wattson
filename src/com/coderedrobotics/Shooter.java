@@ -84,7 +84,7 @@ public class Shooter {
 	}
 
 	public void feedShooter() {
-		if (!isFeeding) { //add spun up code
+		if (!isFeeding && isShooting) { //add spun up code
 			ballFeeder.set(-Calibration.FEEDER_SETPOINT);
 			feederStartTime = System.currentTimeMillis();
 			agitator.start();

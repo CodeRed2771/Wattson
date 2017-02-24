@@ -61,6 +61,8 @@ public class Robot extends IterativeRobot {
 		// driveAuto.resetEncoders();
 		drive.set(0, 0);
 		target.enableVisionTargetMode(false);
+		
+		// ballPickup.holdParkPosition(true);  // FOR TESTING ONLY
 	}
 
 	public void teleopPeriodic() {
