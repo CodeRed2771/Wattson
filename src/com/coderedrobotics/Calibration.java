@@ -46,4 +46,6 @@ public class Calibration {
 	public static final double CLIMBER_POWER = .75;
 	public static final double GEAR_PRESENT_VOLTAGE = .5;
 	public static final double GEAR_RECEIVER_POWER = .75;
+	
+	public static final int PICKUP_PARK_POSITION = 2000;  // just a  guess
 }
