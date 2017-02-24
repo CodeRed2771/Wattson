@@ -19,7 +19,7 @@ public class Shooter {
 	double feederStartTime;
 
 	public Shooter() {
-		shooter = new CANTalon(Wiring.SHOOTER_MOTOR_SHOOTER);
+		shooter = new CANTalon(Wiring.SHOOTER_MOTOR_LEADER);
 		shooter.setPID(Calibration.SHOOTER_P, Calibration.SHOOTER_I, Calibration.SHOOTER_D);
 		shooter.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 		shooter.configNominalOutputVoltage(0.0f, 0.0f);
@@ -36,7 +36,7 @@ public class Shooter {
 		shooterFollower.set(shooter.getDeviceID());
 		
 
-		ballFeeder = new CANTalon(Wiring.SHOOTER_MOTOR_FEEDER);
+		ballFeeder = new CANTalon(Wiring.SHOOTER_FEEDER_MOTOR);
 		ballFeeder.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 		ballFeeder.configPeakOutputVoltage(12, -12);
 		ballFeeder.configNominalOutputVoltage(0.0f, 0.0f);

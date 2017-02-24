@@ -17,7 +17,7 @@ public class BallPickup {
 	
 	public BallPickup() {
 		
-		sweeperMotor = new CANTalon(Wiring.SWEEPER_MOTOR);
+		sweeperMotor = new CANTalon(Wiring.BALL_PICKUP_LEADER);
 		
 		sweeperMotor.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Absolute);
 		sweeperMotor.configNominalOutputVoltage(0.0f, 0.0f);
@@ -26,7 +26,7 @@ public class BallPickup {
 		sweeperMotor.setPID(.1, 0, 0);
 		sweeperMotor.changeControlMode(TalonControlMode.PercentVbus);
 		
-		sweeperFollower = new CANTalon(Wiring.SWEEPER_MOTOR_FOLLOWER);
+		sweeperFollower = new CANTalon(Wiring.BALL_PICKUP_FOLLOWER);
 		
 		sweeperFollower.changeControlMode(CANTalon.TalonControlMode.Follower);
 		sweeperFollower.reverseOutput(true);

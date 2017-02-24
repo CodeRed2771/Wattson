@@ -6,17 +6,17 @@ import edu.wpi.first.wpilibj.VictorSP;
 // used only by Shooter class
 
 public class Agitator {
-	VictorSP bottomMotor1 = new VictorSP(Wiring.AGITATOR_BOTTOM_MOTOR1);
+	VictorSP agitatorMotor = new VictorSP(Wiring.AGITATOR_MOTOR);
 	
 	public boolean agitatorRunning = false;
 	
 	public void start() {
-		bottomMotor1.set(.5);
+		agitatorMotor.set(.5);
 		agitatorRunning = true;
 	}
 	
 	public void stop() {
-		bottomMotor1.set(0);
+		agitatorMotor.set(0);
 		agitatorRunning = false;
 	}
 

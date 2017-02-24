@@ -2,14 +2,14 @@ package com.coderedrobotics;
 
 public class Calibration {
 
-	public static final double CLIMBER_CURRENT_THRESHOLD = 20;
-	public static final int CLIMBER_CURRENT_TIMEOUT = 200;
-	public static final int CLIMBER_CURRENT_IGNORE_DURATION = 200;
-	public static final int GEAR_RECEIVER__TIMEOUT = 200;
-
-	public static final double PICKUP_FINGER_CURRENT_THRESHOLD = 20;
-	public static final int PICKUP_FINGER_CURRENT_TIMEOUT = 200;
-	public static final int PICKUP_FINGER_CURRENT_DURATION = 200;
+//	public static final double CLIMBER_CURRENT_THRESHOLD = 20;
+//	public static final int CLIMBER_CURRENT_TIMEOUT = 200;
+//	public static final int CLIMBER_CURRENT_IGNORE_DURATION = 200;
+//	public static final int GEAR_RECEIVER__TIMEOUT = 200;
+//
+//	public static final double PICKUP_FINGER_CURRENT_THRESHOLD = 20;
+//	public static final int PICKUP_FINGER_CURRENT_TIMEOUT = 200;
+//	public static final int PICKUP_FINGER_CURRENT_DURATION = 200;
 
 	public static final double SHOOTER_P = 0.08;
 	public static final double SHOOTER_I = 0;

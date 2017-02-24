@@ -12,7 +12,7 @@ public class GearPickup {
 	CANTalon gearPickupArm;
 	boolean isReleased;
 	boolean hasGear;
-	CurrentBreaker fingerBreaker;
+//	CurrentBreaker fingerBreaker;
 	
 	
 	public GearPickup(){
@@ -21,10 +21,10 @@ public class GearPickup {
 		gearPickupArm = new CANTalon(Wiring.GEAR_PICKUP_ARM);
 		gearPickupArm.setPID(Calibration.GEAR_PICKUP_ARM_P, Calibration.GEAR_PICKUP_ARM_I, Calibration.GEAR_PICKUP_ARM_D);
 		gearPickupArm.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Absolute);
-		fingerBreaker = new CurrentBreaker(null, Wiring.PICKUP_FINGER_PDP, Calibration.PICKUP_FINGER_CURRENT_THRESHOLD,
-				Calibration.PICKUP_FINGER_CURRENT_TIMEOUT, Calibration.PICKUP_FINGER_CURRENT_DURATION);	
-		
-		fingerBreaker.reset();
+//		fingerBreaker = new CurrentBreaker(null, Wiring.PICKUP_FINGER_PDP, Calibration.PICKUP_FINGER_CURRENT_THRESHOLD,
+//				Calibration.PICKUP_FINGER_CURRENT_TIMEOUT, Calibration.PICKUP_FINGER_CURRENT_DURATION);	
+//		
+//		fingerBreaker.reset();
 	}
 	
 	
@@ -61,22 +61,22 @@ public class GearPickup {
 	
 	public void releaseGear(){
 		gearPickupFinger.set(-.2);
-		fingerBreaker.reset();
+//		fingerBreaker.reset();
 	}
 	
 	public void pinchGear() {
-		fingerBreaker.reset();
+//		fingerBreaker.reset();
 		gearPickupFinger.set(0.2);
 	}
 	
 	public void tick(){
 		//check if the fingers have gear
-		if(fingerBreaker.tripped()){
-			hasGear = true;
-			gearPickupFinger.set(0.01); // keep light pressure on fingers
-			verticalArm(); // lift up as soon as we have gear
-		}
-		
+//		if(fingerBreaker.tripped()){
+//			hasGear = true;
+//			gearPickupFinger.set(0.01); // keep light pressure on fingers
+//			verticalArm(); // lift up as soon as we have gear
+//		}
+//		
 	}
 	
 	public void park() {

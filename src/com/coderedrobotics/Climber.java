@@ -7,12 +7,12 @@ import edu.wpi.first.wpilibj.VictorSP;
 public class Climber {
 	VictorSP climberMotor;
 	boolean isClimbing = false;
-	CurrentBreaker climberBreaker;
+//	CurrentBreaker climberBreaker;
 
 	public Climber() {
 		climberMotor = new VictorSP(Wiring.CLIMBER_MOTOR);
-		climberBreaker = new CurrentBreaker(null, Wiring.CLIMBER_PDP, Calibration.CLIMBER_CURRENT_THRESHOLD,
-				Calibration.CLIMBER_CURRENT_TIMEOUT, Calibration.CLIMBER_CURRENT_IGNORE_DURATION);
+//		climberBreaker = new CurrentBreaker(null, Wiring.CLIMBER_PDP, Calibration.CLIMBER_CURRENT_THRESHOLD,
+//				Calibration.CLIMBER_CURRENT_TIMEOUT, Calibration.CLIMBER_CURRENT_IGNORE_DURATION);
 	}
 
 	public void climb(double climbPower) {
