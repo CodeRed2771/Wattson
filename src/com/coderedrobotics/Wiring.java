@@ -9,9 +9,9 @@ public class Wiring {
 	public static final int RIGHT_DRIVE_MOTOR2 = 7;
 	public static final int GEAR_RECEIVER_MOTOR = 2;
 	public static final int GEAR_PICKUP_FINGERS = 1;
-	public static final int AGITATOR_TOP_MOTOR = 3;
+	// public static final int AGITATOR_TOP_MOTOR = 5;
 	public static final int AGITATOR_BOTTOM_MOTOR1 = 4;
-	public static final int AGITATOR_BOTTOM_MOTOR2 = 5;
+	public static final int CAMERA_SERVO = 3;
 	public static final int CLIMBER_MOTOR = 0;
 	
 	// MOTOR CONTROLLER PDP PORTS

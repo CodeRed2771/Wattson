@@ -61,6 +61,7 @@ public class Robot extends IterativeRobot {
 		driveAuto.resetEncoders();
 		drive.set(0, 0);
 		target.enableVisionTargetMode(false);
+		target.gearPickupView();
 	}
 
 	public void teleopPeriodic() {
@@ -120,6 +121,7 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void autonomousPeriodic() {
+		
 
 		mAutoProgram.tick();
 

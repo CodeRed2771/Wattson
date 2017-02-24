@@ -9,10 +9,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.vision.VisionThread;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Relay.Value;
+import edu.wpi.first.wpilibj.Servo;
 
 public class Target {
 	Thread visionThread;
 	Relay lightRing;
+	Servo cameraServo;
 	
 	// These are the variables that will hold the X and Y values of the two
 	// registered images
@@ -38,6 +40,7 @@ public class Target {
 
 	public Target() {
 		lightRing = new Relay(Wiring.LIGHT_RING_RELAY);
+		cameraServo = new Servo(Wiring.CAMERA_SERVO);
 		camera.setResolution(resolutionX, resolutionY);
 
 		visionThread = new VisionThread(camera, new GripPipeline(), gp -> {
@@ -90,6 +93,18 @@ public class Target {
 
 	public boolean foundTarget() {
 		return (gearX >= 0 && gearY >= 0);
+	}
+	
+	public void gearPickupView() {
+		cameraServo.set(0);
+	}
+	
+	public void gearTargetView() {
+		cameraServo.set(0.25);
+	}
+	
+	public void boilerView() {
+		cameraServo.set(1);
 	}
 
 	public double distanceFromGearTarget() {
