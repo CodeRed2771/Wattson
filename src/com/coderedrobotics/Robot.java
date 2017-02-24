@@ -58,10 +58,9 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void teleopInit() {
-		driveAuto.resetEncoders();
+		// driveAuto.resetEncoders();
 		drive.set(0, 0);
 		target.enableVisionTargetMode(false);
-		target.gearPickupView();
 	}
 
 	public void teleopPeriodic() {
@@ -90,6 +89,7 @@ public class Robot extends IterativeRobot {
 
 		shooter.tick();
 		ballPickup.tick();
+		target.gearPickupView();
 	}
 
 	public void autonomousInit() {
