@@ -12,6 +12,7 @@ public class GearPickup {
 	CANTalon gearPickupArm;
 	boolean isReleased;
 	boolean hasGear;
+	Target target;
 //	CurrentBreaker fingerBreaker;
 	
 	
@@ -38,6 +39,7 @@ public class GearPickup {
 		//Park the arm to ready position
 		//need to test for the setPoint value
 		//and then put the value in Calibration file
+		target.gearPickupView(); // add code to set camera back to normal position
 		gearPickupArm.setSetpoint(1);
 	}
 	

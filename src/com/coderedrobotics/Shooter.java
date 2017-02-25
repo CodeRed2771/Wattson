@@ -17,6 +17,7 @@ public class Shooter {
 	boolean isShooting = false;
 	boolean isFeeding = false;
 	double feederStartTime;
+	Target target;
 
 	public Shooter() {
 		shooter = new CANTalon(Wiring.SHOOTER_MOTOR_LEADER);
@@ -50,6 +51,8 @@ public class Shooter {
 
 		agitator = new Agitator();
 		
+		target = new Target();
+		
 	
 		// pid = new PIDControllerAIAO(1, 0, 0, ballFeeder, ballFeeder,
 		// true,"asdf");
@@ -70,6 +73,7 @@ public class Shooter {
 
 	public void spinUpShooter() {
 		isShooting = true;
+		target.boilerView();
 		shooter.set(Calibration.SHOOTER_SETPOINT);
 	}
 
@@ -81,6 +85,7 @@ public class Shooter {
 	public void stopShooter() {
 		stopFeeder();
 		shooter.set(0);
+		target.regularView();
 		isShooting = false;
 	}
 
