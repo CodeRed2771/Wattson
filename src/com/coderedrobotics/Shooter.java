@@ -49,6 +49,7 @@ public class Shooter {
 		//ballFeeder.enable();
 
 		agitator = new Agitator();
+		
 	
 		// pid = new PIDControllerAIAO(1, 0, 0, ballFeeder, ballFeeder,
 		// true,"asdf");

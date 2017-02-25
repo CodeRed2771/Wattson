@@ -106,6 +106,10 @@ public class Target {
 	public void boilerView() {
 		cameraServo.set(1);
 	}
+	
+	public void gearReceiverView(){
+		cameraServo.set(.75);
+	}
 
 	public double distanceFromGearTarget() {
 		//k(constant) = d (distance) * h (average pixel height)
