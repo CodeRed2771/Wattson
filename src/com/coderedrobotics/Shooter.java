@@ -19,7 +19,9 @@ public class Shooter {
 	double feederStartTime;
 	Target target;
 
-	public Shooter() {
+	public Shooter(Target target) {
+		this.target = target;
+		
 		shooter = new CANTalon(Wiring.SHOOTER_MOTOR_LEADER);
 		shooter.setPID(Calibration.SHOOTER_P, Calibration.SHOOTER_I, Calibration.SHOOTER_D);
 		shooter.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
@@ -35,7 +37,6 @@ public class Shooter {
 		shooterFollower = new CANTalon(Wiring.SHOOTER_MOTOR_FOLLOWER);
 		shooterFollower.changeControlMode(TalonControlMode.Follower);
 		shooterFollower.set(shooter.getDeviceID());
-		
 
 		ballFeeder = new CANTalon(Wiring.SHOOTER_FEEDER_MOTOR);
 		ballFeeder.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
@@ -47,16 +48,9 @@ public class Shooter {
 		ballFeeder.setF(Calibration.FEEDER_F);
 
 		ballFeeder.changeControlMode(TalonControlMode.Speed);
-		//ballFeeder.enable();
 
 		agitator = new Agitator();
 		
-		target = new Target();
-		
-	
-		// pid = new PIDControllerAIAO(1, 0, 0, ballFeeder, ballFeeder,
-		// true,"asdf");
-
 		SmartDashboard.putNumber("Shooter Setpoint", Calibration.SHOOTER_SETPOINT);
 		SmartDashboard.putNumber("Shooter P", Calibration.SHOOTER_P);
 		SmartDashboard.putNumber("Shooter I", Calibration.SHOOTER_I);

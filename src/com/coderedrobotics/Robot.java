@@ -1,11 +1,13 @@
 package com.coderedrobotics;
-
+/*
+ * 2017 Code Red Robotics
+ * 
+ * Wattson - Steamworks
+ * 
+ */
 import com.coderedrobotics.libs.AutoBaseClass;
 import com.coderedrobotics.libs.Logger;
-import com.coderedrobotics.libs.HID.HID;
-
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -13,22 +15,20 @@ public class Robot extends IterativeRobot {
 	Target target;
 	Drive drive;
 	DriveAuto driveAuto;
-	boolean isDriving = false;
-	SendableChooser autoChooser;
-	final String autoPegDVV = "Peg DVV";
-	final String autoPegCH = "Peg Caden";
-	final String autoTargetTest = "Target Test";
-	String autoSelected;
-	AutoBaseClass mAutoProgram;
-
 	KeyMap gamepad;
 	Shooter shooter;
 	Climber climber;
 	BallPickup ballPickup;
 	GearPickup gearPickup;
-	
-	boolean shooterActive = false;
 
+	SendableChooser autoChooser;
+	final String autoPegDVV = "Peg DVV";
+	final String autoPegCH = "Peg Caden";
+	final String autoTargetTest = "Target Test";
+	String autoSelected;
+	
+	AutoBaseClass mAutoProgram;
+	
 	public void robotInit() {
 		target = new Target();
 		drive = new Drive();
@@ -40,7 +40,7 @@ public class Robot extends IterativeRobot {
 
 		target.displayDetails();
 		
-		shooter = new Shooter();
+		shooter = new Shooter(target);
 		climber = new Climber();
 		ballPickup = new BallPickup();
 
