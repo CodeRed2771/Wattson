@@ -28,10 +28,7 @@ public class GearPickup {
 		gearPickupArm.setPID(Calibration.GEAR_PICKUP_ARM_P, Calibration.GEAR_PICKUP_ARM_I, Calibration.GEAR_PICKUP_ARM_D);
 		gearPickupArm.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Absolute);
 		fingersEncoder = new Encoder(Wiring.FINGER_ENCODER_A,Wiring.FINGER_ENCODER_B);
-//		fingerBreaker = new CurrentBreaker(null, Wiring.PICKUP_FINGER_PDP, Calibration.PICKUP_FINGER_CURRENT_THRESHOLD,
-//				Calibration.PICKUP_FINGER_CURRENT_TIMEOUT, Calibration.PICKUP_FINGER_CURRENT_DURATION);	
-//		
-//		fingerBreaker.reset();
+
 	}
 	
 	public void releasePickup() {
@@ -44,7 +41,7 @@ public class GearPickup {
 		//Park the arm to ready position
 		//need to test for the setPoint value
 		//and then put the value in Calibration file
-		gearPickupArm.setSetpoint(1);
+		gearPickupArm.set(1);
 	}
 	
 	public void pickupPosition() {
@@ -54,6 +51,7 @@ public class GearPickup {
 	public void pickUpGear() {
 		// Reach down the rest of the way and pick up the gear
 		isPickingUp = true;
+		hasGear = false;
 		pickupPosition();
 		pinchGear();
 	}
@@ -63,16 +61,14 @@ public class GearPickup {
 	}
 	
 	public void verticalArm() {
-		// Arm goes vertical - ready to place gear
+		gearPickupArm.set(.7);
 	}
 	
 	public void releaseGear(){
 		gearPickupFinger.set(-.2);
-//		fingerBreaker.reset();
 	}
 	
 	public void pinchGear() {
-//		fingerBreaker.reset();
 		fingersStartTime = System.currentTimeMillis();
 		fingersEncLastPosition = Math.abs(fingersEncoder.get());
 		gearPickupFinger.set(0.4);

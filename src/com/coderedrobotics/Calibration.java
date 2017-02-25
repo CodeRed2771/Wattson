@@ -28,11 +28,11 @@ public class Calibration {
 	public static final double DRIVE_I = 0;
 	public static final double DRIVE_D = 0.6;
 
-	public static final double GEAR_PICKUP_ARM_P = 0.0001;
+	public static final double GEAR_PICKUP_ARM_P = 0.1;
 	public static final double GEAR_PICKUP_ARM_I = 0;
 	public static final double GEAR_PICKUP_ARM_D = 0;
 	public static final double GEAR_PICKUP_ARM_f = 0;
-	public static final double GEAR_PICKUP_ARM_SETPOINT = 3000;
+	public static final double GEAR_PICKUP_ARM_SETPOINT = .8;
 
 	public static final double DRIVE_DISTANCE_PER_PULSE = .073;
 	public static final double DRIVE_DISTANCE_TICKS_PER_INCH = 12.764;
