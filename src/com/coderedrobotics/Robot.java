@@ -43,7 +43,8 @@ public class Robot extends IterativeRobot {
 		shooter = new Shooter(target);
 		climber = new Climber();
 		ballPickup = new BallPickup();
-
+		gearPickup = new GearPickup();
+		
 //		driveAuto.showPIDValues();
 		//drive.disablePID();
 

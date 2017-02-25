@@ -3,6 +3,7 @@ package com.coderedrobotics;
 import com.coderedrobotics.libs.CurrentBreaker;
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
+import com.ctre.CANTalon.TalonControlMode;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.VictorSP;
@@ -27,6 +28,9 @@ public class GearPickup {
 		gearPickupArm = new CANTalon(Wiring.GEAR_PICKUP_ARM);
 		gearPickupArm.setPID(Calibration.GEAR_PICKUP_ARM_P, Calibration.GEAR_PICKUP_ARM_I, Calibration.GEAR_PICKUP_ARM_D);
 		gearPickupArm.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Absolute);
+		gearPickupArm.changeControlMode(TalonControlMode.Position);
+		gearPickupArm.configPeakOutputVoltage(.1, -.1);
+
 		fingersEncoder = new Encoder(Wiring.FINGER_ENCODER_A,Wiring.FINGER_ENCODER_B);
 
 	}
@@ -41,11 +45,12 @@ public class GearPickup {
 		//Park the arm to ready position
 		//need to test for the setPoint value
 		//and then put the value in Calibration file
-		gearPickupArm.set(1);
+		gearPickupArm.set(.8);
 	}
 	
 	public void pickupPosition() {
 		// right on the gear, ready to squeeze fingers
+		gearPickupArm.set(.95);
 	}
 	
 	public void pickUpGear() {
@@ -61,7 +66,7 @@ public class GearPickup {
 	}
 	
 	public void verticalArm() {
-		gearPickupArm.set(.7);
+		gearPickupArm.set(.71);
 	}
 	
 	public void releaseGear(){
@@ -99,7 +104,7 @@ public class GearPickup {
 		// Parks to original stored position
 		//need to test for the setPoint value, 
 		//and then put the value in Calibration file
-		gearPickupArm.setSetpoint(0);
+		gearPickupArm.setSetpoint(.55);
 	}
 	
 }
