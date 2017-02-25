@@ -39,6 +39,8 @@ public class KeyMap {
     private final HID.Button gearFingersPickupOpenButton = LogitechF310.DPAD_LEFT;
     private final HID.Button gearFingersPickupCloseButton = LogitechF310.DPAD_RIGHT;
     private final HID.Button gearGateButton = LogitechF310.Y;
+    private final HID.Button cameraGearPickupButton = LogitechF310.DPAD_DOWN;
+    private final HID.Button cameraRegularButton = LogitechF310.DPAD_UP;
     
 
     // BUTTON STATES
@@ -94,6 +96,12 @@ public class KeyMap {
     }
     public boolean gearArm(){
     	return getHID(gamepad2).buttonPressed(gearArmPickupButton, gearArmPickupButtonState);
+    }
+    public boolean cameraGearPickupView(){
+    	return getHID(gamepad2).button(cameraGearPickupButton);
+    }
+    public boolean cameraRegularView(){
+    	return getHID(gamepad2).button(cameraRegularButton);
     }
     
     //NEW STUFF - 2017

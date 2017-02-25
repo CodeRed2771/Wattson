@@ -86,6 +86,15 @@ public class Robot extends IterativeRobot {
 			ballPickup.togglePickup();
 		}
 		
+		// camera views
+		if (gamepad.cameraGearPickupView()) {
+			target.gearPickupView();
+		}
+		
+		if (gamepad.cameraRegularView()) {
+			target.regularView();
+		}
+		
 		// climber
 		climber.climb(gamepad.getClimberAxis());
 
