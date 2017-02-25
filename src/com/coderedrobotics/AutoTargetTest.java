@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 */
 public class AutoTargetTest extends AutoBaseClass {
 	Target target;
+	boolean foundTarget = false;
 	
 	public AutoTargetTest(DriveAuto driveAuto, int robotPosition, Target target) {
 		super(driveAuto, robotPosition);
@@ -25,27 +26,44 @@ public class AutoTargetTest extends AutoBaseClass {
 				// align to the peg target
 				target.enableVisionTargetMode(true);
 				
-				setTimerAndAdvanceStage(5000);
-				turnDegrees(-degreesOffTarget(), 1);
+				setTimerAndAdvanceStage(2000);
 
 				break;
+				
 			case 1:
-				if (driveAuto().hasArrived()) 
+				foundTarget = target.foundTarget();
+				if (foundTarget) {
 					advanceStage();
+				}
 				break;
 				
 			case 2:
+				if (foundTarget) {
+					setTimerAndAdvanceStage(2000);
+					turnDegrees(-degreesOffTarget(), 1);
+				} 
+				else {
+					// we just sit here because we can't see the target
+				}
+				break;
+				
+			case 3: 
+				if (driveAuto().hasArrived()) // done aligning
+					advanceStage();
+				break;
+				
+			case 4:
 				// drive toward peg target and stop 10" short
 				setTimerAndAdvanceStage(5000);
 				driveInches(distanceFromTarget() - 10, .20);
 				break;
 				
-			case 3: 
+			case 5: 
 				if (driveAuto().hasArrived()) 
 					advanceStage();
 				break;
 
-			case 4:
+			case 6:
 				target.enableVisionTargetMode(false);
 				stop();
 				break;
