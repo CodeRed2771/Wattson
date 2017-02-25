@@ -95,6 +95,10 @@ public class Robot extends IterativeRobot {
 			target.regularView();
 		}
 		
+		if(gamepad.gearArm()) {
+			
+		}
+		
 		// climber
 		climber.climb(gamepad.getClimberAxis());
 

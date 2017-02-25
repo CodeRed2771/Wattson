@@ -42,6 +42,7 @@ public class KeyMap {
     private final HID.Button cameraGearPickupButton = LogitechF310.DPAD_DOWN;
     private final HID.Button cameraRegularButton = LogitechF310.DPAD_UP;
     
+    
 
     // BUTTON STATES
     private final HID.ButtonState shooterButtonState = HID.newButtonState();

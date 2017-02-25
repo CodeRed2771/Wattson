@@ -14,7 +14,6 @@ public class GearPickup {
 	boolean hasGear;
 //	CurrentBreaker fingerBreaker;
 	
-	
 	public GearPickup(){
 		hasGear = false;
 		gearPickupFinger = new VictorSP(Wiring.GEAR_PICKUP_FINGERS);
@@ -26,7 +25,6 @@ public class GearPickup {
 //		
 //		fingerBreaker.reset();
 	}
-	
 	
 	public void releasePickup() {
 		// Lift gear pickup up far enough to pick up the ball mechanism.
