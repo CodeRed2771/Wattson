@@ -97,7 +97,7 @@ public class Robot extends IterativeRobot {
 		}
 		
 		if(gamepad.gearArm()) {
-			gearPickup.pickUpGear();
+			gearPickup.toggleArm();
 		}
 		
 		// climber
