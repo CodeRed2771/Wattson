@@ -36,7 +36,7 @@ public class Robot extends IterativeRobot {
 //		driveAuto.stop();
 //		driveAuto.resetEncoders();
 		drive.set(0, 0);
-	//	drive.setPIDstate(true);
+		drive.setPIDstate(true);
 
 		target.displayDetails();
 		
