@@ -58,10 +58,10 @@ public class Shooter {
 		SmartDashboard.putNumber("Shooter F", Calibration.SHOOTER_F);
 
 		SmartDashboard.putNumber("Feeder Setpoint", Calibration.FEEDER_SETPOINT);
-		SmartDashboard.putNumber("Feeder P", Calibration.FEEDER_P);
-		SmartDashboard.putNumber("Feeder I", Calibration.FEEDER_I);
-		SmartDashboard.putNumber("Feeder D", Calibration.FEEDER_D);
-		SmartDashboard.putNumber("Feeder F", Calibration.FEEDER_F);
+		SmartDashboard.putNumber("Ball Feeder P", Calibration.FEEDER_P);
+		SmartDashboard.putNumber("Ball Feeder I", Calibration.FEEDER_I);
+		SmartDashboard.putNumber("Ball Feeder D", Calibration.FEEDER_D);
+		SmartDashboard.putNumber("Ball Feeder F", Calibration.FEEDER_F);
 
 	}
 
