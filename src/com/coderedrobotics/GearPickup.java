@@ -17,6 +17,7 @@ public class GearPickup {
 	boolean isReleased;
 	boolean hasGear;
 	boolean isPickingUp;
+	boolean isReleasing;
 	double fingersStartTime;
 	double fingersEncLastPosition;
 	boolean isVertical;
@@ -34,7 +35,7 @@ public class GearPickup {
 		gearPickupArm.setPID(Calibration.GEAR_PICKUP_ARM_P, Calibration.GEAR_PICKUP_ARM_I, Calibration.GEAR_PICKUP_ARM_D);
 		gearPickupArm.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Absolute);
 		gearPickupArm.changeControlMode(TalonControlMode.Position);
-		gearPickupArm.configPeakOutputVoltage(2, -2);
+		gearPickupArm.configPeakOutputVoltage(3, -3);
 
 		fingersEncoder = new Encoder(Wiring.FINGER_ENCODER_A,Wiring.FINGER_ENCODER_B);
 		
@@ -56,16 +57,11 @@ public class GearPickup {
 		gearPickupArm.set(.6);
 	}
 	
-	public void pickupPosition() {
-		 //right on the gear, ready to squeeze fingers
-		gearPickupArm.set(.9);
-	}
-	
 	public void pickUpGear() {
 //		 Reach down the rest of the way and pick up the gear
 		isPickingUp = true;
 		hasGear = false;
-		pickupPosition();
+		horizontalArm();
 		pinchGear();
 	}
 	
@@ -74,28 +70,38 @@ public class GearPickup {
 	}
 	
 	public void verticalArm() {
-		//gearPickupArm.set(-.38);
-//		gearPickupArm.setPulseWidthPosition(2500);
-		gearPickupArm.set(.596);
+		gearPickupArm.set(.7);
 		isVertical = true;
 		isHorizontal = false;
 	}
 	
 	public void horizontalArm() {
-//		gearPickupArm.setPulseWidthPosition(4070);
 		gearPickupArm.set(.992);
 		isHorizontal = true;
 		isVertical = false;
 	}
-	
+	public void park() {
+		// Parks to original stored position
+		//need to test for the setPoint value, 
+		//and then put the value in Calibration file
+		gearPickupArm.setSetpoint(.6);
+	}
 	public void releaseGear(){
-		gearPickupFinger.set(-.2);
+		gearPickupFinger.set(-.2);  // start going backwards
+		isReleasing = true;
+		isPickingUp = false;
+		fingersEncLastPosition = Math.abs(fingersEncoder.get());
+	}
+	
+	public void stopFingers() {
+		gearPickupFinger.set(0);
+		isReleasing = false;
 	}
 	
 	public void pinchGear() {
 		fingersStartTime = System.currentTimeMillis();
 		fingersEncLastPosition = Math.abs(fingersEncoder.get());
-		gearPickupFinger.set(0.4);
+		gearPickupFinger.set(0.6);
 	}
 	
 	public boolean isArmInPosition(){
@@ -106,35 +112,40 @@ public class GearPickup {
 		if (isHorizontal){
 			verticalArm();
 		}else{
-			horizontalArm();
+			pickUpGear();
 		}
 	}
 	
 	public void tick(){
-		//SmartDashboard.putNumber("Gear Pickup Position: ", gearPickupArm.getPosition());
-		SmartDashboard.putNumber("Gear Pickup Position: ", gearPickupArm.getPulseWidthPosition() & 0xFFF);
-//		if(isPickingUp){
-//			if(System.currentTimeMillis() > fingersStartTime + 250){
-//				if(Math.abs(fingersEncoder.get()) - fingersEncLastPosition < 50){
-//					hasGear = true;
-//					gearPickupFinger.set(0.1);
-//					verticalArm();
-//					isPickingUp = false;
-//				}else{
-//					fingersStartTime = System.currentTimeMillis();
-//					fingersEncLastPosition = Math.abs(fingersEncoder.get());
-//				}
-//			}
-//		}
-		SmartDashboard.putNumber("Arm P", Calibration.GEAR_PICKUP_ARM_P);
+		SmartDashboard.putNumber("Gear Pickup Position: ", gearPickupArm.getPosition());
+		SmartDashboard.putNumber("Gear Pickup Pulse Width: ", gearPickupArm.getPulseWidthPosition() & 0xFFF);
+		SmartDashboard.putNumber("Finger Position: ", fingersEncoder.get());
+		SmartDashboard.putNumber("Last Finger Position: ", fingersEncLastPosition);
+		
+		if(isPickingUp){
+			if(System.currentTimeMillis() > fingersStartTime + 500){
+				if(Math.abs(fingersEncoder.get()) - fingersEncLastPosition < 50){
+					hasGear = true;
+					gearPickupFinger.set(0.25);
+					verticalArm();
+					isPickingUp = false;
+				}else{
+					fingersStartTime = System.currentTimeMillis();
+					fingersEncLastPosition = Math.abs(fingersEncoder.get());
+				}
+			}
+		}
+		
+		if (isReleasing) {
+			if (Math.abs(fingersEncoder.get()) < (fingersEncLastPosition - 100)) { // run the fingers backwards for 100 ticks to release gear
+				stopFingers();
+			}
+		}
+		gearPickupArm.setP(SmartDashboard.getNumber("Arm P", Calibration.GEAR_PICKUP_ARM_P));
 		SmartDashboard.putNumber("Arm Setpoint", Calibration.GEAR_PICKUP_ARM_SETPOINT);
+		SmartDashboard.putNumber("Arm Error: ", gearPickupArm.getClosedLoopError());
 	}
 	
-	public void park() {
-		// Parks to original stored position
-		//need to test for the setPoint value, 
-		//and then put the value in Calibration file
-		gearPickupArm.setSetpoint(.55);
-	}
+	
 	
 }

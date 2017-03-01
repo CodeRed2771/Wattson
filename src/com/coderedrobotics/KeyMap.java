@@ -41,6 +41,8 @@ public class KeyMap {
     private final HID.Button gearGateButton = LogitechF310.Y;
     private final HID.Button cameraGearPickupButton = LogitechF310.DPAD_DOWN;
     private final HID.Button cameraRegularButton = LogitechF310.DPAD_UP;
+    private final HID.Button gearArmRetractButton = LogitechF310.BACK;
+    private final HID.Button gearRelease = LogitechF310.START;
     
     
 
@@ -104,7 +106,12 @@ public class KeyMap {
     public boolean cameraRegularView(){
     	return getHID(gamepad2).button(cameraRegularButton);
     }
-    
+    public boolean retractGearArm(){
+    	return getHID(gamepad2).button(gearArmRetractButton);
+    }
+    public boolean gearRelease() {
+    	return getHID(gamepad2).button(gearRelease);
+    }
     //NEW STUFF - 2017
 
 //    public boolean getReverseDriveButton() {

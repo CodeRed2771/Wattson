@@ -62,10 +62,12 @@ public class Robot extends IterativeRobot {
 		// driveAuto.resetEncoders();
 		drive.set(0, 0);
 		target.enableVisionTargetMode(false);
+		gearPickup.park();
 		
 		// ballPickup.holdParkPosition(true);  // FOR TESTING ONLY
 	}
 
+	@Override
 	public void teleopPeriodic() {
 
 		// Drive
@@ -98,6 +100,12 @@ public class Robot extends IterativeRobot {
 		
 		if(gamepad.gearArm()) {
 			gearPickup.toggleArm();
+		}
+		if(gamepad.retractGearArm()){
+			gearPickup.park();
+		}
+		if (gamepad.gearRelease()) {
+			gearPickup.releaseGear();
 		}
 		
 		// climber

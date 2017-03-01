@@ -47,7 +47,7 @@ public class Drive {
 				new PIDSourceFilter(new PIDDerivativeCalculator(
 						new PIDSourceFilter((double value) -> leftEncoder.getRaw() - rightEncoder.getRaw()), 10),
 						(double value) -> value / Calibration.ROT_TOP_SPEED),
-				tankDrive.getRotPIDOutput(), true, "rot");
+				tankDrive.getRotPIDOutput(), false, "rot");
 
 		setPIDstate(false);
 		
@@ -101,9 +101,7 @@ public class Drive {
 		
 //		leftPwmSplitter2X.set(left);
 //		rightPwmSplitter2X.set(right);
-//		
-//		return;
-//		
+		
 		if (encoderError = (rightPwmSplitter2X.getPWMControllerA().encoderHasError()
 				|| leftPwmSplitter2X.getPWMControllerA().encoderHasError()) || disablePID) {
 			drivePid.setPID(0, 0, 0, 1);
@@ -115,17 +113,20 @@ public class Drive {
 			drivePid.setPID(SmartDashboard.getNumber("Drive P", Calibration.DRIVE_P),Calibration.DRIVE_I, SmartDashboard.getNumber("Drive D", Calibration.DRIVE_D)); 
 					
 			//drivePid.setPID(Calibration.DRIVE_P, Calibration.DRIVE_I, Calibration.DRIVE_D, 1);
-			rotPid.setPID(Calibration.ROT_P, Calibration.ROT_I, Calibration.ROT_D, 1);
+			rotPid.setPID(Calibration.ROT_P, Calibration.ROT_I, Calibration.ROT_D);
 		}
+		
+		SmartDashboard.putBoolean("Drive Encoder Has Error", encoderError);
 
 		SmartDashboard.putNumber("Drive PID Error", drivePid.getError());
 		
 		double rot = (left - right) / 2;
+				
 
 		drivePid.setSetpoint((left + right) / 2);
 		
 		rotPid.setSetpoint(Math.abs(Math.pow(Math.abs(rot), (1 - Math.abs((left + right) / 2)) * 0.9)) * rot);
-		rotPid.setSetpoint(rot);
+		//rotPid.setSetpoint(rot);
 	}
 
 	public void disablePID() {

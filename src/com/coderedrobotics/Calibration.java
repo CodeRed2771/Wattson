@@ -28,7 +28,7 @@ public class Calibration {
 	public static final double DRIVE_I = 0;
 	public static final double DRIVE_D = 0.6;
 
-	public static final double GEAR_PICKUP_ARM_P = 0;
+	public static final double GEAR_PICKUP_ARM_P = 4;
 	public static final double GEAR_PICKUP_ARM_I = 0;
 	public static final double GEAR_PICKUP_ARM_D = 0;
 	public static final double GEAR_PICKUP_ARM_f = 0;
