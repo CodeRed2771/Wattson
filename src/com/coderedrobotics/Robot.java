@@ -24,6 +24,7 @@ public class Robot extends IterativeRobot {
 	SendableChooser autoChooser;
 	final String autoPegDVV = "Peg DVV";
 	final String autoPegCH = "Peg Caden";
+	final String autoDriveForward = "Drive Forward";
 	final String autoTargetTest = "Target Test";
 	String autoSelected;
 	
@@ -51,8 +52,8 @@ public class Robot extends IterativeRobot {
 		autoChooser = new SendableChooser();
 		autoChooser.addObject(autoPegDVV, autoPegDVV);
 		autoChooser.addObject(autoPegCH, autoPegCH);
+		autoChooser.addObject(autoDriveForward, autoDriveForward);
 		autoChooser.addDefault(autoTargetTest, autoTargetTest);
-
 		SmartDashboard.putData("Auto choices", autoChooser);
 
 		gamepad = new KeyMap();
@@ -133,6 +134,9 @@ public class Robot extends IterativeRobot {
 			break;
 		case autoPegCH:
 			mAutoProgram = new AutoPegCH(driveAuto, 1);
+			break;
+		case autoDriveForward:
+			mAutoProgram = new AutoDriveForward(driveAuto, 1);
 			break;
 		default:
 			Logger.getInstance().log("UNKNOWN AUTO SELECTED");
