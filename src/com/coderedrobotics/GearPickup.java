@@ -123,7 +123,7 @@ public class GearPickup {
 		SmartDashboard.putNumber("Last Finger Position: ", fingersEncLastPosition);
 		
 		if(isPickingUp){
-			if(System.currentTimeMillis() > fingersStartTime + 500){
+			if(System.currentTimeMillis() > fingersStartTime + 750){
 				if(Math.abs(fingersEncoder.get()) - fingersEncLastPosition < 50){
 					hasGear = true;
 					gearPickupFinger.set(0.25);

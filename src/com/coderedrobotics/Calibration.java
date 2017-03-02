@@ -23,7 +23,7 @@ public class Calibration {
 	public static final double FEEDER_F = 0;
 	public static final double FEEDER_SETPOINT = 3000;
 
-	public static final double DRIVE_TOP_SPEED = 13;
+	public static final double DRIVE_TOP_SPEED = 26; //no idea on what the range is
 	public static final double DRIVE_P = 1;
 	public static final double DRIVE_I = 0;
 	public static final double DRIVE_D = 0.6;
