@@ -106,8 +106,6 @@ public class Drive {
 				|| leftPwmSplitter2X.getPWMControllerA().encoderHasError()) || disablePID) {
 			drivePid.setPID(0, 0, 0, 1);
 			rotPid.setPID(0, 0, 0, 1);
-			SmartDashboard.putNumber("Drive PID get P", drivePid.getP());
-			
 		} else {
 
 			drivePid.setPID(SmartDashboard.getNumber("Drive P", Calibration.DRIVE_P),Calibration.DRIVE_I, SmartDashboard.getNumber("Drive D", Calibration.DRIVE_D)); 
@@ -118,10 +116,7 @@ public class Drive {
 		
 		SmartDashboard.putBoolean("Drive Encoder Has Error", encoderError);
 
-		SmartDashboard.putNumber("Drive PID Error", drivePid.getError());
-		
 		double rot = (left - right) / 2;
-				
 
 		drivePid.setSetpoint((left + right) / 2);
 		

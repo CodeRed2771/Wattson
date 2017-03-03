@@ -26,7 +26,7 @@ public class KeyMap {
 
     // CONTROLLER 0
     private final HID.Button shooterIntakeButton = LogitechF310.BUMPER_RIGHT;
-    private final HID.Button flipDriveButton = LogitechF310.A;
+    private final HID.Button flipDriveButton = LogitechF310.BUMPER_LEFT;
     private final HID.Axis driveRightAxis = LogitechF310.STICK_RIGHT_Y;
     private final HID.Axis driveLeftAxis = LogitechF310.STICK_LEFT_Y;
     private final HID.Axis climberAxis = LogitechF310.TRIGGER_LEFT_AXIS;
@@ -78,7 +78,7 @@ public class KeyMap {
     }
     //NEW STUFF - 2017
 
-    public boolean flipDriver(){
+    public boolean flipDrive(){
     	return getHID(gamepad1).buttonToggled(flipDriveButton, flipDriveButtonStateA, flipDriveButtonStateB);
     }
     

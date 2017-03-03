@@ -72,7 +72,12 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 
 		// Drive
-		drive.set(gamepad.getLeftAxis(), gamepad.getRightAxis());
+		if (gamepad.flipDrive()){
+			drive.set(-gamepad.getRightAxis(), -gamepad.getLeftAxis());			
+		} else {
+			drive.set(gamepad.getLeftAxis(), gamepad.getRightAxis());			
+		}
+		
 
 		// Shooter
 		if(gamepad.shooterWheels()){

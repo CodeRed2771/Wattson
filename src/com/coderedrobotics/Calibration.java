@@ -23,7 +23,7 @@ public class Calibration {
 	public static final double FEEDER_F = 0;
 	public static final double FEEDER_SETPOINT = 3000;
 
-	public static final double DRIVE_TOP_SPEED = 26; //no idea on what the range is
+	public static final double DRIVE_TOP_SPEED = 30; //no idea on what the range is
 	public static final double DRIVE_P = 1;
 	public static final double DRIVE_I = 0;
 	public static final double DRIVE_D = 0.6;
@@ -37,7 +37,7 @@ public class Calibration {
 	public static final double DRIVE_DISTANCE_PER_PULSE = .073;
 	public static final double DRIVE_DISTANCE_TICKS_PER_INCH = 12.764;
 
-	public static final double ROT_TOP_SPEED = 10;
+	public static final double ROT_TOP_SPEED = 21;
 	public static final double ROT_P = 1;
 	public static final double ROT_I = 0;
 	public static final double ROT_D = 0;
