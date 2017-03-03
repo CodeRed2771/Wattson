@@ -38,9 +38,9 @@ public class Calibration {
 	public static final double DRIVE_DISTANCE_TICKS_PER_INCH = 12.764;
 
 	public static final double ROT_TOP_SPEED = 21;
-	public static final double ROT_P = 1;
+	public static final double ROT_P = 3;
 	public static final double ROT_I = 0;
-	public static final double ROT_D = 0;
+	public static final double ROT_D = 1;
 
 	public static final double DRIVE_TRAIN_REDUCTION_FACTOR = 0.5;
 	public static final double CLIMBER_POWER = .75;

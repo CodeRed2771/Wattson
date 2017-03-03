@@ -33,9 +33,14 @@ public class KeyMap {
 
     
     // CONTROLLER 1
+    
+    //shooting
     private final HID.Button shooterButton = LogitechF310.BUMPER_RIGHT;
-    private final HID.Button agitatorButton = LogitechF310.B;
+    
+    //sweeping
     private final HID.Button pickupButton = LogitechF310.A;
+    
+    //gear pickup
     private final HID.Button gearArmPickupButton = LogitechF310.BUMPER_LEFT;
     private final HID.Button gearFingersPickupOpenButton = LogitechF310.DPAD_LEFT;
     private final HID.Button gearFingersPickupCloseButton = LogitechF310.DPAD_RIGHT;
@@ -96,9 +101,6 @@ public class KeyMap {
     }
     public boolean gearFingersClosed() {
     	return getHID(gamepad2).button(gearFingersPickupCloseButton);
-    }
-    public boolean agitator(){
-    	return getHID(gamepad2).buttonPressed(agitatorButton, agitatorButtonState);
     }
     public boolean pickup(){
     	return getHID(gamepad2).buttonPressed(pickupButton, pickupButtonState);

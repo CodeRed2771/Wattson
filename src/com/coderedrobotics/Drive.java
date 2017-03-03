@@ -108,9 +108,9 @@ public class Drive {
 			rotPid.setPID(0, 0, 0, 1);
 		} else {
 
-			drivePid.setPID(SmartDashboard.getNumber("Drive P", Calibration.DRIVE_P),Calibration.DRIVE_I, SmartDashboard.getNumber("Drive D", Calibration.DRIVE_D)); 
+			//rotPid.setPID(SmartDashboard.getNumber("Rot P", Calibration.ROT_P),Calibration.ROT_I, SmartDashboard.getNumber("Rot D", Calibration.ROT_D)); 
 					
-			//drivePid.setPID(Calibration.DRIVE_P, Calibration.DRIVE_I, Calibration.DRIVE_D, 1);
+			drivePid.setPID(Calibration.DRIVE_P, Calibration.DRIVE_I, Calibration.DRIVE_D, 1);
 			rotPid.setPID(Calibration.ROT_P, Calibration.ROT_I, Calibration.ROT_D);
 		}
 		
