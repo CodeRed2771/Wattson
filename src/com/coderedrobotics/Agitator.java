@@ -11,13 +11,23 @@ public class Agitator {
 	public boolean agitatorRunning = false;
 	
 	public void start() {
-		agitatorMotor.set(.5);
 		agitatorRunning = true;
 	}
 	
 	public void stop() {
-		agitatorMotor.set(0);
 		agitatorRunning = false;
+	}
+	
+	public void tick() {
+		if (agitatorRunning) {
+			if ((System.currentTimeMillis() % 1000) >= 500) {
+				agitatorMotor.set(0.5);
+			}else{
+				agitatorMotor.set(-0.5);
+			}
+		}else{
+			agitatorMotor.set(0);
+		}
 	}
 
 	public void toggleAgitator() {

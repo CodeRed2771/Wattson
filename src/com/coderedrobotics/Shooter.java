@@ -145,8 +145,9 @@ public class Shooter {
 			if(System.currentTimeMillis()>(feederStartTime+500)){
 				ballFeeder.set(Calibration.FEEDER_SETPOINT);
 			}
-
+			
 		}
+		agitator.tick();
 	}
 
 }

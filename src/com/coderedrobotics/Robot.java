@@ -121,6 +121,7 @@ public class Robot extends IterativeRobot {
 		ballPickup.tick();
 		target.gearPickupView();
 		gearPickup.tick();
+		
 	}
 
 	public void autonomousInit() {
