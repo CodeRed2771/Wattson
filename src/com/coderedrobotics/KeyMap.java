@@ -26,6 +26,7 @@ public class KeyMap {
 
     // CONTROLLER 0
     private final HID.Button shooterIntakeButton = LogitechF310.BUMPER_RIGHT;
+    private final HID.Button flipDriveButton = LogitechF310.A;
     private final HID.Axis driveRightAxis = LogitechF310.STICK_RIGHT_Y;
     private final HID.Axis driveLeftAxis = LogitechF310.STICK_LEFT_Y;
     private final HID.Axis climberAxis = LogitechF310.TRIGGER_LEFT_AXIS;
@@ -48,6 +49,8 @@ public class KeyMap {
 
     // BUTTON STATES
     private final HID.ButtonState shooterButtonState = HID.newButtonState();
+    private final HID.ButtonState flipDriveButtonStateA = HID.newButtonState();
+    private final HID.ButtonState flipDriveButtonStateB = HID.newButtonState();
     private final HID.ButtonState agitatorButtonState = HID.newButtonState();
     private final HID.ButtonState pickupButtonState = HID.newButtonState();
     private final HID.ButtonState gearArmPickupButtonState = HID.newButtonState();
@@ -75,6 +78,9 @@ public class KeyMap {
     }
     //NEW STUFF - 2017
 
+    public boolean flipDriver(){
+    	return getHID(gamepad1).buttonToggled(flipDriveButton, flipDriveButtonStateA, flipDriveButtonStateB);
+    }
     
     public boolean shooterWheels(){
     	return getHID(gamepad2).buttonPressed(shooterButton, shooterButtonState);
