@@ -1,172 +1,173 @@
 package com.coderedrobotics;
 
-import com.coderedrobotics.libs.Logger;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 import com.coderedrobotics.libs.PIDControllerAIAO;
 import com.coderedrobotics.libs.PIDSourceFilter;
-import com.coderedrobotics.libs.PWMController;
-import com.coderedrobotics.libs.PWMSplitter2X;
-import com.coderedrobotics.libs.TankDrive;
 
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.PIDInterface;
-import edu.wpi.first.wpilibj.PIDOutput;
-import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveAuto {
 
-	private PIDHolder leftPIDHolder;
-	private PIDHolder rightPIDHolder;
-
-    private PIDControllerAIAO leftDrivePID;
-    private PIDControllerAIAO rightDrivePID;
+	public PIDControllerAIAO drivePID;
+    public PIDControllerAIAO rotDrivePID;
     private Drive mainDrive;
-    
-    private boolean drivingStraight = true;
-        
-    public DriveAuto(Drive mainDrive) {
-     	this.mainDrive = mainDrive;
-     	leftPIDHolder = new PIDHolder();
-     	rightPIDHolder = new PIDHolder();
-     	
-     	// was P = .003
-        leftDrivePID = new PIDControllerAIAO(.01, 0, 0, new PIDSourceFilter((double value) -> -mainDrive.getLeftEncoderObject().get()), leftPIDHolder,  false, "autoleft");
-        rightDrivePID = new PIDControllerAIAO(.01, 0, 0, new PIDSourceFilter((double value) -> -mainDrive.getRightEncoderObject().get()), rightPIDHolder, false, "autoright");
- 
-        leftDrivePID.setAbsoluteTolerance(.5); // half inch
-        rightDrivePID.setAbsoluteTolerance(.5);
-        leftDrivePID.setToleranceBuffer(10); // ten readings
-        rightDrivePID.setToleranceBuffer(10);
-        leftDrivePID.setSetpoint(0);
-        leftDrivePID.reset();
-        rightDrivePID.setSetpoint(0);
-        rightDrivePID.reset();
-        
-    }
-   
-    public void driveInches(double d, double maxPower) {
-    	rightDrivePID.setOutputRange(-maxPower, maxPower);
-    	leftDrivePID.setOutputRange(-maxPower, maxPower);
-    	
-    	resetEncoders();
-    	drivingStraight = true;
+    private AnalogGyro gyro;
+    private double minDriveStartPower = .1;
 
-    	rightDrivePID.setSetpoint(-mainDrive.getRightEncoderObject().get() + convertToTicks(d));
-    	leftDrivePID.setSetpoint(-mainDrive.getLeftEncoderObject().get() + convertToTicks(d));
-    	
-    	rightDrivePID.enable();
-    	leftDrivePID.enable();
-    }
-    
-    
-    public void turnDegrees(double d, double maxPower) {
-    	
-    	double inchesToTravel = d/6;
-  	
-    	rightDrivePID.setOutputRange(-maxPower, maxPower);
-    	leftDrivePID.setOutputRange(-maxPower, maxPower);
+    private double maxPowerAllowed = 1;
+    private double curPowerSetting = 1;
+        
+    public DriveAuto(Drive mainDrive, AnalogGyro gyro) {
+        this.mainDrive = mainDrive;
+        this.gyro = gyro;
 
-    	resetEncoders();
-       	drivingStraight = false;
-            	
-   		leftDrivePID.setSetpoint(-mainDrive.getLeftEncoderObject().get() + convertToTicks(inchesToTravel));	
-		rightDrivePID.setSetpoint(-mainDrive.getRightEncoderObject().get() + convertToTicks(-inchesToTravel));
-      	
-    	leftDrivePID.enable();
-    	rightDrivePID.enable();
+//        drivePID = new PIDControllerAIAO(
+//        		0, 0, 0, new PIDSourceFilter((double value) -> -(mainDrive.getRightEncoderObject().get())), speed -> mainDrive.autoSetDrive(speed), false, "autodrive");
+        drivePID = new PIDControllerAIAO(
+        		0, 0, 0, new PIDSourceFilter((double value) -> -(mainDrive.getLeftEncoderObject().get() + mainDrive.getRightEncoderObject().get())/2), speed -> mainDrive.autoSetDrive(speed), false, "autodrive");
+        rotDrivePID = new PIDControllerAIAO(Calibration.AUTO_GYRO_P, Calibration.AUTO_GYRO_I, Calibration.AUTO_GYRO_D, gyro, rot -> mainDrive.autoSetRot(rot), false, "autorot (gyro)");
+
+        drivePID.setAbsoluteTolerance(Calibration.DRIVE_DISTANCE_TICKS_PER_INCH);  // 1" tolerance
+        rotDrivePID.setAbsoluteTolerance(1.5);  // degrees off 
+        
+        rotDrivePID.setToleranceBuffer(3);        
+        drivePID.setToleranceBuffer(3); 
+        
+        drivePID.setSetpoint(0);
+        drivePID.reset();        
+    }
+
+    public void driveInches(double inches, double maxPower, double startPowerLevel) {
+        maxPowerAllowed = maxPower;
+        curPowerSetting = startPowerLevel;  // the minimum power required to start moving.  (Untested)
+
+        SmartDashboard.putNumber("DRIVE INCHES", inches);
+        
+        setPowerOutput(curPowerSetting);
+
+        drivePID.setSetpoint(drivePID.getSetpoint() + convertToTicks(inches));
     }
     
-    private double encoderAdjust() {
-    	if (drivingStraight) 
-    		// (2016) return (mainDrive.getRightEncoderObject().get() - mainDrive.getLeftEncoderObject().get()) * .01;
-    		return 0;
-    	else
-    		return 0;
+    public void driveInches(double inches, double maxPower) {
+    	driveInches(inches, maxPower, minDriveStartPower);
     }
-    
-    private void outputToDriveTrain() {
-    	// this is called from the PIDWrites to send the new output values to the main drive object
-    	mainDrive.set(leftPIDHolder.PIDvalue, rightPIDHolder.PIDvalue + encoderAdjust());
-    }
-    
-    public void stop() {
-    	leftDrivePID.disable();
-    	rightDrivePID.disable();
-    	leftDrivePID.setSetpoint(0); // added 3/18/16 DVV
-    	rightDrivePID.setSetpoint(0); // added 3/18/16 DVV
-    }
-    
-    public boolean hasArrived() {
-    	return leftDrivePID.onTarget() && rightDrivePID.onTarget();
-    }
-    
-    public void resetEncoders() {
+
+    public void reset() {
+    	drivePID.reset();
+    	drivePID.setSetpoint(0);
+    	rotDrivePID.reset();
+    	rotDrivePID.setSetpoint(0);
+    	gyro.reset();
     	mainDrive.getLeftEncoderObject().reset();
     	mainDrive.getRightEncoderObject().reset();
+    	drivePID.enable();
+    	rotDrivePID.enable();
     }
     
-    public void setPIDstate(boolean isEnabled) {
-    	if (isEnabled) {
-    		leftDrivePID.enable();
-    		rightDrivePID.enable();
-    	} else
-    	{
-    		leftDrivePID.disable();
-    		rightDrivePID.disable();
-    	}
-    }
-      
-    private int convertToTicks(int inches) {
-    	return (int)(inches * Calibration.DRIVE_DISTANCE_TICKS_PER_INCH);
-    }
-    private int convertToTicks(double inches) {
-    	return (int)(inches * Calibration.DRIVE_DISTANCE_TICKS_PER_INCH);
-    }
-   
-	private class PIDHolder implements PIDOutput {
-		public double PIDvalue = 0;
-		
-		@Override
-		public void pidWrite(double output) {
-			PIDvalue = output;
-			outputToDriveTrain();
-		}
-	}
-	   
-    public void showEncoderValues() {
-    	//SmartDashboard.putNumber("Left Drive Encoder Distance: ", leftEncoder.getDistance());
-    	//SmartDashboard.putNumber("Right Drive Encoder Distance: ", rightEncoder.getDistance());
-    	//SmartDashboard.putNumber("Right PID error", rightDrivePID.getError());
-     	SmartDashboard.putNumber("Left Drive PID Avg Error: ", leftDrivePID.getAvgError());
-      	SmartDashboard.putNumber("Right Drive PID Avg Error: ", rightDrivePID.getAvgError());
+    public void turnDegrees(double degrees, double maxPower) {
+    	// Turns using the Gyro, relative to the current position
+    	// Use "turnCompleted" method to determine when the turn is done
 
-      	SmartDashboard.putNumber("Left Drive Encoder Get: ", mainDrive.getLeftEncoderObject().get());
-     	SmartDashboard.putNumber("Right Drive Encoder Get: ", mainDrive.getRightEncoderObject().get());
-     	
-//     	SmartDashboard.putNumber("Left Drive Distance: ", leftEncoder.getDistance());
-//     	SmartDashboard.putNumber("Right Drive Distance: ", rightEncoder.getDistance());
-      	
-     	SmartDashboard.putNumber("Left Setpoint: ", leftDrivePID.getSetpoint());
-      	SmartDashboard.putNumber("Right Setpoint: ", rightDrivePID.getSetpoint());
-      	
-     	SmartDashboard.putBoolean("Left On Target", leftDrivePID.onTarget());
-      SmartDashboard.putBoolean("Right On Target", rightDrivePID.onTarget());
-      	
-     	//SmartDashboard.putNumber("Right Drive Encoder Raw: ", rightEncoder.getRaw());
-       	   	
-      	//SmartDashboard.putNumber("Right Setpoint: ", rightDrivePID.getSetpoint());
-    }
-    public void showPIDValues(){
-    	//This will show the PID values of the driveAuto (so they can be used within other objects)
-    	SmartDashboard.putNumber("P (DriveAuto): ", leftDrivePID.getP());
-    	SmartDashboard.putNumber("I (DriveAuto): ", leftDrivePID.getI());
-    	SmartDashboard.putNumber("D (DriveAuto): ", leftDrivePID.getD());
+    	SmartDashboard.putNumber("TURN DEGREES CALL", degrees);
     	
+    	maxPowerAllowed = maxPower;
+       	curPowerSetting = .18;
+            	
+        rotDrivePID.setSetpoint(rotDrivePID.getSetpoint() + degrees);
+        
+        setPowerOutput(curPowerSetting);
     }
-    public void updatePIDValues(){
-    	//Changes the PID values to the values in SmartDashboard
-    	leftDrivePID.setPID(SmartDashboard.getNumber("P (DriveAuto): ",0), SmartDashboard.getNumber("I (DriveAuto): ",0), SmartDashboard.getNumber("D (DriveAuto): ",0));
-    	rightDrivePID.setPID(SmartDashboard.getNumber("P (DriveAuto): ",0),SmartDashboard.getNumber("I (DriveAuto): ",0),SmartDashboard.getNumber("D (DriveAuto): ",0));
+
+    public void tick() {
+    	// this is called roughly 50 times per second
+    	
+    	// check for ramping up
+        if (curPowerSetting < maxPowerAllowed) {  // then increase power a notch 
+            curPowerSetting += .02; // was .007 evening of 4/5 // to figure out how fast this would be, multiply by 50 to see how much it would increase in 1 second.
+            if (curPowerSetting > maxPowerAllowed) {
+            	curPowerSetting = maxPowerAllowed;
+            }
+        }
+        // now check if we're ramping down
+        if (curPowerSetting > maxPowerAllowed) {
+        	curPowerSetting -= .03; 
+        	if (curPowerSetting < 0) {
+        		curPowerSetting = 0;
+        	}
+        }
+        setPowerOutput(curPowerSetting);
+        
+        SmartDashboard.putNumber("CurPower", curPowerSetting);
+
     }
-   
+
+    private void setPowerOutput(double powerLevel) {
+        drivePID.setOutputRange(-powerLevel, powerLevel);
+        rotDrivePID.setOutputRange(-powerLevel, powerLevel);
+    }
+
+    public void setMaxPowerOutput(double maxPower) {
+        maxPowerAllowed = maxPower;
+        // "tick" will take care of implementing this power level
+    }
+
+    public double getDistanceTravelled() {
+        return Math.abs(convertTicksToInches(mainDrive.getRightEncoderObject().get()));
+    }
+
+    public boolean hasArrived() {
+        return drivePID.onTarget() && rotDrivePID.onTarget();
+    }
+
+    public boolean turnCompleted() {
+        return hasArrived();
+    }
+
+    public void setPIDstate(boolean isEnabled) {
+        if (isEnabled) {
+            drivePID.enable();
+            rotDrivePID.enable();
+        } else {
+            drivePID.disable();
+            rotDrivePID.disable();
+        }
+    }
+
+    private int convertToTicks(double inches) {
+        return (int) (inches * Calibration.DRIVE_DISTANCE_TICKS_PER_INCH);
+    }
+
+    private double convertTicksToInches(int ticks) {
+        return ticks / Calibration.DRIVE_DISTANCE_TICKS_PER_INCH;
+    }
+
+    public void showEncoderValues() {
+        SmartDashboard.putNumber("Drive PID Setpoint: ", drivePID.getSetpoint());
+        SmartDashboard.putNumber("Drive PID Get: ", drivePID.get());
+        SmartDashboard.putNumber("Drive PID Error: ", drivePID.getError());
+        SmartDashboard.putBoolean("Drive On Target", drivePID.onTarget());
+        
+        SmartDashboard.putNumber("Gyro", round2(gyro.getAngle()));
+        SmartDashboard.putNumber("Gyro PID Setpoint", rotDrivePID.getSetpoint());
+        SmartDashboard.putNumber("Gyro PID error", round2(rotDrivePID.getError()));
+
+        SmartDashboard.putNumber("Left Drive Encoder Raw: ", -mainDrive.getLeftEncoderObject().get());
+        SmartDashboard.putNumber("Right Drive Encoder Raw: ", -mainDrive.getRightEncoderObject().get());
+       
+        //		SmartDashboard.putNumber("Right PID error", rightDrivePID.getError());
+        //   	SmartDashboard.putNumber("Left Drive Encoder Get: ", mainDrive.getLeftEncoderObject().get());
+        //  	SmartDashboard.putNumber("Right Drive Encoder Get: ", mainDrive.getRightEncoderObject().get());
+        //     	SmartDashboard.putNumber("Left Drive Distance: ", leftEncoder.getDistance());
+        //     	SmartDashboard.putNumber("Right Drive Distance: ", rightEncoder.getDistance());
+         //		SmartDashboard.putNumber("Right Drive Encoder Raw: ", rightEncoder.getRaw());
+        //		SmartDashboard.putNumber("Right Setpoint: ", rightDrivePID.getSetpoint());
+
+    }
+    
+    private Double round2(Double val) { 
+    	return new BigDecimal(val.toString()).setScale(2,RoundingMode.HALF_UP).doubleValue(); 
+    	}
 }

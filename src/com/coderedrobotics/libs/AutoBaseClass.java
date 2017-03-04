@@ -17,8 +17,8 @@ public abstract class AutoBaseClass {
 		mRobotPosition = robotPosition;
 		mCurrentStep = 0;
 		mAutoTimer = new Timer();
-		mDriveAuto.stop();
-		mDriveAuto.resetEncoders();
+//		mDriveAuto.stop();
+//		mDriveAuto.resetEncoders();
 
 	}
 
@@ -31,13 +31,13 @@ public abstract class AutoBaseClass {
 
 	public void start() {
 		mAutoTimer.setStage(0);
-		mDriveAuto.resetEncoders();
+//		mDriveAuto.resetEncoders();
 		mIsRunning = true;
 	}
 
 	public void stop() {
 		mIsRunning = false;
-		mDriveAuto.stop();
+//		mDriveAuto.stop();
 	}
 
 	public boolean isRunning() {

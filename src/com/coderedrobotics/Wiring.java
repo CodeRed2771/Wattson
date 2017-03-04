@@ -39,7 +39,8 @@ public class Wiring {
 
 	// ANALOG INPUT
 	//public static final int GEAR_IR_SENSOR = 0;  // not used yet
-
+	public static final int GYRO_PORT = 0;
+	
 	// Relays
 	public static final int LIGHT_RING_RELAY = 0;
 	

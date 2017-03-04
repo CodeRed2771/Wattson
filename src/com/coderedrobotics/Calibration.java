@@ -34,6 +34,10 @@ public class Calibration {
 	public static final double GEAR_PICKUP_ARM_f = 0;
 	public static final double GEAR_PICKUP_ARM_SETPOINT = 0;
 
+    public static final double AUTO_GYRO_P = .022; 
+    public static final double AUTO_GYRO_I = 0; 
+    public static final double AUTO_GYRO_D = 0.067; 
+
 	public static final double DRIVE_DISTANCE_PER_PULSE = .073;
 	public static final double DRIVE_DISTANCE_TICKS_PER_INCH = 12.764;
 

@@ -7,7 +7,10 @@ package com.coderedrobotics;
  */
 import com.coderedrobotics.libs.AutoBaseClass;
 import com.coderedrobotics.libs.Logger;
+
+import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -20,6 +23,7 @@ public class Robot extends IterativeRobot {
 	Climber climber;
 	BallPickup ballPickup;
 	GearPickup gearPickup;
+	AnalogGyro gyro;
 
 	SendableChooser autoChooser;
 	final String autoPegDVV = "Peg DVV";
@@ -32,10 +36,12 @@ public class Robot extends IterativeRobot {
 	AutoBaseClass mAutoProgram;
 	
 	public void robotInit() {
+		gyro = new AnalogGyro(Wiring.GYRO_PORT);
+		gyro.initGyro();
+		
 		target = new Target();
 		drive = new Drive();
-//		driveAuto = new DriveAuto(drive);
-//		driveAuto.stop();
+		driveAuto = new DriveAuto(drive, gyro);
 //		driveAuto.resetEncoders();
 		drive.set(0, 0);
 		drive.setPIDstate(true);
@@ -46,7 +52,7 @@ public class Robot extends IterativeRobot {
 		climber = new Climber();
 		ballPickup = new BallPickup();
 		gearPickup = new GearPickup();
-		
+				
 //		driveAuto.showPIDValues();
 		//drive.disablePID();
 
@@ -59,6 +65,8 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Auto choices", autoChooser);
 
 		gamepad = new KeyMap();
+		
+		gyro.calibrate();
 	}
 
 	public void teleopInit() {
@@ -128,7 +136,9 @@ public class Robot extends IterativeRobot {
 	public void autonomousInit() {
 		drive.set(0, 0);
 		drive.setPIDstate(true);
-
+		
+		driveAuto.reset();
+		
 		autoSelected = (String) autoChooser.getSelected();
 		SmartDashboard.putString("Auto selected: ", autoSelected);
 
@@ -160,10 +170,9 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void autonomousPeriodic() {
-		
-
 		mAutoProgram.tick();
-
+		driveAuto.tick();
+		driveAuto.showEncoderValues();
 	}
 
 	@Override
