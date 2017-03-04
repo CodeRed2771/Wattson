@@ -25,7 +25,9 @@ public abstract class AutoBaseClass {
 
 	}
 
-	public abstract void tick();
+	public void tick() {
+		mAutoTimer.tick();
+	}
 
 	public void start() {
 		mAutoTimer.setStage(0);

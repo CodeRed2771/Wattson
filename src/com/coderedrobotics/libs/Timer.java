@@ -15,36 +15,39 @@ public class Timer {
 
     private int stage;
     private long endTime;
-
+    private boolean timerRunning = false;
+    
     public Timer() {
 
     }
 
-    public void resetTimer(long time) {
-    	setTimer(time);
-    }
+//    public void resetTimer(long time) {
+//    	setTimer(time);
+//    }
 
     public void setTimer(long time) {
     	endTime = System.currentTimeMillis() + time;
+    	timerRunning = true;
     }
     
     public void setTimerAndAdvanceStage(long time) {
-    	resetTimer(time);
+    	setTimer(time);
     	nextStage();
     }
     
     public void stopTimerAndAdvanceStage() {
-    	resetTimer(1000000); // push the target time way into the future so it never reaches the target time
+    	setTimer(1000000); // push the target time way into the future so it never reaches the target time
     	nextStage();
     }
     
-    public void advanceWhenReady() {
-        if (ready()) {
+    public void advanceWhenTimerExpired() {
+        if (timeExpired() && timerRunning) {
             stage++;
+            timerRunning = false;
         }
     }
     
-    public boolean ready() {
+    public boolean timeExpired() {
         return endTime < System.currentTimeMillis();
     }
 
@@ -66,5 +69,9 @@ public class Timer {
     
     public double getTimeRemainingSeconds() {
     	return (endTime - System.currentTimeMillis())/1000;
+    }
+    
+    public void tick() {
+    	advanceWhenTimerExpired();
     }
 }
