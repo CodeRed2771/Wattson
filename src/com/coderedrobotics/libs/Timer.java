@@ -1,5 +1,7 @@
 package com.coderedrobotics.libs;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 /**
  *
  * @author Michael
@@ -20,10 +22,6 @@ public class Timer {
     public Timer() {
 
     }
-
-//    public void resetTimer(long time) {
-//    	setTimer(time);
-//    }
 
     public void setTimer(long time) {
     	endTime = System.currentTimeMillis() + time;
@@ -73,5 +71,8 @@ public class Timer {
     
     public void tick() {
     	advanceWhenTimerExpired();
+    	SmartDashboard.putNumber("Timer Stage", stage);
+    	SmartDashboard.putBoolean("Timer Is Running", timerRunning);
+    	SmartDashboard.putNumber("Timer Remaining MS",  getTimeRemainingSeconds());
     }
 }
