@@ -25,6 +25,7 @@ public class Robot extends IterativeRobot {
 	final String autoPegDVV = "Peg DVV";
 	final String autoPegCH = "Peg Caden";
 	final String autoDriveForward = "Drive Forward";
+	final String autoTurn = "Turn 180";
 	final String autoTargetTest = "Target Test";
 	String autoSelected;
 	
@@ -53,6 +54,7 @@ public class Robot extends IterativeRobot {
 		autoChooser.addObject(autoPegDVV, autoPegDVV);
 		autoChooser.addObject(autoPegCH, autoPegCH);
 		autoChooser.addObject(autoDriveForward, autoDriveForward);
+		autoChooser.addObject(autoTurn, autoTurn);
 		autoChooser.addDefault(autoTargetTest, autoTargetTest);
 		SmartDashboard.putData("Auto choices", autoChooser);
 
@@ -78,7 +80,6 @@ public class Robot extends IterativeRobot {
 			drive.set(gamepad.getLeftAxis(), gamepad.getRightAxis());			
 		}
 		
-
 		// Shooter
 		if(gamepad.shooterWheels()){
 			shooter.toggleShooter();
@@ -104,6 +105,7 @@ public class Robot extends IterativeRobot {
 			target.regularView();
 		}
 		
+		// Gear
 		if(gamepad.gearArm()) {
 			gearPickup.toggleArm();
 		}
@@ -119,7 +121,6 @@ public class Robot extends IterativeRobot {
 
 		shooter.tick();
 		ballPickup.tick();
-		target.gearPickupView();
 		gearPickup.tick();
 		
 	}
@@ -143,6 +144,9 @@ public class Robot extends IterativeRobot {
 			break;
 		case autoDriveForward:
 			mAutoProgram = new AutoDriveForward(driveAuto, 1);
+			break;
+		case autoTurn:
+			mAutoProgram = new AutoTurn(driveAuto, 1);
 			break;
 		default:
 			Logger.getInstance().log("UNKNOWN AUTO SELECTED");

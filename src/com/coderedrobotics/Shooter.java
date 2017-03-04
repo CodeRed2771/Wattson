@@ -21,7 +21,7 @@ public class Shooter {
 
 	public Shooter(Target target) {
 		this.target = target;
-		
+
 		shooter = new CANTalon(Wiring.SHOOTER_MOTOR_LEADER);
 		shooter.setPID(Calibration.SHOOTER_P, Calibration.SHOOTER_I, Calibration.SHOOTER_D);
 		shooter.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
@@ -31,7 +31,7 @@ public class Shooter {
 		shooter.setProfile(0);
 		shooter.setPID(Calibration.SHOOTER_P, Calibration.SHOOTER_I, Calibration.SHOOTER_D);
 		shooter.changeControlMode(TalonControlMode.Speed);
-		
+
 		shooter.setF(Calibration.SHOOTER_F);
 
 		shooterFollower = new CANTalon(Wiring.SHOOTER_MOTOR_FOLLOWER);
@@ -42,7 +42,7 @@ public class Shooter {
 		ballFeeder.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 		ballFeeder.configPeakOutputVoltage(12, -12);
 		ballFeeder.configNominalOutputVoltage(0.0f, 0.0f);
-		
+
 		ballFeeder.setProfile(0);
 		ballFeeder.setPID(Calibration.FEEDER_P, Calibration.FEEDER_I, Calibration.FEEDER_D);
 		ballFeeder.setF(Calibration.FEEDER_F);
@@ -50,7 +50,7 @@ public class Shooter {
 		ballFeeder.changeControlMode(TalonControlMode.Speed);
 
 		agitator = new Agitator();
-		
+
 		SmartDashboard.putNumber("Shooter Setpoint", Calibration.SHOOTER_SETPOINT);
 		SmartDashboard.putNumber("Shooter P", Calibration.SHOOTER_P);
 		SmartDashboard.putNumber("Shooter I", Calibration.SHOOTER_I);
@@ -73,7 +73,7 @@ public class Shooter {
 
 	public boolean isSpunUp() {
 		return Math.abs(shooter.getClosedLoopError()) < 5000;
-		
+
 	}
 
 	public void stopShooter() {
@@ -84,7 +84,7 @@ public class Shooter {
 	}
 
 	public void feedShooter() {
-		if (!isFeeding && isShooting) { //add spun up code
+		if (!isFeeding && isShooting) { // add spun up code
 			ballFeeder.set(-Calibration.FEEDER_SETPOINT);
 			feederStartTime = System.currentTimeMillis();
 			agitator.start();
@@ -109,27 +109,29 @@ public class Shooter {
 	public void tick() {
 		SmartDashboard.putBoolean("SHOOTER SPUN UP", isSpunUp());
 		SmartDashboard.putBoolean("iShooting", isShooting);
-		SmartDashboard.putNumber("Shooter 1",shooter.getSetpoint());
+		SmartDashboard.putNumber("Shooter 1", shooter.getSetpoint());
 		SmartDashboard.putNumber("Shooter 2", shooterFollower.getSetpoint());
-		
-		
+
 		if (isShooting) {
 			shooter.set(SmartDashboard.getNumber("Shooter Setpoint", Calibration.SHOOTER_SETPOINT));
 		}
-			
-			shooter.setP(SmartDashboard.getNumber("Shooter P", Calibration.SHOOTER_P));
-			shooter.setI(SmartDashboard.getNumber("Shooter I", Calibration.SHOOTER_I));
-			shooter.setD(SmartDashboard.getNumber("Shooter D", Calibration.SHOOTER_D));
-			shooter.setF(SmartDashboard.getNumber("Shooter F", Calibration.SHOOTER_F));
 
-			SmartDashboard.putNumber("Shooter Error", shooter.getError());
-			SmartDashboard.putNumber("Shooter Closed Loop Error", shooter.getClosedLoopError());
-			SmartDashboard.putNumber("Shooter Get", shooter.get());
-			SmartDashboard.putNumber("Shooter output voltage", shooter.getOutputVoltage());
-			SmartDashboard.putNumber("Velocity", shooter.getEncVelocity());
+		shooter.setP(SmartDashboard.getNumber("Shooter P", Calibration.SHOOTER_P));
+		shooter.setI(SmartDashboard.getNumber("Shooter I", Calibration.SHOOTER_I));
+		shooter.setD(SmartDashboard.getNumber("Shooter D", Calibration.SHOOTER_D));
+		shooter.setF(SmartDashboard.getNumber("Shooter F", Calibration.SHOOTER_F));
+		
+		SmartDashboard.putNumber("Ballfeeder Voltage", ballFeeder.getOutputVoltage());
+
+		SmartDashboard.putNumber("Shooter Error", shooter.getError());
+		SmartDashboard.putNumber("Shooter Closed Loop Error", shooter.getClosedLoopError());
+		SmartDashboard.putNumber("Shooter Get", shooter.get());
+		SmartDashboard.putNumber("Shooter output voltage", shooter.getOutputVoltage());
+		SmartDashboard.putNumber("Velocity", shooter.getEncVelocity());
 
 		if (isFeeding) {
-			//ballFeeder.setSetpoint(SmartDashboard.getNumber("Ball Feeder Setpoint", Calibration.FEEDER_SETPOINT));
+			// ballFeeder.setSetpoint(SmartDashboard.getNumber("Ball Feeder
+			// Setpoint", Calibration.FEEDER_SETPOINT));
 			ballFeeder.setP(SmartDashboard.getNumber("Ball Feeder P", Calibration.FEEDER_P));
 			ballFeeder.setI(SmartDashboard.getNumber("Ball Feeder I", Calibration.FEEDER_I));
 			ballFeeder.setD(SmartDashboard.getNumber("Ball Feeder D", Calibration.FEEDER_D));
@@ -137,15 +139,15 @@ public class Shooter {
 
 			SmartDashboard.putNumber("Ball Feeder Error", ballFeeder.getClosedLoopError());
 			SmartDashboard.putNumber("Ball Feeder Get", ballFeeder.get());
-			
+
 			SmartDashboard.putNumber("System Millis: ", System.currentTimeMillis());
 			SmartDashboard.putNumber("feederStartTime: ", feederStartTime);
 			SmartDashboard.putNumber("Setpoint: ", ballFeeder.getSetpoint());
-			
-			if(System.currentTimeMillis()>(feederStartTime+750)){
+
+			if (System.currentTimeMillis() > (feederStartTime + 750)) {
 				ballFeeder.set(Calibration.FEEDER_SETPOINT);
 			}
-			
+
 		}
 		agitator.tick();
 	}

@@ -10,10 +10,14 @@ public class AutoDriveForward extends AutoBaseClass {
 
 	public void tick() {
 		if (isRunning()) {
+	
+			this.driveAuto().showEncoderValues();
+			
+
 			switch (getCurrentStep()) {
 			case 0:
 				setTimerAndAdvanceStage(5000);
-				driveInches(33, .5);
+				driveInches(40, .6);
 				break;
 			case 1:
 				if (driveAuto().hasArrived())

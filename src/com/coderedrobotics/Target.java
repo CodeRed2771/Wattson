@@ -30,8 +30,8 @@ public class Target {
 	double gearY = 0.0;
 
 	// variables used to set the image resolution
-	int resolutionX = 640;
-	int resolutionY = 480;
+	int resolutionX = 320;
+	int resolutionY = 240;
 	
 	UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
 
@@ -119,8 +119,10 @@ public class Target {
 
 	public double distanceFromGearTarget() {
 		//k(constant) = d (distance) * h (average pixel height)
-		//3300 is the constant
-		return 3300 / ((height1+height2)/2);
+		//3300 is the constant for 640x480
+		//1650 is the constant for 320x240
+		
+		return 1650 / ((height1+height2)/2);
 	}
 	
 	public void setTargetingExposure(boolean darkFlag) {

@@ -123,10 +123,10 @@ public class GearPickup {
 		SmartDashboard.putNumber("Last Finger Position: ", fingersEncLastPosition);
 		
 		if(isPickingUp){
-			if(System.currentTimeMillis() > fingersStartTime + 750){
-				if(Math.abs(fingersEncoder.get()) - fingersEncLastPosition < 50){
+			if(System.currentTimeMillis() > fingersStartTime + 300) {
+				if(Math.abs(fingersEncoder.get()) - fingersEncLastPosition < 25){
 					hasGear = true;
-					gearPickupFinger.set(0.25);
+					gearPickupFinger.set(0.40);
 					verticalArm();
 					isPickingUp = false;
 				}else{
@@ -134,10 +134,10 @@ public class GearPickup {
 					fingersEncLastPosition = Math.abs(fingersEncoder.get());
 				}
 			}
-		}
+		}	
 		
 		if (isReleasing) {
-			if (Math.abs(fingersEncoder.get()) < (fingersEncLastPosition - 100)) { // run the fingers backwards for 100 ticks to release gear
+			if (Math.abs(fingersEncoder.get()) < (fingersEncLastPosition - 25)) { // run the fingers backwards for 100 ticks to release gear
 				stopFingers();
 			}
 		}
