@@ -7,7 +7,8 @@ public class Wiring {
 	public static final int GEAR_PICKUP_FINGERS = 1;
 
 	public static final int CAMERA_SERVO = 3;
-	public static final int AGITATOR_MOTOR = 4;
+	public static final int AGITATOR_TOP_MOTORS = 4;
+	public static final int AGITATOR_BOTTOM_MOTORS = 5;
 	
 	public static final int RIGHT_DRIVE_MOTOR1 = 6;
 	public static final int RIGHT_DRIVE_MOTOR2 = 7;

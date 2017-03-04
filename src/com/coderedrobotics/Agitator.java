@@ -6,7 +6,8 @@ import edu.wpi.first.wpilibj.VictorSP;
 // used only by Shooter class
 
 public class Agitator {
-	VictorSP agitatorMotor = new VictorSP(Wiring.AGITATOR_MOTOR);
+	VictorSP agitatorTopMotors = new VictorSP(Wiring.AGITATOR_TOP_MOTORS);
+	VictorSP agitatorBottomMotors = new VictorSP(Wiring.AGITATOR_BOTTOM_MOTORS);
 	
 	public boolean agitatorRunning = false;
 	
@@ -21,12 +22,14 @@ public class Agitator {
 	public void tick() {
 		if (agitatorRunning) {
 			if ((System.currentTimeMillis() % 1000) >= 500) {
-				agitatorMotor.set(0.5);
+				agitatorTopMotors.set(0.5);
 			}else{
-				agitatorMotor.set(-0.5);
+				agitatorTopMotors.set(-0.5);
 			}
+			agitatorBottomMotors.set(0.5);
 		}else{
-			agitatorMotor.set(0);
+			agitatorTopMotors.set(0);
+			agitatorBottomMotors.set(0);
 		}
 	}
 
