@@ -37,7 +37,17 @@ public class DriveAuto {
         drivePID.setToleranceBuffer(3); 
         
         drivePID.setSetpoint(0);
-        drivePID.reset();        
+        drivePID.reset();    
+        
+        SmartDashboard.putNumber("ROT P",Calibration.AUTO_GYRO_P);
+        SmartDashboard.putNumber("ROT I", Calibration.AUTO_GYRO_I);
+        SmartDashboard.putNumber("ROT D", Calibration.AUTO_GYRO_D);
+        SmartDashboard.putNumber("AUTO DRIVE P", Calibration.AUTO_DRIVE_P);
+        SmartDashboard.putNumber("AUTO DRIVE I", Calibration.AUTO_DRIVE_I);
+        SmartDashboard.putNumber("AUTO DRIVE D", Calibration.AUTO_DRIVE_D);
+        
+        SmartDashboard.putNumber("AUTO SETPOINT", 0);
+
     }
 
     public void driveInches(double inches, double maxPower, double startPowerLevel) {
@@ -65,6 +75,11 @@ public class DriveAuto {
     	mainDrive.getRightEncoderObject().reset();
     	drivePID.enable();
     	rotDrivePID.enable();
+    }
+    
+    public void stop() {
+    	drivePID.setSetpoint(drivePID.get());
+    	rotDrivePID.setSetpoint(rotDrivePID.get());
     }
     
     public void turnDegrees(double degrees, double maxPower) {
@@ -104,7 +119,7 @@ public class DriveAuto {
 
         rotDrivePID.setPID(SmartDashboard.getNumber("ROT P",Calibration.AUTO_GYRO_P), SmartDashboard.getNumber("ROT I", Calibration.AUTO_GYRO_I), SmartDashboard.getNumber("ROT D", Calibration.AUTO_GYRO_D));
         drivePID.setPID(SmartDashboard.getNumber("AUTO DRIVE P", Calibration.AUTO_DRIVE_P), SmartDashboard.getNumber("AUTO DRIVE I", Calibration.AUTO_DRIVE_I), SmartDashboard.getNumber("AUTO DRIVE D", Calibration.AUTO_DRIVE_D));
-
+        drivePID.setSetpoint(SmartDashboard.getNumber("AUTO SETPOINT", 0));
     }
 
     private void setPowerOutput(double powerLevel) {

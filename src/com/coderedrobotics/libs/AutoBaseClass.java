@@ -7,7 +7,6 @@ public abstract class AutoBaseClass {
 	DriveAuto mDriveAuto;
 	Target mTarget;
 	int mRobotPosition;
-	int mCurrentStep = 0;
 	boolean mIsRunning = false;
 	Timer mAutoTimer;
 
@@ -15,7 +14,6 @@ public abstract class AutoBaseClass {
 		mDriveAuto = driveAuto;
 		mTarget = target;
 		mRobotPosition = robotPosition;
-		mCurrentStep = 0;
 		mAutoTimer = new Timer();
 //		mDriveAuto.stop();
 //		mDriveAuto.resetEncoders();
@@ -37,7 +35,7 @@ public abstract class AutoBaseClass {
 
 	public void stop() {
 		mIsRunning = false;
-//		mDriveAuto.stop();
+		mDriveAuto.stop();
 	}
 
 	public boolean isRunning() {
@@ -45,11 +43,11 @@ public abstract class AutoBaseClass {
 	}
 
 	public int getCurrentStep() {
-		return mCurrentStep;
+		return mAutoTimer.getStage();
 	}
 
 	public void setCurrentStep(int step) {
-		mCurrentStep = step;
+		mAutoTimer.setStage(step);
 	}
 
 	public double getStepTimeRemainingInSeconds() {

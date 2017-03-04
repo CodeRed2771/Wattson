@@ -2,6 +2,8 @@ package com.coderedrobotics;
 
 import com.coderedrobotics.libs.AutoBaseClass;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class AutoDriveForward extends AutoBaseClass {
 
 	public AutoDriveForward(DriveAuto driveAuto, int robotPosition) {
@@ -9,10 +11,11 @@ public class AutoDriveForward extends AutoBaseClass {
 	}
 
 	public void tick() {
+		
 		if (isRunning()) {
 	
 			this.driveAuto().showEncoderValues();
-			
+			SmartDashboard.putNumber("Auto Step", getCurrentStep());
 
 			switch (getCurrentStep()) {
 			case 0:
@@ -24,7 +27,7 @@ public class AutoDriveForward extends AutoBaseClass {
 					advanceStage();
 				break;
 			case 2:
-				stop();
+				//stop();
 				break;
 			}
 		}
