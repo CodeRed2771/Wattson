@@ -32,6 +32,7 @@ public class Robot extends IterativeRobot {
 	final String autoTurn = "Turn 180";
 	final String autoTargetTest = "Target Test";
 	final String autoGearEncoderRed = "Gear Encoder Red";
+	final String autoTimerTest = "Timer Test";
 	String autoSelected;
 	
 	AutoBaseClass mAutoProgram;
@@ -63,6 +64,7 @@ public class Robot extends IterativeRobot {
 		autoChooser.addObject(autoDriveForward, autoDriveForward);
 		autoChooser.addObject(autoTurn, autoTurn);
 		autoChooser.addObject(autoGearEncoderRed, autoGearEncoderRed);
+		autoChooser.addObject(autoTimerTest, autoTimerTest);
 		autoChooser.addDefault(autoTargetTest, autoTargetTest);
 		SmartDashboard.putData("Auto choices", autoChooser);
 		
@@ -166,6 +168,9 @@ public class Robot extends IterativeRobot {
 			break;
 		case autoGearEncoderRed:
 			mAutoProgram = new AutoGearEncoderRed(driveAuto, robotPosition);
+			break;
+		case autoTimerTest:
+			mAutoProgram = new AutoTimerTest(driveAuto, robotPosition);
 			break;
 		default:
 			Logger.getInstance().log("UNKNOWN AUTO SELECTED");
