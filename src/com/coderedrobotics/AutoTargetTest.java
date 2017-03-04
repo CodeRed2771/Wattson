@@ -19,7 +19,7 @@ public class AutoTargetTest extends AutoBaseClass {
 	}
 	
 	public void tick() {
-		
+
 		if (isRunning()) {
 			switch (getCurrentStep()) {
 			case 0:

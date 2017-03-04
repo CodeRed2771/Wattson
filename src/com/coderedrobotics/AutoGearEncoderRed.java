@@ -16,7 +16,7 @@ public class AutoGearEncoderRed extends AutoBaseClass {
 	}
 
 	public void tick() {
-
+		
 		if (isRunning()) {
 			switch (getCurrentStep()) {
 			case 0:

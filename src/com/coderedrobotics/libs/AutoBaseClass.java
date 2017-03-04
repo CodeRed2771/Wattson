@@ -25,9 +25,7 @@ public abstract class AutoBaseClass {
 
 	}
 
-	public void tick() {
-		mAutoTimer.tick();
-	}
+	public abstract void tick();
 
 	public void start() {
 		mAutoTimer.setStage(0);
@@ -41,6 +39,7 @@ public abstract class AutoBaseClass {
 	}
 
 	public boolean isRunning() {
+		mAutoTimer.tick();  // we need to tick the timer and this is a good place to do it.
 		return mIsRunning;
 	}
 
