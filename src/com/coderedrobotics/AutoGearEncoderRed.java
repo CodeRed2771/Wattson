@@ -22,7 +22,7 @@ public class AutoGearEncoderRed extends AutoBaseClass {
 			case 0:
 				setTimerAndAdvanceStage(3000);
 				if(robotPosition() == 1 || robotPosition() == 3){
-						driveInches(-84,.4);
+						driveInches(-76,.4);
 				}else{
 						driveInches(-82, .4);
 				}
@@ -35,13 +35,13 @@ public class AutoGearEncoderRed extends AutoBaseClass {
 				setTimerAndAdvanceStage(3000);
 				switch(robotPosition()){
 				case 1:
-					turnDegrees(-45,.4);
+					turnDegrees(-55,.4);
 					break;
 				case 2:
 					this.setCurrentStep(99);
 					break;
 				case 3:
-					turnDegrees(45,.4);
+					turnDegrees(55,.4);
 					break;
 				}
 				break;
