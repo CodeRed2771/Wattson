@@ -25,7 +25,6 @@ public class AutoTurn extends AutoBaseClass {
 					advanceStage();
 				break;
 			case 2:
-				stop();
 				break;
 			}
 		}

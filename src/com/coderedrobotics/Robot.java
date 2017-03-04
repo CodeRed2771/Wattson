@@ -31,6 +31,7 @@ public class Robot extends IterativeRobot {
 	final String autoDriveForward = "Drive Forward";
 	final String autoTurn = "Turn 180";
 	final String autoTargetTest = "Target Test";
+	final String autoGearEncoderRed = "Gear Encoder Red";
 	String autoSelected;
 	
 	AutoBaseClass mAutoProgram;
@@ -61,8 +62,11 @@ public class Robot extends IterativeRobot {
 		autoChooser.addObject(autoPegCH, autoPegCH);
 		autoChooser.addObject(autoDriveForward, autoDriveForward);
 		autoChooser.addObject(autoTurn, autoTurn);
+		autoChooser.addObject(autoGearEncoderRed, autoGearEncoderRed);
 		autoChooser.addDefault(autoTargetTest, autoTargetTest);
 		SmartDashboard.putData("Auto choices", autoChooser);
+		
+		SmartDashboard.putNumber("Robot Position", 2);
 
 		gamepad = new KeyMap();
 		
@@ -141,22 +145,27 @@ public class Robot extends IterativeRobot {
 		
 		autoSelected = (String) autoChooser.getSelected();
 		SmartDashboard.putString("Auto selected: ", autoSelected);
+		
+		int robotPosition = (int)SmartDashboard.getNumber("Robot Position",2);
 
 		switch (autoSelected) {
 		case autoTargetTest:
-			mAutoProgram = new AutoTargetTest(driveAuto, 1, target);
+			mAutoProgram = new AutoTargetTest(driveAuto, robotPosition, target);
 			break;
 		case autoPegDVV:
-			mAutoProgram = new AutoPegDVV(driveAuto, 1);
+			mAutoProgram = new AutoPegDVV(driveAuto, robotPosition);
 			break;
 		case autoPegCH:
-			mAutoProgram = new AutoPegCH(driveAuto, 1);
+			mAutoProgram = new AutoPegCH(driveAuto, robotPosition);
 			break;
 		case autoDriveForward:
-			mAutoProgram = new AutoDriveForward(driveAuto, 1);
+			mAutoProgram = new AutoDriveForward(driveAuto, robotPosition);
 			break;
 		case autoTurn:
-			mAutoProgram = new AutoTurn(driveAuto, 1);
+			mAutoProgram = new AutoTurn(driveAuto, robotPosition);
+			break;
+		case autoGearEncoderRed:
+			mAutoProgram = new AutoGearEncoderRed(driveAuto, robotPosition);
 			break;
 		default:
 			Logger.getInstance().log("UNKNOWN AUTO SELECTED");

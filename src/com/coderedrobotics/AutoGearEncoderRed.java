@@ -1,0 +1,57 @@
+package com.coderedrobotics;
+
+import com.coderedrobotics.libs.AutoBaseClass;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+/*
+ TargetTest
+
+ Starts with target in view, aligns itself and drives to target
+ 
+*/
+public class AutoGearEncoderRed extends AutoBaseClass {
+
+	public AutoGearEncoderRed(DriveAuto driveAuto, int robotPosition) {
+		super(driveAuto, robotPosition);
+	}
+
+	public void tick() {
+
+		if (isRunning()) {
+			switch (getCurrentStep()) {
+			case 0:
+				setTimerAndAdvanceStage(3000);
+				if(robotPosition() == 1 || robotPosition() == 3){
+						driveInches(-84,.4);
+				}else{
+						driveInches(-82, .4);
+				}
+				break;
+			case 1:
+				if (driveAuto().hasArrived())
+					advanceStage();
+				break;
+			case 2:
+				setTimerAndAdvanceStage(3000);
+				switch(robotPosition()){
+				case 1:
+					turnDegrees(-45,.4);
+					break;
+				case 2:
+					this.setCurrentStep(99);
+					break;
+				case 3:
+					turnDegrees(45,.4);
+					break;
+				}
+				break;
+			case 3:
+				if (driveAuto().hasArrived())
+					advanceStage();
+				break;
+			case 4:
+				driveInches(50,.4);
+			}
+		}
+	}
+}
