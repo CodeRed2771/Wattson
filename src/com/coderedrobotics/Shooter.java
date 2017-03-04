@@ -142,7 +142,7 @@ public class Shooter {
 			SmartDashboard.putNumber("feederStartTime: ", feederStartTime);
 			SmartDashboard.putNumber("Setpoint: ", ballFeeder.getSetpoint());
 			
-			if(System.currentTimeMillis()>(feederStartTime+500)){
+			if(System.currentTimeMillis()>(feederStartTime+750)){
 				ballFeeder.set(Calibration.FEEDER_SETPOINT);
 			}
 			

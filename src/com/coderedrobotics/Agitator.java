@@ -21,7 +21,7 @@ public class Agitator {
 	
 	public void tick() {
 		if (agitatorRunning) {
-			if ((System.currentTimeMillis() % 1000) >= 500) {
+			if ((System.currentTimeMillis() % 1000) >= 250) {
 				agitatorTopMotors.set(0.5);
 			}else{
 				agitatorTopMotors.set(-0.5);
