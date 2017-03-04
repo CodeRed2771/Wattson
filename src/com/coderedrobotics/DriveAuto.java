@@ -11,8 +11,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveAuto {
 
-	public PIDControllerAIAO drivePID;
-    public PIDControllerAIAO rotDrivePID;
+	private PIDControllerAIAO drivePID;
+    private PIDControllerAIAO rotDrivePID;
     private Drive mainDrive;
     private AnalogGyro gyro;
     private double minDriveStartPower = .1;
@@ -101,6 +101,9 @@ public class DriveAuto {
         setPowerOutput(curPowerSetting);
         
         SmartDashboard.putNumber("CurPower", curPowerSetting);
+
+        rotDrivePID.setPID(SmartDashboard.getNumber("ROT P",Calibration.AUTO_GYRO_P), SmartDashboard.getNumber("ROT I", Calibration.AUTO_GYRO_I), SmartDashboard.getNumber("ROT D", Calibration.AUTO_GYRO_D));
+        drivePID.setPID(SmartDashboard.getNumber("AUTO DRIVE P", Calibration.AUTO_DRIVE_P), SmartDashboard.getNumber("AUTO DRIVE I", Calibration.AUTO_DRIVE_I), SmartDashboard.getNumber("AUTO DRIVE D", Calibration.AUTO_DRIVE_D));
 
     }
 

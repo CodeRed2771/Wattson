@@ -38,6 +38,10 @@ public class Calibration {
     public static final double AUTO_GYRO_I = 0; 
     public static final double AUTO_GYRO_D = 0.067; 
 
+    public static final double AUTO_DRIVE_I = 0.0;
+    public static final double AUTO_DRIVE_D = .018;
+    public static final double AUTO_DRIVE_P = .006; 
+
 	public static final double DRIVE_DISTANCE_PER_PULSE = .073;
 	public static final double DRIVE_DISTANCE_TICKS_PER_INCH = 12.764;
 
