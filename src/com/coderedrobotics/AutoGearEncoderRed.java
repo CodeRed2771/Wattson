@@ -23,7 +23,7 @@ public class AutoGearEncoderRed extends AutoBaseClass {
 				setTimerAndAdvanceStage(3000);
 				if(robotPosition() == 1 || robotPosition() == 3){
 						driveInches(-76,.4);
-				}else{
+				} else {
 						driveInches(-82, .4);
 				}
 				break;
@@ -50,7 +50,8 @@ public class AutoGearEncoderRed extends AutoBaseClass {
 					advanceStage();
 				break;
 			case 4:
-				driveInches(50,.4);
+				setTimerAndAdvanceStage(3000);			
+				driveInches(-50,.4);
 			}
 		}
 	}

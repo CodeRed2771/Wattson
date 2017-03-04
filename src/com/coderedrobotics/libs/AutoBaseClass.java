@@ -3,6 +3,8 @@ package com.coderedrobotics.libs;
 import com.coderedrobotics.DriveAuto;
 import com.coderedrobotics.Target;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public abstract class AutoBaseClass {
 	DriveAuto mDriveAuto;
 	Target mTarget;

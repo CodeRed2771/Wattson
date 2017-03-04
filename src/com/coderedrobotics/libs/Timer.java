@@ -70,6 +70,7 @@ public class Timer {
     }
     
     public void tick() {
+    	
     	advanceWhenTimerExpired();
     	SmartDashboard.putNumber("Timer Stage", stage);
     	SmartDashboard.putBoolean("Timer Is Running", timerRunning);
