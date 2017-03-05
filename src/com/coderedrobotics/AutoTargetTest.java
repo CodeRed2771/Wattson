@@ -32,13 +32,15 @@ public class AutoTargetTest extends AutoBaseClass {
 				foundTarget = target.foundTarget();
 				if (foundTarget) {
 					advanceStage();
+				}else{
+					setCurrentStep(1000);
 				}
 				break;
 				
 			case 2:
 				if (foundTarget) {
 					setTimerAndAdvanceStage(2000);
-					turnDegrees(-degreesOffTarget(), 1);
+					turnDegrees(-target.getGearAngle(), 1);
 				} 
 				else {
 					// we just sit here because we can't see the target
@@ -53,7 +55,7 @@ public class AutoTargetTest extends AutoBaseClass {
 			case 4:
 				// drive toward peg target and stop 10" short
 				setTimerAndAdvanceStage(5000);
-				driveInches(distanceFromTarget() - 10, .20);
+				driveInches(target.getGearDistance() - 10, .20);
 				break;
 				
 			case 5: 
