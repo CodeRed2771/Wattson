@@ -47,7 +47,7 @@ public class Calibration {
 
 	public static final double ROT_TOP_SPEED = 21;
 	public static final double ROT_P = 3;
-	public static final double ROT_I = 0;
+	public static final double ROT_I = 2.5;
 	public static final double ROT_D = 1;
 
 	public static final double DRIVE_TRAIN_REDUCTION_FACTOR = 0.5;
