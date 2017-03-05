@@ -47,8 +47,6 @@ public class Robot extends IterativeRobot {
 //		driveAuto.resetEncoders();
 		drive.set(0, 0);
 		drive.setPIDstate(true);
-
-		target.displayDetails();
 		
 		shooter = new Shooter(target);
 		climber = new Climber();
@@ -187,6 +185,7 @@ public class Robot extends IterativeRobot {
 		mAutoProgram.tick();
 		driveAuto.tick();
 		driveAuto.showEncoderValues();
+		target.displayDetails();
 	}
 
 	@Override

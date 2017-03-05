@@ -25,9 +25,7 @@ public class AutoTargetTest extends AutoBaseClass {
 			case 0:
 				// align to the peg target
 				target.enableVisionTargetMode(true);
-				
 				setTimerAndAdvanceStage(2000);
-
 				break;
 				
 			case 1:
@@ -65,7 +63,7 @@ public class AutoTargetTest extends AutoBaseClass {
 
 			case 6:
 				target.enableVisionTargetMode(false);
-				stop();
+				//stop();
 				break;
 			}
 		}

@@ -56,4 +56,7 @@ public class Calibration {
 	public static final double GEAR_RECEIVER_POWER = .75;
 	
 	public static final int PICKUP_PARK_POSITION = 2000;  // just a  guess
+	
+	public static final double PEG_LENGTH = 19;
+	public static final double LATERAL_CAMERA_OFFSET = 14;
 }

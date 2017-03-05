@@ -84,7 +84,10 @@ public class Target {
 	}
 
 	public double degreesOffTarget() {
-		return ((resolutionX / 2) - gearX) / 10;
+		//constant = pixels/camera FOV degrees
+		//10 is the constant for 640x480
+		//5 is the constant for 320x240
+		return ((resolutionX / 2) - gearX) / 5;
 	}
 	
 	public boolean isOnTarget() {
@@ -142,6 +145,21 @@ public class Target {
 			lightRing.set(Value.kOn);
 		else
 			lightRing.set(Value.kOff);
+	}
+	
+	public double getGearDistance(){
+		double cameraDistance = distanceFromGearTarget()-Calibration.PEG_LENGTH;
+		double cameraAngle = degreesOffTarget();
+		double x = (Math.sin(cameraAngle)*cameraDistance)+Calibration.LATERAL_CAMERA_OFFSET;
+		double y = (Math.cos(cameraAngle)*cameraDistance)-Calibration.PEG_LENGTH;
+		return Math.atan2(x, y);
+	}
+	public double getGearAngle(){
+		double cameraDistance = distanceFromGearTarget()-Calibration.PEG_LENGTH;
+		double cameraAngle = degreesOffTarget();
+		double x = (Math.sin(cameraAngle)*cameraDistance)+Calibration.LATERAL_CAMERA_OFFSET;
+		double y = (Math.cos(cameraAngle)*cameraDistance)-Calibration.PEG_LENGTH;
+		return Math.sqrt((x*x)+(y*y));
 	}
 	
 	public void displayDetails() {
