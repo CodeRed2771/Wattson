@@ -42,7 +42,7 @@ public class Target {
 		lightRing = new Relay(Wiring.LIGHT_RING_RELAY);
 		cameraServo = new Servo(Wiring.CAMERA_SERVO);
 		camera.setResolution(resolutionX, resolutionY);
-
+		
 		visionThread = new VisionThread(camera, new GripPipeline(), gp -> {
 			//SmartDashboard.putNumber("timer", System.currentTimeMillis());
 
