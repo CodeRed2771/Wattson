@@ -101,7 +101,7 @@ public class Target {
 	
 	// servo position values need to be tested
 	public void gearPickupView() {
-		cameraServo.set(0);
+		cameraServo.set(0); // good
 	}
 	
 	public void gearTargetView() {
@@ -109,7 +109,7 @@ public class Target {
 	}
 	
 	public void boilerView() {
-		cameraServo.set(1);
+		cameraServo.set(.75);
 	}
 	
 	public void regularView() {
