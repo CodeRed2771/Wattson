@@ -109,11 +109,11 @@ public class Target {
 	}
 	
 	public void boilerView() {
-		cameraServo.set(.75);
+		cameraServo.set(.55);
 	}
 	
 	public void regularView() {
-		cameraServo.set(0.5);
+		cameraServo.set(0.15);
 	}
 	
 	public void gearReceiverView(){
@@ -132,7 +132,7 @@ public class Target {
 		if (darkFlag)
 			camera.setExposureManual(10);
 		else
-			camera.setExposureManual(50);		
+			camera.setExposureManual(20);		
 	}
 	
 	public void enableVisionTargetMode(boolean enableFlag) {
