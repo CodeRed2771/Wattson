@@ -81,6 +81,9 @@ public class Target {
 
 		visionThread.setDaemon(true);
 		visionThread.start();
+		
+		SmartDashboard.putBoolean("GRIP THREAD IS ALIVE", visionThread.isAlive());
+		
 	}
 
 	public double degreesOffTarget() {
@@ -142,7 +145,7 @@ public class Target {
 
 	public void enableLightRing(boolean turnOn) {
 		if (turnOn) 
-			lightRing.set(Value.kOn);
+			lightRing.set(Value.kForward);
 		else
 			lightRing.set(Value.kOff);
 	}
@@ -171,5 +174,7 @@ public class Target {
 		SmartDashboard.putNumber("rectangle two height", height2);
 		SmartDashboard.putNumber("Distance From Target", distanceFromGearTarget());
 		SmartDashboard.putNumber("degrees off target", degreesOffTarget());
+		SmartDashboard.putBoolean("GRIP THREAD IS ALIVE", visionThread.isAlive());
+		
 	}
 }

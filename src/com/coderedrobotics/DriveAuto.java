@@ -6,6 +6,7 @@ import java.math.RoundingMode;
 import com.coderedrobotics.libs.PIDControllerAIAO;
 import com.coderedrobotics.libs.PIDSourceFilter;
 
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -14,6 +15,7 @@ public class DriveAuto {
 	private PIDControllerAIAO drivePID;
     private PIDControllerAIAO rotDrivePID;
     private Drive mainDrive;
+   // private ADXRS450_Gyro gyro;
     private AnalogGyro gyro;
     private double minDriveStartPower = .1;
 
@@ -186,6 +188,7 @@ public class DriveAuto {
     }
     
     private Double round2(Double val) { 
-    	return new BigDecimal(val.toString()).setScale(2,RoundingMode.HALF_UP).doubleValue(); 
+    	return val;
+    	//new BigDecimal(val.toString()).setScale(2,RoundingMode.HALF_UP).doubleValue(); 
     	}
 }

@@ -24,6 +24,7 @@ public class BallPickup {
 		sweeperMotor.configPeakOutputVoltage(12, 12);
 		sweeperMotor.setProfile(0);
 		sweeperMotor.setPID(.1, 0, 0);
+		sweeperMotor.setInverted(true);
 		sweeperMotor.changeControlMode(TalonControlMode.PercentVbus);
 		
 		sweeperFollower = new CANTalon(Wiring.BALL_PICKUP_FOLLOWER);

@@ -8,8 +8,10 @@ package com.coderedrobotics;
 import com.coderedrobotics.libs.AutoBaseClass;
 import com.coderedrobotics.libs.Logger;
 
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -23,6 +25,7 @@ public class Robot extends IterativeRobot {
 	Climber climber;
 	BallPickup ballPickup;
 	GearPickup gearPickup;
+	//ADXRS450_Gyro gyro;
 	AnalogGyro gyro;
 
 	SendableChooser autoChooser;
@@ -38,8 +41,9 @@ public class Robot extends IterativeRobot {
 	AutoBaseClass mAutoProgram;
 	
 	public void robotInit() {
+		//gyro = new ADXRS450_Gyro(Port.kOnboardCS0);
 		gyro = new AnalogGyro(Wiring.GYRO_PORT);
-		gyro.initGyro();
+		//gyro.calibrate();
 		
 		target = new Target();
 		drive = new Drive();
@@ -69,8 +73,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("Robot Position", 2);
 
 		gamepad = new KeyMap();
-		
-		gyro.calibrate();
+
 	}
 
 	public void teleopInit() {
@@ -134,6 +137,8 @@ public class Robot extends IterativeRobot {
 		shooter.tick();
 		ballPickup.tick();
 		gearPickup.tick();
+		
+		//SmartDashboard.putNumber("Gyro", gyro.getAngle());
 		
 	}
 
