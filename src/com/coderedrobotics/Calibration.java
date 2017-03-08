@@ -57,6 +57,7 @@ public class Calibration {
 	
 	public static final int PICKUP_PARK_POSITION = 2000;  // just a  guess
 	
-	public static final double PEG_LENGTH = 19;
+	public static final double PEG_LENGTH = 19; //This is actually the distance between the camera and the 
+	//target if the tip of the gear peg is in the plane of the gear that is sitting in the robot.
 	public static final double LATERAL_CAMERA_OFFSET = 14;
 }
