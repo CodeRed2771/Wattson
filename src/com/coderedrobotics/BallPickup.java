@@ -79,8 +79,9 @@ public class BallPickup {
 	}
 
 	public void tick() {
+		SmartDashboard.putNumber("Pickup Position", sweeperMotor.getPosition());
+
 		if (parked) {
-			SmartDashboard.putNumber("Pickup Position", sweeperMotor.getPosition());
 			sweeperMotor.set(SmartDashboard.getNumber("Park Position", .5));
 		}
 	}

@@ -8,6 +8,7 @@ import com.coderedrobotics.libs.TankDrive;
 
 
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Drive {
 
@@ -51,7 +52,14 @@ public class Drive {
                 (double value) -> value / Calibration.ROT_TOP_SPEED), tankDrive.getRotPIDOutput(), false, "rot");
 
         setPIDstate(false);
-
+        
+        SmartDashboard.putNumber("DRIVE ROT P",Calibration.ROT_P);
+        SmartDashboard.putNumber("DRIVE ROT I", Calibration.ROT_I);
+        SmartDashboard.putNumber("DRIVE ROT D", Calibration.ROT_D);
+        SmartDashboard.putNumber("DRIVE P", Calibration.DRIVE_P);
+        SmartDashboard.putNumber("DRIVE I", Calibration.DRIVE_I);
+        SmartDashboard.putNumber("DRIVE D", Calibration.DRIVE_D);
+    
     }
     
     public void setPIDstate(boolean isEnabled) {
@@ -100,8 +108,13 @@ public class Drive {
             drivePid.setPID(0, 0, 0, 1);
             rotPid.setPID(0, 0, 0, 1);
         } else {
-            drivePid.setPID(Calibration.DRIVE_P, Calibration.DRIVE_I, Calibration.DRIVE_D, 1);
-            rotPid.setPID(Calibration.ROT_P, Calibration.ROT_I, Calibration.ROT_D, 1);
+
+        	rotPid.setPID(SmartDashboard.getNumber("DRIVE ROT P",Calibration.ROT_P), SmartDashboard.getNumber("DRIVE ROT I", Calibration.ROT_I), SmartDashboard.getNumber("DRIVE ROT D", Calibration.ROT_D));
+        	drivePid.setPID(SmartDashboard.getNumber("DRIVE P", Calibration.DRIVE_P), SmartDashboard.getNumber("DRIVE I", Calibration.DRIVE_I), SmartDashboard.getNumber("DRIVE D", Calibration.DRIVE_D));
+            
+           
+//        	drivePid.setPID(Calibration.DRIVE_P, Calibration.DRIVE_I, Calibration.DRIVE_D, 1);
+//            rotPid.setPID(Calibration.ROT_P, Calibration.ROT_I, Calibration.ROT_D, 1);
         }
 
         double rot = (left - right) / 2;
