@@ -43,6 +43,12 @@ public class GearPickup {
 		SmartDashboard.putNumber("Arm Setpoint", Calibration.GEAR_PICKUP_ARM_SETPOINT);
 //		verticalArm();
 	}
+	public void giveTheKrakenATurn(){
+		hasGear = false;
+		isPickingUp = false;
+		isVertical = false;
+		isHorizontal = false;
+	}
 	
 	public void releasePickup() {
 		// Lift gear pickup up far enough to pick up the ball mechanism.
