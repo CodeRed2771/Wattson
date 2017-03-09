@@ -109,12 +109,12 @@ public class Drive {
             rotPid.setPID(0, 0, 0, 1);
         } else {
 
-        	rotPid.setPID(SmartDashboard.getNumber("DRIVE ROT P",Calibration.ROT_P), SmartDashboard.getNumber("DRIVE ROT I", Calibration.ROT_I), SmartDashboard.getNumber("DRIVE ROT D", Calibration.ROT_D));
-        	drivePid.setPID(SmartDashboard.getNumber("DRIVE P", Calibration.DRIVE_P), SmartDashboard.getNumber("DRIVE I", Calibration.DRIVE_I), SmartDashboard.getNumber("DRIVE D", Calibration.DRIVE_D));
+//        	rotPid.setPID(SmartDashboard.getNumber("DRIVE ROT P",Calibration.ROT_P), SmartDashboard.getNumber("DRIVE ROT I", Calibration.ROT_I), SmartDashboard.getNumber("DRIVE ROT D", Calibration.ROT_D));
+//        	drivePid.setPID(SmartDashboard.getNumber("DRIVE P", Calibration.DRIVE_P), SmartDashboard.getNumber("DRIVE I", Calibration.DRIVE_I), SmartDashboard.getNumber("DRIVE D", Calibration.DRIVE_D));
             
            
-//        	drivePid.setPID(Calibration.DRIVE_P, Calibration.DRIVE_I, Calibration.DRIVE_D, 1);
-//            rotPid.setPID(Calibration.ROT_P, Calibration.ROT_I, Calibration.ROT_D, 1);
+        	drivePid.setPID(Calibration.DRIVE_P, Calibration.DRIVE_I, Calibration.DRIVE_D, 1);
+            rotPid.setPID(Calibration.ROT_P, Calibration.ROT_I, Calibration.ROT_D, 1);
         }
 
         double rot = (left - right) / 2;
@@ -137,4 +137,10 @@ public class Drive {
     public void disablePID() {
         disablePID = true;
     }
+    
+    public void tick() {
+//    	SmartDashboard.putNumber("Drive Left Encoder", leftEncoder.get());
+//    	SmartDashboard.putNumber("Drive Right Encoder", rightEncoder.get());
+    }
+    
 }

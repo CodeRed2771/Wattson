@@ -23,7 +23,7 @@ public class BallPickup {
 		sweeperMotor.configNominalOutputVoltage(0.0f, 0.0f);
 		sweeperMotor.configPeakOutputVoltage(12, 12);
 		sweeperMotor.setProfile(0);
-		sweeperMotor.setPID(.1, 0, 0);
+		sweeperMotor.setPID(10, 0, 0);
 		sweeperMotor.setInverted(true);
 		sweeperMotor.changeControlMode(TalonControlMode.PercentVbus);
 		
@@ -59,18 +59,22 @@ public class BallPickup {
 	public void togglePickup() {
 		if (pickingUp) {
 			sweeperStop();
-		} else
+			holdParkPosition(true);
+		} else {
+			holdParkPosition(false);
 			sweeperStart();
+		}
+
 	}
 	
 	public void holdParkPosition(boolean putInPark ) {
 		if (putInPark) {
 			sweeperStop();
 			sweeperMotor.changeControlMode(TalonControlMode.Position);
-
-			sweeperMotor.set(.5);
+			double parkPos = ((int) sweeperMotor.getPosition());
+			sweeperMotor.set(parkPos);
 			parked = true;
-			SmartDashboard.putNumber("Park Position", .5);
+			SmartDashboard.putNumber("Pickup Park Position Request", parkPos);
 			//sweeperMotor.set(Calibration.PICKUP_PARK_POSITION); // set absolute position
 		} else {
 			sweeperMotor.changeControlMode(TalonControlMode.PercentVbus);
@@ -79,10 +83,10 @@ public class BallPickup {
 	}
 
 	public void tick() {
-		SmartDashboard.putNumber("Pickup Position", sweeperMotor.getPosition());
+		SmartDashboard.putNumber("Pickup Position Actual", sweeperMotor.getPosition());
 
 		if (parked) {
-			sweeperMotor.set(SmartDashboard.getNumber("Park Position", .5));
+			
 		}
 	}
 }

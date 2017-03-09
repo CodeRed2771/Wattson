@@ -24,25 +24,25 @@ public class Calibration {
 	public static final double FEEDER_SETPOINT = 3000;
 
 	// TEST ROBOT DRIVE
-//	public static final double DRIVE_TOP_SPEED = 30; //no idea on what the range is
-//	public static final double DRIVE_P = 1;
-//	public static final double DRIVE_I = 0;
-//	public static final double DRIVE_D = 0.6;
-//	public static final double ROT_TOP_SPEED = 21;
-//	public static final double ROT_P = 3;
-//	public static final double ROT_I = 2.5;
-//	public static final double ROT_D = 1;
+	public static final double DRIVE_TOP_SPEED = 30; //no idea on what the range is
+	public static final double DRIVE_P = 1;
+	public static final double DRIVE_I = 0;
+	public static final double DRIVE_D = 0.6;
+	public static final double ROT_TOP_SPEED = 21;
+	public static final double ROT_P = 3;
+	public static final double ROT_I = 2.5;
+	public static final double ROT_D = 1;
 
 	
 	// COMPETITION DRIVE
-	public static final double DRIVE_TOP_SPEED = 30; //no idea on what the range is
-	public static final double DRIVE_P = 0;
-	public static final double DRIVE_I = 0;
-	public static final double DRIVE_D = 0;
-	public static final double ROT_TOP_SPEED = 21;
-	public static final double ROT_P = 0;
-	public static final double ROT_I = 0;
-	public static final double ROT_D = 0;
+//	public static final double DRIVE_TOP_SPEED = 30; //no idea on what the range is
+//	public static final double DRIVE_P = 0;
+//	public static final double DRIVE_I = 0;
+//	public static final double DRIVE_D = 0;
+//	public static final double ROT_TOP_SPEED = 21;
+//	public static final double ROT_P = 0;
+//	public static final double ROT_I = 0;
+//	public static final double ROT_D = 0;
 
 	
 	public static final double GEAR_PICKUP_ARM_P = 4;

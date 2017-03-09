@@ -140,6 +140,7 @@ public class Robot extends IterativeRobot {
 		ballPickup.tick();
 		gearPickup.tick();
 		
+		drive.tick();
 		//SmartDashboard.putNumber("Gyro", gyro.getAngle());
 		
 	}

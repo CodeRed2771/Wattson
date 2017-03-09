@@ -48,6 +48,8 @@ public class GearPickup {
 		isPickingUp = false;
 		isVertical = false;
 		isHorizontal = false;
+		park();
+		stopFingers();
 	}
 	
 	public void releasePickup() {
@@ -76,7 +78,7 @@ public class GearPickup {
 	}
 	
 	public void verticalArm() {
-		gearPickupArm.set(.7);
+		gearPickupArm.set(.55);  // test bot .7
 		isVertical = true;
 		isHorizontal = false;
 	}
