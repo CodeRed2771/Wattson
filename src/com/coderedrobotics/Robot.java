@@ -77,7 +77,8 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void teleopInit() {
-		// driveAuto.resetEncoders();
+		driveAuto.setPIDstate(false);
+		drive.setPIDstate(true);
 		drive.set(0, 0);
 		target.enableVisionTargetMode(false);
 		gearPickup.park();
