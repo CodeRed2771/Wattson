@@ -74,6 +74,7 @@ public class Robot extends IterativeRobot {
 
 		gamepad = new KeyMap();
 
+		target.setTargetingExposure(true);
 	}
 
 	public void teleopInit() {

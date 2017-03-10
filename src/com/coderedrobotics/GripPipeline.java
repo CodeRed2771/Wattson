@@ -38,12 +38,12 @@ public class GripPipeline implements VisionPipeline {
 	public GripPipeline() {
 		netTable = NetworkTable.getTable("Vision Grip");
 
-		SmartDashboard.putNumber("Hue Low", 40);
-		SmartDashboard.putNumber("Hue High", 104);
-		SmartDashboard.putNumber("Saturation Low", 43);
-		SmartDashboard.putNumber("Saturation High", 174);
-		SmartDashboard.putNumber("Value Low", 82);
-		SmartDashboard.putNumber("Value High", 246);
+		SmartDashboard.putNumber("Hue Low", 55);
+		SmartDashboard.putNumber("Hue High", 85);
+		SmartDashboard.putNumber("Saturation Low", 60);
+		SmartDashboard.putNumber("Saturation High", 255);
+		SmartDashboard.putNumber("Value Low", 40);
+		SmartDashboard.putNumber("Value High", 255);
 	}
 
 	/**
@@ -59,12 +59,12 @@ public class GripPipeline implements VisionPipeline {
 		Mat origMat = new Mat();
 		hslThresholdInput.copyTo(origMat);
 
-		double[] hslThresholdHue = {SmartDashboard.getNumber("Hue Low", 0), SmartDashboard.getNumber("Hue High", 0)};
-		double[] hslThresholdSaturation = {SmartDashboard.getNumber("Saturation Low", 0), SmartDashboard.getNumber("Saturation High", 0)};
-		double[] hslThresholdLuminance = {SmartDashboard.getNumber("Value Low", 0), SmartDashboard.getNumber("Value High", 0)};
-//		
+		double[] hslThresholdHue = {SmartDashboard.getNumber("Hue Low", 55), SmartDashboard.getNumber("Hue High", 85)};
+		double[] hslThresholdSaturation = {SmartDashboard.getNumber("Saturation Low", 60), SmartDashboard.getNumber("Saturation High", 255)};
+		double[] hslThresholdLuminance = {SmartDashboard.getNumber("Value Low", 40), SmartDashboard.getNumber("Value High", 255)};
+		
 //		double[] hslThresholdHue = {55, 85};
-//		double[] hslThresholdSaturation = {110, 255};
+//		double[] hslThresholdSaturation = {60, 255};
 //		double[] hslThresholdLuminance = {40, 255};
 		hslThreshold(hslThresholdInput, hslThresholdHue, hslThresholdSaturation, hslThresholdLuminance, hslThresholdOutput);
 
@@ -101,7 +101,7 @@ public class GripPipeline implements VisionPipeline {
 		netTable.putNumber("Contours Found Filtered", filterContoursOutput.size());
 
 		// display rectangles around the filtered list of items found
-		//addRectangles(origMat, filterContoursOutput);
+		addRectangles(origMat, filterContoursOutput);
 		
 		outputFilteredStream.putFrame(origMat);
 		

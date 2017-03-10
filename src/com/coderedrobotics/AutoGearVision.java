@@ -24,7 +24,7 @@ public class AutoGearVision extends AutoBaseClass {
 		if (isRunning()) {
 			switch (getCurrentStep()) {
 			case 0:
-				target.enableVisionTargetMode(true);
+				target.enableVisionTargetMode(true, "Gear");
 				setTimerAndAdvanceStage(3000);
 				if (robotPosition() == 1 || robotPosition() == 3) {
 					driveInches(-76, .4);
