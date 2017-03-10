@@ -17,17 +17,17 @@ public class AutoTimerTest extends AutoBaseClass {
 		if (isRunning()) {
 			switch (getCurrentStep()) {
 			case 0:
-				setTimerAndAdvanceStage(3000);
+				setTimerAndAdvanceStep(3000);
 				break;
 			case 1:
 				break;
 			case 2:
-				setTimerAndAdvanceStage(3000);
+				setTimerAndAdvanceStep(3000);
 				break;
 			case 3:
 				break;
 			case 4:
-				setTimerAndAdvanceStage(3000);
+				setTimerAndAdvanceStep(3000);
 				break;
 			}
 		}

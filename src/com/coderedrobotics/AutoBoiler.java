@@ -33,7 +33,7 @@ public class AutoBoiler extends AutoBaseClass {
 			case 1:
 				foundTarget = target.foundBoilerTarget();
 				if (foundTarget) {
-					advanceStage();
+					advanceStep();
 				} else {
 					setCurrentStep(1000);
 				}
@@ -41,7 +41,7 @@ public class AutoBoiler extends AutoBaseClass {
 
 			case 2:
 				if (foundTarget) {
-					setTimerAndAdvanceStage(2000);
+					setTimerAndAdvanceStep(2000);
 					turnDegrees(target.getBoilerAngle(), 1);
 				} else {
 					// we just sit here because we can't see the target
@@ -50,12 +50,12 @@ public class AutoBoiler extends AutoBaseClass {
 
 			case 3:
 				if (driveAuto().hasArrived()) // done aligning
-					advanceStage();
+					advanceStep();
 				break;
 
 			case 4:
 				// drive toward peg target and stop 10" short
-				setTimerAndAdvanceStage(5000);
+				setTimerAndAdvanceStep(5000);
 				driveInches(80, .20);// 80 in is about the half way from gear
 										// target to boiler
 				shooter.spinUpShooter();
@@ -63,13 +63,13 @@ public class AutoBoiler extends AutoBaseClass {
 
 			case 5:
 				if (driveAuto().hasArrived())
-					advanceStage();
+					advanceStep();
 				break;
 
 			case 6:
 				shooter.feedShooter();
 				target.enableVisionTargetMode(false, "");
-				setTimerAndAdvanceStage(5000);
+				setTimerAndAdvanceStep(5000);
 				break;
 				
 			case 7:
@@ -77,7 +77,7 @@ public class AutoBoiler extends AutoBaseClass {
 				
 			case 8:
 				shooter.stopShooter();
-				advanceStage();
+				advanceStep();
 				break;
 				
 			case 9:

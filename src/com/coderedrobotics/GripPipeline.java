@@ -21,7 +21,13 @@ import org.opencv.imgproc.*;
  * @author GRIP
  */
 public class GripPipeline implements VisionPipeline {
-
+	private int HUE_LOW = 55;
+	private int HUE_HIGH = 85;
+	private int SAT_LOW = 60;
+	private int SAT_HIGH = 255;
+	private int LUM_LOW = 40;
+	private int LUM_HIGH = 255;
+	
 	NetworkTable netTable;
 //	CvSource outputRawStream = CameraServer.getInstance().putVideo("TargetInfoRaw", 640, 480);
 	CvSource outputFilteredStream = CameraServer.getInstance().putVideo("TargetInfoFiltered", 320, 240);
@@ -38,12 +44,12 @@ public class GripPipeline implements VisionPipeline {
 	public GripPipeline() {
 		netTable = NetworkTable.getTable("Vision Grip");
 
-		SmartDashboard.putNumber("Hue Low", 55);
-		SmartDashboard.putNumber("Hue High", 85);
-		SmartDashboard.putNumber("Saturation Low", 60);
-		SmartDashboard.putNumber("Saturation High", 255);
-		SmartDashboard.putNumber("Value Low", 40);
-		SmartDashboard.putNumber("Value High", 255);
+		SmartDashboard.putNumber("Hue Low", HUE_LOW);
+		SmartDashboard.putNumber("Hue High", HUE_HIGH);
+		SmartDashboard.putNumber("Saturation Low", SAT_LOW);
+		SmartDashboard.putNumber("Saturation High", SAT_HIGH);
+		SmartDashboard.putNumber("Lum Low", LUM_LOW);
+		SmartDashboard.putNumber("Lum High", LUM_HIGH);
 	}
 
 	/**
@@ -59,13 +65,13 @@ public class GripPipeline implements VisionPipeline {
 		Mat origMat = new Mat();
 		hslThresholdInput.copyTo(origMat);
 
-		double[] hslThresholdHue = {SmartDashboard.getNumber("Hue Low", 55), SmartDashboard.getNumber("Hue High", 85)};
-		double[] hslThresholdSaturation = {SmartDashboard.getNumber("Saturation Low", 60), SmartDashboard.getNumber("Saturation High", 255)};
-		double[] hslThresholdLuminance = {SmartDashboard.getNumber("Value Low", 40), SmartDashboard.getNumber("Value High", 255)};
+		double[] hslThresholdHue = {SmartDashboard.getNumber("Hue Low", HUE_LOW), SmartDashboard.getNumber("Hue High", HUE_HIGH)};
+		double[] hslThresholdSaturation = {SmartDashboard.getNumber("Saturation Low", SAT_LOW), SmartDashboard.getNumber("Saturation High", SAT_HIGH)};
+		double[] hslThresholdLuminance = {SmartDashboard.getNumber("Lum Low", LUM_LOW), SmartDashboard.getNumber("Lum High", LUM_HIGH)};
 		
-//		double[] hslThresholdHue = {55, 85};
-//		double[] hslThresholdSaturation = {60, 255};
-//		double[] hslThresholdLuminance = {40, 255};
+//		double[] hslThresholdHue = {HUE_LOW, HUE_HIGH};
+//		double[] hslThresholdSaturation = {SAT_LOW, SAT_HIGH};
+//		double[] hslThresholdLuminance = {LUM_LOW, LUM_HIGH};
 		hslThreshold(hslThresholdInput, hslThresholdHue, hslThresholdSaturation, hslThresholdLuminance, hslThresholdOutput);
 
 		// Step Find_Contours0:
@@ -77,9 +83,6 @@ public class GripPipeline implements VisionPipeline {
 
 		netTable.putNumber("Contours Found Unfiltered", findContoursOutput.size());
 
-		// display rectangles around all items found
-		// addRectangles(findContoursInput, findContoursOutput);
-		
 		// Step Filter_Contours0:
 		ArrayList<MatOfPoint> filterContoursContours = findContoursOutput;
 		double filterContoursMinArea = 10.0;
@@ -105,7 +108,6 @@ public class GripPipeline implements VisionPipeline {
 		
 		outputFilteredStream.putFrame(origMat);
 		
-
 		origMat.release();
 	}
 
@@ -114,7 +116,7 @@ public class GripPipeline implements VisionPipeline {
 			final MatOfPoint contour = contours.get(i);
 			final Rect bb = Imgproc.boundingRect(contour);
 
-			Imgproc.rectangle(image, new Point(bb.x, bb.y), new Point(bb.x+bb.width, bb.y+bb.height), new Scalar(255, 255, 255),	3);
+			Imgproc.rectangle(image, new Point(bb.x, bb.y), new Point(bb.x+bb.width, bb.y+bb.height), new Scalar(255, 255, 255), 2);
 		}
 	}
 	

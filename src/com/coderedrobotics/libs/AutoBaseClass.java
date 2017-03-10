@@ -17,21 +17,16 @@ public abstract class AutoBaseClass {
 		mTarget = target;
 		mRobotPosition = robotPosition;
 		mAutoTimer = new Timer();
-//		mDriveAuto.stop();
-//		mDriveAuto.resetEncoders();
-
 	}
 
 	public AutoBaseClass(DriveAuto driveAuto, int robotPosition) {
 		this(driveAuto, null, robotPosition);
-
 	}
 
 	public abstract void tick();
 
 	public void start() {
 		mAutoTimer.setStage(0);
-//		mDriveAuto.resetEncoders();
 		mIsRunning = true;
 	}
 
@@ -73,19 +68,11 @@ public abstract class AutoBaseClass {
 		mDriveAuto.turnDegrees(degrees, maxPower);
 	}
 
-	public double degreesOffTarget() {
-		return mTarget.degreesOffTarget();
-	}
-
-	public double distanceFromTarget() {
-		return mTarget.distanceFromGearTarget();
-	}
-
 	public int robotPosition() {
 		return mRobotPosition;
 	}
 
-	public void advanceStage() {
+	public void advanceStep() {
 		mAutoTimer.stopTimerAndAdvanceStage();
 	}
 
@@ -94,7 +81,7 @@ public abstract class AutoBaseClass {
 	// this is typically used when starting a driving maneuver because the next
 	// stage would
 	// be watching to see when the maneuver was completed.
-	public void setTimerAndAdvanceStage(long milliseconds) {
+	public void setTimerAndAdvanceStep(long milliseconds) {
 		mAutoTimer.setTimerAndAdvanceStage(milliseconds);
 	}
 

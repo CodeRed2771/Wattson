@@ -20,7 +20,7 @@ public class AutoGearEncoder extends AutoBaseClass {
 		if (isRunning()) {
 			switch (getCurrentStep()) {
 			case 0:
-				setTimerAndAdvanceStage(3000);
+				setTimerAndAdvanceStep(3000);
 				if(robotPosition() == 1 || robotPosition() == 3){
 						driveInches(-76,.4);
 				} else {
@@ -29,10 +29,10 @@ public class AutoGearEncoder extends AutoBaseClass {
 				break;
 			case 1:
 				if (driveAuto().hasArrived())
-					advanceStage();
+					advanceStep();
 				break;
 			case 2:
-				setTimerAndAdvanceStage(3000);
+				setTimerAndAdvanceStep(3000);
 				switch(robotPosition()){
 				case 1:
 					turnDegrees(-55,.4);
@@ -47,10 +47,10 @@ public class AutoGearEncoder extends AutoBaseClass {
 				break;
 			case 3:
 				if (driveAuto().hasArrived())
-					advanceStage();
+					advanceStep();
 				break;
 			case 4:
-				setTimerAndAdvanceStage(3000);			
+				setTimerAndAdvanceStep(3000);			
 				driveInches(-50,.4);
 			}
 		}

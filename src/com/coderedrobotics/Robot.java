@@ -29,13 +29,12 @@ public class Robot extends IterativeRobot {
 	AnalogGyro gyro;
 
 	SendableChooser autoChooser;
-	final String autoPegDVV = "Peg DVV";
-	final String autoPegCH = "Peg Caden";
 	final String autoDriveForward = "Drive Forward";
 	final String autoCalibrateDrive = "Calibrate Drive";
 	final String autoCalibrateTurn = "Calibrate Turn 180";
 	final String autoTargetTest = "Target Test";
 	final String autoGearEncoder = "Gear Encoder";
+	final String autoGearVision = "autoGearVision";
 	final String autoTimerTest = "Timer Test";
 	String autoSelected;
 	
@@ -44,12 +43,12 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		//gyro = new ADXRS450_Gyro(Port.kOnboardCS0);
 		gyro = new AnalogGyro(Wiring.GYRO_PORT);
-		//gyro.calibrate();
+		gyro.calibrate();
 		
 		target = new Target();
 		drive = new Drive();
 		driveAuto = new DriveAuto(drive, gyro);
-//		driveAuto.resetEncoders();
+
 		drive.set(0, 0);
 		drive.setPIDstate(true);
 		
@@ -59,17 +58,17 @@ public class Robot extends IterativeRobot {
 		gearPickup = new GearPickup();
 				
 //		driveAuto.showPIDValues();
-		//drive.disablePID();
 
 		autoChooser = new SendableChooser();
-		//autoChooser.addObject(autoPegDVV, autoPegDVV);
-		autoChooser.addObject(autoDriveForward, autoDriveForward);
+
+		autoChooser.addDefault(autoDriveForward, autoDriveForward);
 		autoChooser.addObject(autoGearEncoder, autoGearEncoder);
-		autoChooser.addObject(autoTimerTest, autoTimerTest);
-		autoChooser.addDefault(autoTargetTest, autoTargetTest);
-		SmartDashboard.putData("Auto choices", autoChooser);
+		autoChooser.addObject(autoGearVision, autoGearVision);
+		autoChooser.addObject(autoTargetTest, autoTargetTest);
 		autoChooser.addObject(autoCalibrateTurn, autoCalibrateTurn);
 		autoChooser.addObject(autoCalibrateDrive, autoCalibrateDrive);
+
+		SmartDashboard.putData("Auto choices", autoChooser);
 		SmartDashboard.putNumber("Robot Position", 2);
 
 		gamepad = new KeyMap();
@@ -143,7 +142,7 @@ public class Robot extends IterativeRobot {
 		gearPickup.tick();
 		
 		drive.tick();
-		//SmartDashboard.putNumber("Gyro", gyro.getAngle());
+		SmartDashboard.putNumber("Gyro", gyro.getAngle());
 		
 	}
 
@@ -165,8 +164,8 @@ public class Robot extends IterativeRobot {
 		case autoCalibrateTurn:
 			mAutoProgram = new AutoCalibrateTurn(driveAuto, robotPosition);
 			break;
-		case autoPegCH:
-			mAutoProgram = new AutoPegCH(driveAuto, robotPosition);
+		case autoGearVision:
+			mAutoProgram = new AutoGearVision(driveAuto, robotPosition);
 			break;
 		case autoDriveForward:
 			mAutoProgram = new AutoDriveForward(driveAuto, robotPosition);
@@ -182,7 +181,8 @@ public class Robot extends IterativeRobot {
 			break;
 		default:
 			Logger.getInstance().log("UNKNOWN AUTO SELECTED");
-			// SHOULD PICK ONE HERE
+			// Do the drive forward
+			mAutoProgram = new AutoDriveForward(driveAuto, robotPosition);
 			break;
 		}
 

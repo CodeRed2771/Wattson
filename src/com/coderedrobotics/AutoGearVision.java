@@ -25,7 +25,7 @@ public class AutoGearVision extends AutoBaseClass {
 			switch (getCurrentStep()) {
 			case 0:
 				target.enableVisionTargetMode(true, "Gear");
-				setTimerAndAdvanceStage(3000);
+				setTimerAndAdvanceStep(3000);
 				if (robotPosition() == 1 || robotPosition() == 3) {
 					driveInches(-76, .4);
 				} else {
@@ -35,11 +35,11 @@ public class AutoGearVision extends AutoBaseClass {
 			case 1:
 				foundTarget = target.foundTarget();
 				if (driveAuto().hasArrived())
-					advanceStage();
+					advanceStep();
 				break;
 			case 2:
 
-				setTimerAndAdvanceStage(3000);
+				setTimerAndAdvanceStep(3000);
 				switch (robotPosition()) {
 				case 1:
 					turnDegrees(-55, .4);
@@ -55,11 +55,11 @@ public class AutoGearVision extends AutoBaseClass {
 				
 			case 3:
 				if (driveAuto().hasArrived())
-					advanceStage();
+					advanceStep();
 				break;
 
 			case 4:
-				setTimerAndAdvanceStage(3000);
+				setTimerAndAdvanceStep(3000);
 				if (target.foundTarget()) {
 					switch (robotPosition()) {
 					case 1:
@@ -75,11 +75,11 @@ public class AutoGearVision extends AutoBaseClass {
 
 			case 5:
 				if (driveAuto().hasArrived())
-					advanceStage();
+					advanceStep();
 				break;
 
 			case 6:
-				setTimerAndAdvanceStage(3000);
+				setTimerAndAdvanceStep(3000);
 				switch (robotPosition()) {
 				case 1:
 					driveInches(target.getGearDistance(), .4);

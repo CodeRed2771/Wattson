@@ -12,7 +12,7 @@ public class AutoPegCS extends AutoBaseClass {
 		if (isRunning()) {
 			switch (getCurrentStep()) {
 			case 0: // position 1
-				setTimerAndAdvanceStage(5000);
+				setTimerAndAdvanceStep(5000);
 				if (robotPosition() == 1 || robotPosition() == 3) {
 					driveInches(54, .5); // TODO hone in the distance
 				}
@@ -22,10 +22,10 @@ public class AutoPegCS extends AutoBaseClass {
 				break;
 			case 1:
 				if (driveAuto().hasArrived())
-					advanceStage();
+					advanceStep();
 				break;
 			case 2:
-				setTimerAndAdvanceStage(3000);
+				setTimerAndAdvanceStep(3000);
 				if (robotPosition() == 1) {
 					turnDegrees(.45, .2); // TODO figure out degrees
 				} else if (robotPosition() == 3) {
@@ -36,23 +36,23 @@ public class AutoPegCS extends AutoBaseClass {
 				break;
 			case 3:
 				if (driveAuto().hasArrived())
-					advanceStage();
+					advanceStep();
 				break;
 			case 4:
-				setTimerAndAdvanceStage(3000);
+				setTimerAndAdvanceStep(3000);
 				driveInches(20, .3);
 				break;
 			case 5:
 				if (driveAuto().hasArrived())
-					advanceStage();
+					advanceStep();
 				break;
 			case 6:
-				setTimerAndAdvanceStage(3000);
+				setTimerAndAdvanceStep(3000);
 				driveInches(-5000, .5);
 				break;
 			case 7:
 				if (driveAuto().hasArrived())
-					advanceStage();
+					advanceStep();
 				break;
 			}
 		}

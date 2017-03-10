@@ -17,12 +17,12 @@ public class AutoCalibrateTurn extends AutoBaseClass {
 			
 			switch (getCurrentStep()) {
 			case 0:
-				setTimerAndAdvanceStage(5000);
+				setTimerAndAdvanceStep(5000);
 				turnDegrees(180, .6);
 				break;
 			case 1:
 				if (driveAuto().hasArrived())
-					advanceStage();
+					advanceStep();
 				break;
 			case 2:
 				break;
