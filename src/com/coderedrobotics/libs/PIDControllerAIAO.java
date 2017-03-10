@@ -330,7 +330,7 @@ public class PIDControllerAIAO implements PIDInterface, LiveWindowSendable {
 //                        }
 //                    }
                     m_totalError += m_error;
-                    m_totalError = Math.min(.1, Math.max(-.1, m_totalError));
+                    m_totalError = Math.min(.19, Math.max(-.19, m_totalError));
 
                     m_result = m_P * m_error + m_I * m_totalError
                             + m_D * (m_error - m_prevError) + calculateFeedForward();
