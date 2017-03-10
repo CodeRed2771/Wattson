@@ -108,19 +108,19 @@ public class Target {
 	}
 	
 	public void gearTargetView() {
-		cameraServo.set(0.25);
+		cameraServo.set(0.15); // good
 	}
 	
 	public void boilerView() {
-		cameraServo.set(.55);
+		cameraServo.set(1); // needs to be tested
 	}
 	
 	public void regularView() {
-		cameraServo.set(0.15);
+		cameraServo.set(0.15); // good
 	}
 	
 	public void gearReceiverView(){
-		cameraServo.set(.75);
+		cameraServo.set(.75); // needs to be tested
 	}
 
 	public double distanceFromGearTarget() {
