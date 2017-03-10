@@ -32,9 +32,10 @@ public class Robot extends IterativeRobot {
 	final String autoPegDVV = "Peg DVV";
 	final String autoPegCH = "Peg Caden";
 	final String autoDriveForward = "Drive Forward";
-	final String autoTurn = "Turn 180";
+	final String autoCalibrateDrive = "Calibrate Drive";
+	final String autoCalibrateTurn = "Calibrate Turn 180";
 	final String autoTargetTest = "Target Test";
-	final String autoGearEncoderRed = "Gear Encoder Red";
+	final String autoGearEncoder = "Gear Encoder";
 	final String autoTimerTest = "Timer Test";
 	String autoSelected;
 	
@@ -61,15 +62,14 @@ public class Robot extends IterativeRobot {
 		//drive.disablePID();
 
 		autoChooser = new SendableChooser();
-		autoChooser.addObject(autoPegDVV, autoPegDVV);
-		autoChooser.addObject(autoPegCH, autoPegCH);
+		//autoChooser.addObject(autoPegDVV, autoPegDVV);
 		autoChooser.addObject(autoDriveForward, autoDriveForward);
-		autoChooser.addObject(autoTurn, autoTurn);
-		autoChooser.addObject(autoGearEncoderRed, autoGearEncoderRed);
+		autoChooser.addObject(autoGearEncoder, autoGearEncoder);
 		autoChooser.addObject(autoTimerTest, autoTimerTest);
 		autoChooser.addDefault(autoTargetTest, autoTargetTest);
 		SmartDashboard.putData("Auto choices", autoChooser);
-		
+		autoChooser.addObject(autoCalibrateTurn, autoCalibrateTurn);
+		autoChooser.addObject(autoCalibrateDrive, autoCalibrateDrive);
 		SmartDashboard.putNumber("Robot Position", 2);
 
 		gamepad = new KeyMap();
@@ -161,8 +161,8 @@ public class Robot extends IterativeRobot {
 		case autoTargetTest:
 			mAutoProgram = new AutoTargetTest(driveAuto, robotPosition, target);
 			break;
-		case autoPegDVV:
-			mAutoProgram = new AutoPegDVV(driveAuto, robotPosition);
+		case autoCalibrateTurn:
+			mAutoProgram = new AutoCalibrateTurn(driveAuto, robotPosition);
 			break;
 		case autoPegCH:
 			mAutoProgram = new AutoPegCH(driveAuto, robotPosition);
@@ -170,11 +170,11 @@ public class Robot extends IterativeRobot {
 		case autoDriveForward:
 			mAutoProgram = new AutoDriveForward(driveAuto, robotPosition);
 			break;
-		case autoTurn:
-			mAutoProgram = new AutoTurn(driveAuto, robotPosition);
+		case autoCalibrateDrive:
+			mAutoProgram = new AutoCalibrateDrive(driveAuto, robotPosition);
 			break;
-		case autoGearEncoderRed:
-			mAutoProgram = new AutoGearEncoderRed(driveAuto, robotPosition);
+		case autoGearEncoder:
+			mAutoProgram = new AutoGearEncoder(driveAuto, robotPosition);
 			break;
 		case autoTimerTest:
 			mAutoProgram = new AutoTimerTest(driveAuto, robotPosition);

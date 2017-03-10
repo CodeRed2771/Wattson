@@ -9,9 +9,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  Starts with target in view, aligns itself and drives to target
  
 */
-public class AutoGearEncoderRed extends AutoBaseClass {
+public class AutoGearEncoder extends AutoBaseClass {
 
-	public AutoGearEncoderRed(DriveAuto driveAuto, int robotPosition) {
+	public AutoGearEncoder(DriveAuto driveAuto, int robotPosition) {
 		super(driveAuto, robotPosition);
 	}
 
