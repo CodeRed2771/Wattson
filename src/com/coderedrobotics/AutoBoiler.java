@@ -9,11 +9,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  Starts with target in view, aligns itself and drives to target
  
 */
-public class AutoTargetTest extends AutoBaseClass {
+public class AutoBoiler extends AutoBaseClass {
 	Target target;
 	boolean foundTarget = false;
 	
-	public AutoTargetTest(DriveAuto driveAuto, int robotPosition, Target target) {
+	public AutoBoiler(DriveAuto driveAuto, int robotPosition, Target target) {
 		super(driveAuto, robotPosition);
 		this.target = target;
 	}
@@ -24,12 +24,12 @@ public class AutoTargetTest extends AutoBaseClass {
 			switch (getCurrentStep()) {
 			case 0:
 				// align to the peg target
-				target.enableVisionTargetMode(true, "Gear");
+				target.enableVisionTargetMode(true, "Boiler");
 				//setTimerAndAdvanceStage(2000);
 				break;
 				
 			case 1:
-				foundTarget = target.foundTarget();
+				foundTarget = target.foundBoilerTarget();
 				if (foundTarget) {
 					advanceStage();
 				}else{
@@ -40,7 +40,7 @@ public class AutoTargetTest extends AutoBaseClass {
 			case 2:
 				if (foundTarget) {
 					setTimerAndAdvanceStage(2000);
-					turnDegrees(-target.getGearAngle(), 1);
+					turnDegrees(target.getBoilerAngle(), 1);
 				} 
 				else {
 					// we just sit here because we can't see the target
@@ -55,7 +55,7 @@ public class AutoTargetTest extends AutoBaseClass {
 			case 4:
 				// drive toward peg target and stop 10" short
 				setTimerAndAdvanceStage(5000);
-				driveInches(target.getGearDistance() - 10, .20);
+				driveInches(80, .20);//80 in is about the half way from gear target to boiler
 				break;
 				
 			case 5: 
