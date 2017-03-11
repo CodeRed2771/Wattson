@@ -143,7 +143,7 @@ public class Target {
 		if (darkFlag)
 			camera.setExposureManual(10);
 		else
-			camera.setExposureManual(20);
+			camera.setExposureManual(50);
 	}
 
 	public void enableVisionTargetMode(boolean enableFlag, String whichTarget) {
@@ -155,7 +155,7 @@ public class Target {
 				gearTargetView();
 			}
 		} else {
-			regularView();
+			gearPickupView();
 		}
 		setTargetingExposure(enableFlag);
 		enableLightRing(enableFlag);
