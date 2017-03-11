@@ -24,7 +24,7 @@ public class AutoGearEncoder extends AutoBaseClass {
 				if(robotPosition() == 1 || robotPosition() == 3){
 						driveInches(-100,.4);
 				} else {
-						driveInches(-82, .4);
+						driveInches(-90, .4);
 				}
 				break;
 			case 1:

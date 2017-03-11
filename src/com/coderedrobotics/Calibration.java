@@ -60,7 +60,7 @@ public class Calibration {
 	public static final double GEAR_PICKUP_ARM_HORIZONTAL = 0.992;
 	public static final double GEAR_PICKUP_ARM_READY = 0.6;
 	public static final double GEAR_PICKUP_ARM_PARK = 0.53;
-	public static final double GEAR_PICKUP_ARM_VERTICAL = 0.45;
+	public static final double GEAR_PICKUP_ARM_VERTICAL = 0.55;
 
 	// Peg Length is actually the distance between the camera and the target if the
 	// tip of the gear peg is in the plane of the gear that is sitting in the robot.
