@@ -30,7 +30,7 @@ public class Drive {
     public Drive() {
         leftEncoder = new Encoder(Wiring.LEFT_ENCODER_A, Wiring.LEFT_ENCODER_B);
         rightEncoder = new Encoder(Wiring.RIGHT_ENCODER_A, Wiring.RIGHT_ENCODER_B);
-     	
+
         tankDrive = new TankDrive(
                 leftPwmSplitter2X = new PWMSplitter2X(
                         Wiring.LEFT_DRIVE_MOTOR1,
@@ -52,16 +52,16 @@ public class Drive {
                 (double value) -> value / Calibration.ROT_TOP_SPEED), tankDrive.getRotPIDOutput(), false, "rot");
 
         setPIDstate(false);
-        
-        SmartDashboard.putNumber("DRIVE ROT P",Calibration.ROT_P);
-        SmartDashboard.putNumber("DRIVE ROT I", Calibration.ROT_I);
-        SmartDashboard.putNumber("DRIVE ROT D", Calibration.ROT_D);
-        SmartDashboard.putNumber("DRIVE P", Calibration.DRIVE_P);
-        SmartDashboard.putNumber("DRIVE I", Calibration.DRIVE_I);
-        SmartDashboard.putNumber("DRIVE D", Calibration.DRIVE_D);
-    
+
+        //SmartDashboard.putNumber("DRIVE ROT P",Calibration.ROT_P);
+        //SmartDashboard.putNumber("DRIVE ROT I", Calibration.ROT_I);
+        //SmartDashboard.putNumber("DRIVE ROT D", Calibration.ROT_D);
+        //SmartDashboard.putNumber("DRIVE P", Calibration.DRIVE_P);
+        //SmartDashboard.putNumber("DRIVE I", Calibration.DRIVE_I);
+        //SmartDashboard.putNumber("DRIVE D", Calibration.DRIVE_D);
+
     }
-    
+
     public void setPIDstate(boolean isEnabled) {
     	if (isEnabled) {
     		drivePid.enable();
@@ -88,7 +88,7 @@ public class Drive {
     public void setSquared(double left, double right) {
         set(Math.abs(left) * left, Math.abs(right) * right);
     }
-    
+
     public Encoder getLeftEncoderObject() {
     	return leftEncoder;
     }
@@ -111,10 +111,10 @@ public class Drive {
 
 //        	rotPid.setPID(SmartDashboard.getNumber("DRIVE ROT P",Calibration.ROT_P), SmartDashboard.getNumber("DRIVE ROT I", Calibration.ROT_I), SmartDashboard.getNumber("DRIVE ROT D", Calibration.ROT_D));
 //        	drivePid.setPID(SmartDashboard.getNumber("DRIVE P", Calibration.DRIVE_P), SmartDashboard.getNumber("DRIVE I", Calibration.DRIVE_I), SmartDashboard.getNumber("DRIVE D", Calibration.DRIVE_D));
-            
-           
+
+
         	drivePid.setPID(Calibration.DRIVE_P, Calibration.DRIVE_I, Calibration.DRIVE_D, 1);
-            rotPid.setPID(Calibration.ROT_P, Calibration.ROT_I, Calibration.ROT_D, 1);
+          rotPid.setPID(Calibration.ROT_P, Calibration.ROT_I, Calibration.ROT_D, 1);
         }
 
         double rot = (left - right) / 2;
@@ -123,12 +123,12 @@ public class Drive {
         rotPid.setSetpoint(Math.abs(Math.pow(Math.abs(rot), (1 - Math.abs((left + right) / 2)) * 0.9)) * rot);
 //        rotPid.setSetpoint(rot);
     }
-    
+
     public void autoSetDrive(double speed) {
     	drivePid.setPID(0, 0, 0, 1);
         drivePid.setSetpoint(speed);
     }
-    
+
     public void autoSetRot(double rot) {
         rotPid.setPID(0, 0, 0, 1);
         rotPid.setSetpoint(rot);
@@ -137,10 +137,10 @@ public class Drive {
     public void disablePID() {
         disablePID = true;
     }
-    
+
     public void tick() {
 //    	SmartDashboard.putNumber("Drive Left Encoder", leftEncoder.get());
 //    	SmartDashboard.putNumber("Drive Right Encoder", rightEncoder.get());
     }
-    
+
 }

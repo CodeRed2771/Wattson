@@ -19,7 +19,6 @@ public class Calibration {
 	public static final double GEAR_PICKUP_ARM_I = 0;
 	public static final double GEAR_PICKUP_ARM_D = 0;
 	public static final double GEAR_PICKUP_ARM_F = 0;
-	public static final double GEAR_PICKUP_ARM_SETPOINT = 0;
 
 	public static final double BALL_PICKUP_P = 0.00004;
 	public static final double BALL_PICKUP_I = 0.2;
@@ -55,6 +54,13 @@ public class Calibration {
 	public static final double BALL_PICKUP_PARK_POSITION = 0.96;
 	public static final int BALL_PICKUP_TICKS_PER_REV = 2 ^ 12;
 	public static final double BALL_PICKUP_SPEED = 0.35;
+
+	// Gear Pickup Setpoints
+	public static final double GEAR_PICKUP_ARM_SETPOINT = 0; // This setpoint is never invoked. Delete?
+	public static final double GEAR_PICKUP_ARM_HORIZONTAL = 0.992;
+	public static final double GEAR_PICKUP_ARM_READY = 0.6;
+	public static final double GEAR_PICKUP_ARM_PARK = 0.53;
+	public static final double GEAR_PICKUP_ARM_VERTICAL = 0.45;
 
 	// Peg Length is actually the distance between the camera and the target if the
 	// tip of the gear peg is in the plane of the gear that is sitting in the robot.

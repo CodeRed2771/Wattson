@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class GearPickup {
-	
+
 	VictorSP gearPickupFinger;
 	CANTalon gearPickupArm;
 	Encoder fingersEncoder;
@@ -23,7 +23,7 @@ public class GearPickup {
 	boolean isVertical;
 	boolean isHorizontal;
 //	CurrentBreaker fingerBreaker;
-	
+
 	public GearPickup(){
 		hasGear = false;
 		isPickingUp = false;
@@ -38,7 +38,7 @@ public class GearPickup {
 		gearPickupArm.configPeakOutputVoltage(3, -3);
 
 		fingersEncoder = new Encoder(Wiring.FINGER_ENCODER_A,Wiring.FINGER_ENCODER_B);
-		
+
 		SmartDashboard.putNumber("Arm P", Calibration.GEAR_PICKUP_ARM_P);
 		SmartDashboard.putNumber("Arm Setpoint", Calibration.GEAR_PICKUP_ARM_SETPOINT);
 //		verticalArm();
@@ -51,20 +51,19 @@ public class GearPickup {
 		park();
 		stopFingers();
 	}
-	
+
 	public void releasePickup() {
 		// Lift gear pickup up far enough to pick up the ball mechanism.
 		isReleased = true;
 		gearPickupArm.set(Calibration.GEAR_PICKUP_ARM_SETPOINT);
 	}
-	
+
 	public void readyPosition() {
 //		Park the arm to ready position
 //		need to test for the setPoint value
-//		and then put the value in Calibration file
-		gearPickupArm.set(.6);
+		gearPickupArm.set(Calibration.GEAR_PICKUP_ARM_READY);
 	}
-	
+
 	public void pickUpGear() {
 //		 Reach down the rest of the way and pick up the gear
 		isPickingUp = true;
@@ -72,27 +71,27 @@ public class GearPickup {
 		horizontalArm();
 		pinchGear();
 	}
-	
+
 	public boolean isPickedup(){
 		return hasGear;
 	}
-	
+
 	public void verticalArm() {
-		gearPickupArm.set(.45);  // test bot .7
+		gearPickupArm.set(Calibration.GEAR_PICKUP_ARM_VERTICAL);  // test bot .7
 		isVertical = true;
 		isHorizontal = false;
 	}
-	
+
 	public void horizontalArm() {
-		gearPickupArm.set(.992);
+		gearPickupArm.set(Calibration.GEAR_PICKUP_ARM_HORIZONTAL);
 		isHorizontal = true;
 		isVertical = false;
 	}
 	public void park() {
 		// Parks to original stored position
-		//need to test for the setPoint value, 
+		//need to test for the setPoint value,
 		//and then put the value in Calibration file
-		gearPickupArm.setSetpoint(.53);
+		gearPickupArm.setSetpoint(Calibration.GEAR_PICKUP_ARM_PARK); // setSetpoint()? probably should be a set() call
 	}
 	public void releaseGear(){
 		gearPickupFinger.set(-.2);  // start going backwards
@@ -100,22 +99,22 @@ public class GearPickup {
 		isPickingUp = false;
 		fingersEncLastPosition = Math.abs(fingersEncoder.get());
 	}
-	
+
 	public void stopFingers() {
 		gearPickupFinger.set(0);
 		isReleasing = false;
 	}
-	
+
 	public void pinchGear() {
 		fingersStartTime = System.currentTimeMillis();
 		fingersEncLastPosition = Math.abs(fingersEncoder.get());
 		gearPickupFinger.set(0.6);
 	}
-	
+
 	public boolean isArmInPosition(){
 		return Math.abs(gearPickupArm.getClosedLoopError()) < 20;
 	}
-	
+
 	public void toggleArm() {
 		if (isHorizontal){
 			verticalArm();
@@ -123,13 +122,13 @@ public class GearPickup {
 			pickUpGear();
 		}
 	}
-	
+
 	public void tick(){
 		SmartDashboard.putNumber("Gear Pickup Position: ", gearPickupArm.getPosition());
 		SmartDashboard.putNumber("Gear Pickup Pulse Width: ", gearPickupArm.getPulseWidthPosition() & 0xFFF);
 		SmartDashboard.putNumber("Finger Position: ", fingersEncoder.get());
 		SmartDashboard.putNumber("Last Finger Position: ", fingersEncLastPosition);
-		
+
 		if(isPickingUp){
 			if(System.currentTimeMillis() > fingersStartTime + 300) {
 				if(Math.abs(fingersEncoder.get()) - fingersEncLastPosition < 25){
@@ -142,8 +141,8 @@ public class GearPickup {
 					fingersEncLastPosition = Math.abs(fingersEncoder.get());
 				}
 			}
-		}	
-		
+		}
+
 		if (isReleasing) {
 			if (Math.abs(fingersEncoder.get()) < (fingersEncLastPosition - 25)) { // run the fingers backwards for 100 ticks to release gear
 				stopFingers();
@@ -153,7 +152,4 @@ public class GearPickup {
 		SmartDashboard.putNumber("Arm Setpoint", Calibration.GEAR_PICKUP_ARM_SETPOINT);
 		SmartDashboard.putNumber("Arm Error: ", gearPickupArm.getClosedLoopError());
 	}
-	
-	
-	
 }
