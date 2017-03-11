@@ -70,8 +70,8 @@ public class Target {
 
 				} else {
 
-					gearX = -1;
-					gearY = -1;
+					//gearX = -1;
+					//gearY = -1;
 				}
 
 			}
@@ -83,6 +83,11 @@ public class Target {
 
 		SmartDashboard.putBoolean("GRIP THREAD IS ALIVE", visionThread.isAlive());
 
+	}
+
+	public void discardData() {
+		gearX = -1;
+		gearY = -1;
 	}
 
 	public double degreesOffTarget() {
@@ -99,7 +104,7 @@ public class Target {
 	public boolean foundTarget() {
 		return (gearX >= 0 && gearY >= 0);
 	}
-	
+
 	//need complete the method(return statement)
 	public boolean foundBoilerTarget(){
 		return true;
@@ -170,7 +175,7 @@ public class Target {
 		double y = (Math.cos(cameraAngle) * cameraDistance) - Calibration.PEG_LENGTH;
 		return Math.atan2(x, y);
 	}
-	
+
 
 	public double getGearAngle() {
 		double cameraDistance = distanceFromGearTarget() - Calibration.PEG_LENGTH;
@@ -179,7 +184,7 @@ public class Target {
 		double y = (Math.cos(cameraAngle) * cameraDistance) - Calibration.PEG_LENGTH;
 		return Math.sqrt((x * x) + (y * y));
 	}
-	
+
 	public double getBoilerAngle(){
 		return ((resolutionX/2)-gearX)/10;//NEEDS TO BE UNDATED FOR BOILERS!
 	}

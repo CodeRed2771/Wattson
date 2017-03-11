@@ -22,7 +22,7 @@ public class AutoGearEncoder extends AutoBaseClass {
 			case 0:
 				setTimerAndAdvanceStep(3000);
 				if(robotPosition() == 1 || robotPosition() == 3){
-						driveInches(-76,.4);
+						driveInches(-100,.4);
 				} else {
 						driveInches(-82, .4);
 				}

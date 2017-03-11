@@ -52,7 +52,7 @@ public class Calibration {
 
 	// Ball Pickup
 	public static final double BALL_PICKUP_PARK_POSITION = 0.96;
-	public static final int BALL_PICKUP_TICKS_PER_REV = 2 ^ 12;
+	public static final int BALL_PICKUP_TICKS_PER_REV = 4096;
 	public static final double BALL_PICKUP_SPEED = 0.35;
 
 	// Gear Pickup Setpoints

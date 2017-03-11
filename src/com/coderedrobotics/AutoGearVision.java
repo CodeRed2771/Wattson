@@ -27,7 +27,7 @@ public class AutoGearVision extends AutoBaseClass {
 				target.enableVisionTargetMode(true, "Gear");
 				setTimerAndAdvanceStep(4000);
 				if (robotPosition() == 1 || robotPosition() == 3) {
-					driveInches(-76, .4);
+					driveInches(-86, .4);
 				} else {
 					driveInches(-60, .4);
 				}
