@@ -58,7 +58,7 @@ public class GripPipeline implements VisionPipeline {
 	 */
 	@Override
 	public void process(Mat source0) {
-		SmartDashboard.putNumber("GripPipeline systemtime", System.currentTimeMillis());
+		//SmartDashboard.putNumber("GripPipeline systemtime", System.currentTimeMillis());
 
 		// Step RGB_Threshold0:
 		Mat hslThresholdInput = source0;
