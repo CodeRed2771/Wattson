@@ -54,6 +54,7 @@ public class Calibration {
 	// Ball Pickup
 	public static final double BALL_PICKUP_PARK_POSITION = 0.96;
 	public static final int BALL_PICKUP_TICKS_PER_REV = 2 ^ 12;
+	public static final double BALL_PICKUP_SPEED = 0.35;
 
 	// Peg Length is actually the distance between the camera and the target if the
 	// tip of the gear peg is in the plane of the gear that is sitting in the robot.

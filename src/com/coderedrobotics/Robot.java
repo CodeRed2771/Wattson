@@ -110,7 +110,7 @@ public class Robot extends IterativeRobot {
 		// Start Pickup
 		if (gamepad.pickup()) {
 			gearPickup.giveTheKrakenATurn();
-			ballPickup.togglePickup();
+			ballPickup.toggle();
 		}
 		
 		// camera views
@@ -124,7 +124,7 @@ public class Robot extends IterativeRobot {
 		
 		// Gear
 		if(gamepad.gearArm()) {
-			ballPickup.setPark(true);
+			ballPickup.park();
 			gearPickup.toggleArm();
 		}
 		if(gamepad.retractGearArm()){

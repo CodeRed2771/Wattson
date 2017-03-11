@@ -17,8 +17,7 @@ public class BallPickup {
 	private PIDControllerAIAO pid;
 	private CANTalon sweeperMotor;
 	private CANTalon sweeperFollower;
-	private boolean pickingUp = false;
-	private boolean parked = false;
+	private boolean enabled = false;
 
 	public BallPickup() {
 
@@ -40,43 +39,31 @@ public class BallPickup {
 		sweeperFollower.reverseOutput(true);
 		sweeperFollower.set(sweeperMotor.getDeviceID());
 
-
 		pid = new PIDControllerAIAO(Calibration.BALL_PICKUP_P, Calibration.BALL_PICKUP_I, Calibration.BALL_PICKUP_D,
 				new PIDSourceFilter((value) -> -sweeperMotor.getEncPosition()), (output) -> sweeperMotor.set(output), false, "");
+
+		pid.setOutputRange(-0.4, 0.4);
 	}
 
-	private void sweeperStart() {
-		if (!parked) {
-		sweeperMotor.set(SmartDashboard.getNumber("Pickup speed: ",.35));
-		pickingUp = true;
-		}
+	public void toggle() {
+		set(!enabled);
 	}
 
-	private void sweeperReverse() {
-		if (!parked) {
-		sweeperMotor.set(-1);
-		}
+	public void park() {
+		if (enabled) set(false);
 	}
 
-	public void togglePickup() {
-		if (pickingUp) {
-			setPark(true);
+	public void start() {
+		if (!enabled) set(true);
+	}
+
+	public void set(boolean enable) {
+		if (enabled = enable) {
+			pid.disable();
+			sweeperMotor.set(Calibration.BALL_PICKUP_SPEED);
 		} else {
-			setPark(false);
-			sweeperStart();
-		}
-
-	}
-
-	public void setPark(boolean park) {
-		if (park) {
-			pickingUp = false;
 			pid.enable();
 			pid.setSetpoint(((-sweeperMotor.getEncPosition()/Calibration.BALL_PICKUP_TICKS_PER_REV)*Calibration.BALL_PICKUP_TICKS_PER_REV) + (Calibration.BALL_PICKUP_TICKS_PER_REV * Calibration.BALL_PICKUP_PARK_POSITION));
-			parked = true;
-		} else {
-			pid.disable();
-			parked = false;
 		}
 	}
 
