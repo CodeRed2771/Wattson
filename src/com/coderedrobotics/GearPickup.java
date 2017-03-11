@@ -78,7 +78,7 @@ public class GearPickup {
 	}
 	
 	public void verticalArm() {
-		gearPickupArm.set(.55);  // test bot .7
+		gearPickupArm.set(.45);  // test bot .7
 		isVertical = true;
 		isHorizontal = false;
 	}
@@ -92,7 +92,7 @@ public class GearPickup {
 		// Parks to original stored position
 		//need to test for the setPoint value, 
 		//and then put the value in Calibration file
-		gearPickupArm.setSetpoint(.6);
+		gearPickupArm.setSetpoint(.53);
 	}
 	public void releaseGear(){
 		gearPickupFinger.set(-.2);  // start going backwards

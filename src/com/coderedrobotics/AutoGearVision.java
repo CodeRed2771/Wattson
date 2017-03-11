@@ -11,10 +11,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 */
 public class AutoGearVision extends AutoBaseClass {
 
-	Target target;
+	private Target target;
 	boolean foundTarget = false;
 
-	public AutoGearVision(DriveAuto driveAuto, int robotPosition) {
+	public AutoGearVision(DriveAuto driveAuto, int robotPosition, Target target) {
 		super(driveAuto, robotPosition);
 		this.target = target;
 	}
@@ -25,20 +25,21 @@ public class AutoGearVision extends AutoBaseClass {
 			switch (getCurrentStep()) {
 			case 0:
 				target.enableVisionTargetMode(true, "Gear");
-				setTimerAndAdvanceStep(3000);
+				setTimerAndAdvanceStep(4000);
 				if (robotPosition() == 1 || robotPosition() == 3) {
 					driveInches(-76, .4);
 				} else {
 					driveInches(-60, .4);
 				}
 				break;
+				
 			case 1:
-				foundTarget = target.foundTarget();
+				//foundTarget = target.foundTarget();
 				if (driveAuto().hasArrived())
 					advanceStep();
 				break;
+				
 			case 2:
-
 				setTimerAndAdvanceStep(3000);
 				switch (robotPosition()) {
 				case 1:
@@ -48,16 +49,18 @@ public class AutoGearVision extends AutoBaseClass {
 					if (target.foundTarget()) {
 						turnDegrees(target.getGearAngle(), 1);
 					}
+					break;
 				case 3:
 					turnDegrees(55, .4);
 					break;
 				}
+				break;
 				
 			case 3:
 				if (driveAuto().hasArrived())
 					advanceStep();
 				break;
-
+				
 			case 4:
 				setTimerAndAdvanceStep(3000);
 				if (target.foundTarget()) {
@@ -67,11 +70,13 @@ public class AutoGearVision extends AutoBaseClass {
 						break;
 					case 2:
 						driveInches(target.getGearDistance(), .4);
+						break;
 					case 3:
 						turnDegrees(target.getGearAngle(), 1);
 						break;
 					}
 				}
+				break;
 
 			case 5:
 				if (driveAuto().hasArrived())
@@ -79,13 +84,13 @@ public class AutoGearVision extends AutoBaseClass {
 				break;
 
 			case 6:
-				setTimerAndAdvanceStep(3000);
+				advanceStep();
 				switch (robotPosition()) {
 				case 1:
 					driveInches(target.getGearDistance(), .4);
 					break;
 				case 2:
-					this.setCurrentStep(99);
+					break;
 				case 3:
 					driveInches(target.getGearDistance(), .4);
 					break;

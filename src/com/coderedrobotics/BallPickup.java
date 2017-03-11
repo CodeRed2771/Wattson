@@ -19,30 +19,30 @@ public class BallPickup {
 	private CANTalon sweeperFollower;
 	private boolean pickingUp = false;
 	private boolean parked = false;
-	
+
 	public BallPickup() {
 
 		//SmartDashboard.putNumber("sweep P", 0);
 		//SmartDashboard.putNumber("sweep I", 0);
 		//SmartDashboard.putNumber("sweep D", 0);
-		
+
 		sweeperMotor = new CANTalon(Wiring.BALL_PICKUP_LEADER);
-		
+
 		sweeperMotor.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Absolute);
 		sweeperMotor.configNominalOutputVoltage(0.0f, 0.0f);
 		sweeperMotor.configPeakOutputVoltage(12, 12);
 		sweeperMotor.setInverted(true);
 		sweeperMotor.changeControlMode(TalonControlMode.PercentVbus);
-		
+
 		sweeperFollower = new CANTalon(Wiring.BALL_PICKUP_FOLLOWER);
-		
+
 		sweeperFollower.changeControlMode(CANTalon.TalonControlMode.Follower);
 		sweeperFollower.reverseOutput(true);
 		sweeperFollower.set(sweeperMotor.getDeviceID());
-		
-		
-		pid = new PIDControllerAIAO(0.00005, 0.25, 0,
-				new PIDSourceFilter((value) -> sweeperMotor.getEncPosition()), (output) -> sweeperMotor.set(output), false, "");
+
+
+		pid = new PIDControllerAIAO(Calibration.BALL_PICKUP_P, Calibration.BALL_PICKUP_I, Calibration.BALL_PICKUP_D,
+				new PIDSourceFilter((value) -> -sweeperMotor.getEncPosition()), (output) -> sweeperMotor.set(output), false, "");
 	}
 
 	private void sweeperStart() {
@@ -51,14 +51,7 @@ public class BallPickup {
 		pickingUp = true;
 		}
 	}
-	
-	private void sweeperStop() {
-		if (!parked) {
-		sweeperMotor.set(0);
-		pickingUp = false;
-		}
-	}
-	
+
 	private void sweeperReverse() {
 		if (!parked) {
 		sweeperMotor.set(-1);
@@ -67,23 +60,20 @@ public class BallPickup {
 
 	public void togglePickup() {
 		if (pickingUp) {
-			sweeperStop();
-			holdParkPosition(true);
+			setPark(true);
 		} else {
-			holdParkPosition(false);
+			setPark(false);
 			sweeperStart();
 		}
 
 	}
-	
-	public void holdParkPosition(boolean putInPark ) {
-		if (putInPark) {
-			sweeperStop();
+
+	public void setPark(boolean park) {
+		if (park) {
+			pickingUp = false;
 			pid.enable();
-			double parkPos = ((int) sweeperMotor.getPosition());
-			pid.setSetpoint(((sweeperMotor.getEncPosition()/4096)*4096) + (4096d * -0.10));
+			pid.setSetpoint(((-sweeperMotor.getEncPosition()/Calibration.BALL_PICKUP_TICKS_PER_REV)*Calibration.BALL_PICKUP_TICKS_PER_REV) + (Calibration.BALL_PICKUP_TICKS_PER_REV * Calibration.BALL_PICKUP_PARK_POSITION));
 			parked = true;
-			SmartDashboard.putNumber("Pickup Park Position Request", parkPos);
 		} else {
 			pid.disable();
 			parked = false;
@@ -91,6 +81,8 @@ public class BallPickup {
 	}
 
 	public void tick() {
+		SmartDashboard.putNumber("sweeper encoder", sweeperMotor.getEncPosition());
+
 //		pid.setPID(
 //				SmartDashboard.getNumber("sweep P", 0),
 //				SmartDashboard.getNumber("sweep I", 0),

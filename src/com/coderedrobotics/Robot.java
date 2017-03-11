@@ -83,7 +83,7 @@ public class Robot extends IterativeRobot {
 		target.enableVisionTargetMode(false, "");
 		gearPickup.park();
 		
-		// ballPickup.holdParkPosition(true);  // FOR TESTING ONLY
+		// ballPickup.setPark(true);  // FOR TESTING ONLY
 	}
 
 	@Override
@@ -124,7 +124,7 @@ public class Robot extends IterativeRobot {
 		
 		// Gear
 		if(gamepad.gearArm()) {
-			ballPickup.holdParkPosition(true);
+			ballPickup.setPark(true);
 			gearPickup.toggleArm();
 		}
 		if(gamepad.retractGearArm()){
@@ -165,7 +165,7 @@ public class Robot extends IterativeRobot {
 			mAutoProgram = new AutoCalibrateTurn(driveAuto, robotPosition);
 			break;
 		case autoGearVision:
-			mAutoProgram = new AutoGearVision(driveAuto, robotPosition);
+			mAutoProgram = new AutoGearVision(driveAuto, robotPosition, target);
 			break;
 		case autoDriveForward:
 			mAutoProgram = new AutoDriveForward(driveAuto, robotPosition);

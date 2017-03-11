@@ -16,7 +16,7 @@ public class Climber {
 	}
 
 	public void climb(double climbPower) {
-		climberMotor.set(climbPower);
+		climberMotor.set(-Math.max(0, climbPower));
 	//	isClimbing = true;
 	}
 

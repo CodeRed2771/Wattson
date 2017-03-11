@@ -30,7 +30,7 @@ public class DriveAuto {
 //        		0, 0, 0, new PIDSourceFilter((double value) -> -(mainDrive.getRightEncoderObject().get())), speed -> mainDrive.autoSetDrive(speed), false, "autodrive");
         drivePID = new PIDControllerAIAO(
         		0, 0, 0, new PIDSourceFilter((double value) -> -(mainDrive.getLeftEncoderObject().get() + mainDrive.getRightEncoderObject().get())/2), speed -> mainDrive.autoSetDrive(speed), false, "autodrive");
-        rotDrivePID = new PIDControllerAIAO(Calibration.AUTO_GYRO_P, Calibration.AUTO_GYRO_I, Calibration.AUTO_GYRO_D, gyro, rot -> mainDrive.autoSetRot(rot), false, "autorot (gyro)");
+        rotDrivePID = new PIDControllerAIAO(Calibration.AUTO_ROT_P, Calibration.AUTO_ROT_I, Calibration.AUTO_ROT_D, gyro, rot -> mainDrive.autoSetRot(rot), false, "autorot (gyro)");
 
         drivePID.setAbsoluteTolerance(Calibration.DRIVE_DISTANCE_TICKS_PER_INCH);  // 1" tolerance
         rotDrivePID.setAbsoluteTolerance(1.5);  // degrees off 
@@ -41,9 +41,9 @@ public class DriveAuto {
         drivePID.setSetpoint(0);
         drivePID.reset();    
         
-        SmartDashboard.putNumber("ROT P",Calibration.AUTO_GYRO_P);
-        SmartDashboard.putNumber("ROT I", Calibration.AUTO_GYRO_I);
-        SmartDashboard.putNumber("ROT D", Calibration.AUTO_GYRO_D);
+        SmartDashboard.putNumber("ROT P",Calibration.AUTO_ROT_P);
+        SmartDashboard.putNumber("ROT I", Calibration.AUTO_ROT_I);
+        SmartDashboard.putNumber("ROT D", Calibration.AUTO_ROT_D);
         SmartDashboard.putNumber("AUTO DRIVE P", Calibration.AUTO_DRIVE_P);
         SmartDashboard.putNumber("AUTO DRIVE I", Calibration.AUTO_DRIVE_I);
         SmartDashboard.putNumber("AUTO DRIVE D", Calibration.AUTO_DRIVE_D);
@@ -119,7 +119,7 @@ public class DriveAuto {
         
         SmartDashboard.putNumber("CurPower", curPowerSetting);
 
-        rotDrivePID.setPID(SmartDashboard.getNumber("ROT P",Calibration.AUTO_GYRO_P), SmartDashboard.getNumber("ROT I", Calibration.AUTO_GYRO_I), SmartDashboard.getNumber("ROT D", Calibration.AUTO_GYRO_D));
+        rotDrivePID.setPID(SmartDashboard.getNumber("ROT P",Calibration.AUTO_ROT_P), SmartDashboard.getNumber("ROT I", Calibration.AUTO_ROT_I), SmartDashboard.getNumber("ROT D", Calibration.AUTO_ROT_D));
         drivePID.setPID(SmartDashboard.getNumber("AUTO DRIVE P", Calibration.AUTO_DRIVE_P), SmartDashboard.getNumber("AUTO DRIVE I", Calibration.AUTO_DRIVE_I), SmartDashboard.getNumber("AUTO DRIVE D", Calibration.AUTO_DRIVE_D));
        // drivePID.setSetpoint(SmartDashboard.getNumber("AUTO SETPOINT", 0));
     }
