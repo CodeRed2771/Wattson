@@ -17,7 +17,6 @@ public class Timer {
 
     private int stage;
     private long endTime;
-    private boolean timerRunning = false;
     
     public Timer() {
 
@@ -25,7 +24,6 @@ public class Timer {
 
     public void setTimer(long time) {
     	endTime = System.currentTimeMillis() + time;
-    	timerRunning = true;
     }
     
     public void setTimerAndAdvanceStage(long time) {
@@ -39,9 +37,9 @@ public class Timer {
     }
     
     public void advanceWhenTimerExpired() {
-        if (timeExpired() && timerRunning) {
+        if (timeExpired()) {
             stage++;
-            timerRunning = false;
+            setTimer(3000);
         }
     }
     
@@ -59,6 +57,7 @@ public class Timer {
     
     public void nextStage() {
         this.stage++;
+        setTimer(3000);
     }
     
     public double getTimeRemainingMilliseconds() {
@@ -74,7 +73,6 @@ public class Timer {
     	advanceWhenTimerExpired();
     	
     	SmartDashboard.putNumber("Timer Stage", stage);
-    	SmartDashboard.putBoolean("Timer Is Running", timerRunning);
     	SmartDashboard.putNumber("Timer Remaining MS",  getTimeRemainingSeconds());
     }
 }

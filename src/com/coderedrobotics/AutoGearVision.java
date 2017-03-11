@@ -40,15 +40,13 @@ public class AutoGearVision extends AutoBaseClass {
 				break;
 				
 			case 2:
-				setTimerAndAdvanceStep(3000);
+				advanceStep();
 				switch (robotPosition()) {
 				case 1:
 					turnDegrees(-55, .4);
 					break;
 				case 2:
-					if (target.foundTarget()) {
-						turnDegrees(target.getGearAngle(), 1);
-					}
+					advanceStep();
 					break;
 				case 3:
 					turnDegrees(55, .4);
@@ -57,24 +55,16 @@ public class AutoGearVision extends AutoBaseClass {
 				break;
 				
 			case 3:
-				if (driveAuto().hasArrived())
+				target.discardData();
+				if (driveAuto().hasArrived()) {
 					advanceStep();
+				}
 				break;
 				
 			case 4:
-				setTimerAndAdvanceStep(3000);
 				if (target.foundTarget()) {
-					switch (robotPosition()) {
-					case 1:
-						turnDegrees(target.getGearAngle(), 1);
-						break;
-					case 2:
-						driveInches(target.getGearDistance(), .4);
-						break;
-					case 3:
-						turnDegrees(target.getGearAngle(), 1);
-						break;
-					}
+					turnDegrees(target.getGearAngle(), 1);
+					advanceStep();
 				}
 				break;
 
@@ -85,17 +75,8 @@ public class AutoGearVision extends AutoBaseClass {
 
 			case 6:
 				advanceStep();
-				switch (robotPosition()) {
-				case 1:
-					driveInches(target.getGearDistance(), .4);
-					break;
-				case 2:
-					break;
-				case 3:
-					driveInches(target.getGearDistance(), .4);
-					break;
-
-				}
+				driveInches(target.getGearDistance(), .4);
+				break;
 			}
 		}
 	}
