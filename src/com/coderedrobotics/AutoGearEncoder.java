@@ -35,13 +35,13 @@ public class AutoGearEncoder extends AutoBaseClass {
 				setTimerAndAdvanceStep(3000);
 				switch(robotPosition()){
 				case 1:
-					turnDegrees(-55,.4);
+					turnDegrees(-52,.4);
 					break;
 				case 2:
 					this.setStep(99);
 					break;
 				case 3:
-					turnDegrees(55,.4);
+					turnDegrees(52,.4);
 					break;
 				}
 				break;
@@ -51,7 +51,7 @@ public class AutoGearEncoder extends AutoBaseClass {
 				break;
 			case 4:
 				setTimerAndAdvanceStep(3000);			
-				driveInches(-50,.4);
+				driveInches(-50,.25);
 			}
 		}
 	}

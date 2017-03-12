@@ -15,6 +15,7 @@ public class Target {
 	Thread visionThread;
 	Relay lightRing;
 	Servo cameraServo;
+	boolean activeMode = false;
 
 	// These are the variables that will hold the X and Y values of the two
 	// registered images
@@ -26,8 +27,8 @@ public class Target {
 	double height2 = 0.0;
 
 	// These are going to be the location in between the two images
-	double gearX = 0.0;
-	double gearY = 0.0;
+	double gearX = -1;
+	double gearY = -1;
 
 	// variables used to set the image resolution
 	int resolutionX = 320;
@@ -50,7 +51,7 @@ public class Target {
 
 				objectsFound = gp.filterContoursOutput().size();
 
-				if (objectsFound == 2) {
+				if (objectsFound == 2 && activeMode) {
 
 					Rect r1 = Imgproc.boundingRect(gp.filterContoursOutput().get(0));
 					Rect r2 = Imgproc.boundingRect(gp.filterContoursOutput().get(1));
@@ -70,8 +71,8 @@ public class Target {
 
 				} else {
 
-					//gearX = -1;
-					//gearY = -1;
+					// gearX = -1;
+					// gearY = -1;
 				}
 
 			}
@@ -81,13 +82,18 @@ public class Target {
 		visionThread.setDaemon(true);
 		visionThread.start();
 
-//		SmartDashboard.putBoolean("GRIP THREAD IS ALIVE", visionThread.isAlive());
+		// SmartDashboard.putBoolean("GRIP THREAD IS ALIVE",
+		// visionThread.isAlive());
 
 	}
 
 	public void discardData() {
 		gearX = -1;
 		gearY = -1;
+	}
+
+	public void setActiveMode(boolean enable) {
+		this.activeMode = enable;
 	}
 
 	public double degreesOffTarget() {
@@ -105,8 +111,8 @@ public class Target {
 		return (gearX >= 0 && gearY >= 0);
 	}
 
-	//need complete the method(return statement)
-	public boolean foundBoilerTarget(){
+	// need complete the method(return statement)
+	public boolean foundBoilerTarget() {
 		return true;
 	}
 
@@ -168,37 +174,44 @@ public class Target {
 			lightRing.set(Value.kOff);
 	}
 
-	public double getGearDistance() {
-		double cameraDistance = distanceFromGearTarget() - Calibration.PEG_LENGTH;
+	public double getGearAngle() {
+		double cameraDistance = distanceFromGearTarget();
 		double cameraAngle = degreesOffTarget();
-		double x = (Math.sin(cameraAngle) * cameraDistance) + Calibration.LATERAL_CAMERA_OFFSET;
-		double y = (Math.cos(cameraAngle) * cameraDistance) - Calibration.PEG_LENGTH;
-		return Math.atan2(x, y);
+		double x = (Math.sin(Math.toRadians(cameraAngle)) * cameraDistance) - Calibration.LATERAL_CAMERA_OFFSET;
+		double y = (Math.cos(Math.toRadians(cameraAngle)) * cameraDistance) - Calibration.PEG_LENGTH;
+		SmartDashboard.putNumber("cam X", x);
+		SmartDashboard.putNumber("cam Y", y);
+		return Math.toDegrees(Math.atan(x / y));
 	}
 
-
-	public double getGearAngle() {
-		double cameraDistance = distanceFromGearTarget() - Calibration.PEG_LENGTH;
+	public double getGearDistance() {
+		double cameraDistance = distanceFromGearTarget();
 		double cameraAngle = degreesOffTarget();
 		double x = (Math.sin(cameraAngle) * cameraDistance) + Calibration.LATERAL_CAMERA_OFFSET;
 		double y = (Math.cos(cameraAngle) * cameraDistance) - Calibration.PEG_LENGTH;
 		return Math.sqrt((x * x) + (y * y));
 	}
 
-	public double getBoilerAngle(){
-		return ((resolutionX/2)-gearX)/10;//NEEDS TO BE UNDATED FOR BOILERS!
+	public double getBoilerAngle() {
+		return ((resolutionX / 2) - gearX) / 10;// NEEDS TO BE UNDATED FOR
+												// BOILERS!
 	}
 
 	public void displayDetails() {
 		// puts the numbers of the final X and Y on the dashboard
-		SmartDashboard.putNumber("Center X", gearX);
-		SmartDashboard.putNumber("Center Y", gearY);
-		SmartDashboard.putNumber("Objects Found", objectsFound);
-//		SmartDashboard.putNumber("rectangle one height", height1);
-//		SmartDashboard.putNumber("rectangle two height", height2);
-//		SmartDashboard.putNumber("Distance From Target", distanceFromGearTarget());
-		SmartDashboard.putNumber("Degrees off target", degreesOffTarget());
-		SmartDashboard.putNumber("Gear Angle", getGearAngle());
+		SmartDashboard.putBoolean("Target collect enabled", activeMode);
+
+		if (activeMode) {
+			SmartDashboard.putNumber("Center X", gearX);
+			SmartDashboard.putNumber("Center Y", gearY);
+			SmartDashboard.putNumber("Objects Found", objectsFound);
+
+			// SmartDashboard.putNumber("rectangle one height", height1);
+			// SmartDashboard.putNumber("rectangle two height", height2);
+			SmartDashboard.putNumber("Distance From Target", distanceFromGearTarget());
+			SmartDashboard.putNumber("Degrees off target", degreesOffTarget());
+			SmartDashboard.putNumber("Gear Angle", getGearAngle());
+		}
 
 	}
 }

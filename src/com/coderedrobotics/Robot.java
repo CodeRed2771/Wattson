@@ -143,6 +143,7 @@ public class Robot extends IterativeRobot {
 		
 		drive.tick();
 		SmartDashboard.putNumber("Gyro", gyro.getAngle());
+		target.displayDetails();
 		
 	}
 
