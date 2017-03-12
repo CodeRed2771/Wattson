@@ -11,6 +11,7 @@ import com.coderedrobotics.libs.Logger;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -27,6 +28,9 @@ public class Robot extends IterativeRobot {
 	GearPickup gearPickup;
 	//ADXRS450_Gyro gyro;
 	AnalogGyro gyro;
+	PowerDistributionPanel pdp;
+	double[][] history = new double[16][50];
+	int hIndex = 0;
 
 	SendableChooser autoChooser;
 	final String autoDriveForward = "Drive Forward";
@@ -41,6 +45,9 @@ public class Robot extends IterativeRobot {
 	AutoBaseClass mAutoProgram;
 	
 	public void robotInit() {
+		
+		pdp = new PowerDistributionPanel();
+		
 		//gyro = new ADXRS450_Gyro(Port.kOnboardCS0);
 		gyro = new AnalogGyro(Wiring.GYRO_PORT);
 		gyro.calibrate();
@@ -88,6 +95,29 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void teleopPeriodic() {
+
+		//double l1 = pdp.getCurrent(Wiring.LEFT_DRIVE_MOTOR1);
+		//double l2 = pdp.getCurrent(Wiring.LEFT_DRIVE_MOTOR2);
+		//double r1 = pdp.getCurrent(Wiring.RIGHT_DRIVE_MOTOR1);
+		//double r2 = pdp.getCurrent(Wiring.RIGHT_DRIVE_MOTOR2);
+
+		hIndex = (hIndex + 1) % 50;
+		for (int i = 0; i < 16; i++) {
+			double current = pdp.getCurrent(i);
+			SmartDashboard.putNumber("PDP"+i, current);
+			history[i][hIndex] = current;
+			double max = 0;
+			double total = 0;
+			for (int j = 0; j < 50; j++) {
+				max = Math.max(max, history[i][j]);
+				total += history[i][j];
+			}
+			SmartDashboard.putNumber("Peak"+i, max);
+			SmartDashboard.putNumber("Avg"+i, total/50);
+			
+		}
+		
+		//SmartDashboard.putNumber("Drive Total", l1 + l2 + r1 + r2);
 
 		// Drive
 		if (gamepad.flipDrive()){
