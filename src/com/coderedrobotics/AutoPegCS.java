@@ -31,7 +31,7 @@ public class AutoPegCS extends AutoBaseClass {
 				} else if (robotPosition() == 3) {
 					turnDegrees(-.45, .2); // opposite of position 1
 				} else if (robotPosition() == 2) {
-					setCurrentStep(6);
+					setStep(6);
 				}
 				break;
 			case 3:

@@ -81,7 +81,7 @@ public class Target {
 		visionThread.setDaemon(true);
 		visionThread.start();
 
-		SmartDashboard.putBoolean("GRIP THREAD IS ALIVE", visionThread.isAlive());
+//		SmartDashboard.putBoolean("GRIP THREAD IS ALIVE", visionThread.isAlive());
 
 	}
 
@@ -194,11 +194,11 @@ public class Target {
 		SmartDashboard.putNumber("Center X", gearX);
 		SmartDashboard.putNumber("Center Y", gearY);
 		SmartDashboard.putNumber("Objects Found", objectsFound);
-		SmartDashboard.putNumber("rectangle one height", height1);
-		SmartDashboard.putNumber("rectangle two height", height2);
-		SmartDashboard.putNumber("Distance From Target", distanceFromGearTarget());
-		SmartDashboard.putNumber("degrees off target", degreesOffTarget());
-		SmartDashboard.putBoolean("GRIP THREAD IS ALIVE", visionThread.isAlive());
+//		SmartDashboard.putNumber("rectangle one height", height1);
+//		SmartDashboard.putNumber("rectangle two height", height2);
+//		SmartDashboard.putNumber("Distance From Target", distanceFromGearTarget());
+		SmartDashboard.putNumber("Degrees off target", degreesOffTarget());
+		SmartDashboard.putNumber("Gear Angle", getGearAngle());
 
 	}
 }

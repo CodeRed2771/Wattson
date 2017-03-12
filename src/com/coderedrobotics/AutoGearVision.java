@@ -3,12 +3,7 @@ package com.coderedrobotics;
 import com.coderedrobotics.libs.AutoBaseClass;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-/*
- TargetTest
 
- Starts with target in view, aligns itself and drives to target
- 
-*/
 public class AutoGearVision extends AutoBaseClass {
 
 	private Target target;
@@ -34,13 +29,12 @@ public class AutoGearVision extends AutoBaseClass {
 				break;
 				
 			case 1:
-				//foundTarget = target.foundTarget();
 				if (driveAuto().hasArrived())
 					advanceStep();
 				break;
 				
 			case 2:
-				setTimerAndAdvanceStep(3000);
+				setTimerAndAdvanceStep(2000);
 				switch (robotPosition()) {
 				case 1:
 					turnDegrees(-55, .4);
@@ -62,7 +56,7 @@ public class AutoGearVision extends AutoBaseClass {
 				break;
 				
 			case 4:
-				setTimerAndAdvanceStep(3000);
+				setTimerAndAdvanceStep(2000);
 				break;
 				
 			case 5:
@@ -70,12 +64,15 @@ public class AutoGearVision extends AutoBaseClass {
 					switch (robotPosition()) {
 					case 1:
 						turnDegrees(target.getGearAngle(), 1);
+						setTimerAndAdvanceStep(2000);
 						break;
 					case 2:
 //						driveInches(target.getGearDistance(), .4);
+						setStep(7);
 						break;
 					case 3:
 						turnDegrees(target.getGearAngle(), 1);
+						setTimerAndAdvanceStep(2000);
 						break;
 					}
 				}

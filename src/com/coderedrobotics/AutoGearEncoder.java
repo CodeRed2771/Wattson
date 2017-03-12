@@ -38,7 +38,7 @@ public class AutoGearEncoder extends AutoBaseClass {
 					turnDegrees(-55,.4);
 					break;
 				case 2:
-					this.setCurrentStep(99);
+					this.setStep(99);
 					break;
 				case 3:
 					turnDegrees(55,.4);

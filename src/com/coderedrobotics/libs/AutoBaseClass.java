@@ -44,7 +44,7 @@ public abstract class AutoBaseClass {
 		return mAutoTimer.getStage();
 	}
 
-	public void setCurrentStep(int step) {
+	public void setStep(int step) {
 		mAutoTimer.setStage(step);
 	}
 

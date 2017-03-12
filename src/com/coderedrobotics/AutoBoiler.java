@@ -35,7 +35,7 @@ public class AutoBoiler extends AutoBaseClass {
 				if (foundTarget) {
 					advanceStep();
 				} else {
-					setCurrentStep(1000);
+					setStep(1000);
 				}
 				break;
 
