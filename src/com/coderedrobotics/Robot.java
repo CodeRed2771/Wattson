@@ -127,9 +127,11 @@ public class Robot extends IterativeRobot {
 			ballPickup.park();
 			gearPickup.toggleArm();
 		}
+		
 		if(gamepad.retractGearArm()){
 			gearPickup.park();
 		}
+		
 		if (gamepad.gearRelease()) {
 			gearPickup.releaseGear();
 		}
