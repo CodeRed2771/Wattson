@@ -107,7 +107,7 @@ public class Robot extends IterativeRobot {
 		} else
 			shooter.stopFeeder();
 
-		// Start Pickup
+		// Turn on/off ball pickup
 		if (gamepad.pickup()) {
 			gearPickup.giveTheKrakenATurn();
 			ballPickup.toggle();
@@ -124,16 +124,18 @@ public class Robot extends IterativeRobot {
 		
 		// Gear
 		if(gamepad.gearArm()) {
-			ballPickup.park();
+			ballPickup.park();      // any time we're doing something with Gear Arm, make sure pickup is parked
 			gearPickup.toggleArm();
 		}
 		
 		if(gamepad.retractGearArm()){
-			gearPickup.park();
+			gearPickup.park(); 
+			ballPickup.park();       // any time we're doing something with Gear Arm, make sure pickup is parked
 		}
 		
 		if (gamepad.gearRelease()) {
 			gearPickup.releaseGear();
+			ballPickup.park();       // any time we're doing something with Gear Arm, make sure pickup is parked
 		}
 		
 		// climber
@@ -144,6 +146,7 @@ public class Robot extends IterativeRobot {
 		gearPickup.tick();
 		
 		drive.tick();
+
 		SmartDashboard.putNumber("Gyro", gyro.getAngle());
 		target.displayDetails();
 		
