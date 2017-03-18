@@ -109,7 +109,7 @@ public class Robot extends IterativeRobot {
 
 		// Turn on/off ball pickup
 		if (gamepad.pickup()) {
-			gearPickup.disable();
+			gearPickup.giveTheKrakenATurn();
 			ballPickup.toggle();
 		}
 		
