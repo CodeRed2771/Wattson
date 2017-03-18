@@ -3,17 +3,17 @@ package com.coderedrobotics;
 public class Calibration {
 
   // PID
-	public static final double SHOOTER_P = 0.08;
+	public static final double SHOOTER_P = 0.06;
 	public static final double SHOOTER_I = 0;
-	public static final double SHOOTER_D = 4.0;
+	public static final double SHOOTER_D = 0.5;
 	public static final double SHOOTER_F = 0.025;   // .03 = 1000   // .028 for 2000
-	public static final double SHOOTER_SETPOINT = 3600;
+	public static final double SHOOTER_SETPOINT = 3425;
 
 	public static final double FEEDER_P = 0.1;
 	public static final double FEEDER_I = 0;
 	public static final double FEEDER_D = 0;
 	public static final double FEEDER_F = 0;
-	public static final double FEEDER_SETPOINT = 3000;
+	public static final double FEEDER_SETPOINT = 2800;
 
 	public static final double GEAR_PICKUP_ARM_P = 4;
 	public static final double GEAR_PICKUP_ARM_I = 0;

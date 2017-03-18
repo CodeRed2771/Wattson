@@ -72,13 +72,13 @@ public class GearPickup {
 		isReleasing = false;
 	}
 	
-	public void stop() {
+	public void startPickup() {
 		isPickingUp = true;
 		gearPickupArm.set(Calibration.GEAR_PICKUP_ARM_HORIZONTAL);
 		isHorizontal = true;
 		fingersStartTime = System.currentTimeMillis();
 		fingersEncLastPosition = Math.abs(fingersEncoder.get());
-		gearPickupFinger.set(-0.6);
+		gearPickupFinger.set(-0.8);
 	}
 
 	public void toggleArm() {
@@ -87,7 +87,7 @@ public class GearPickup {
 			stopFingers();
 		} else {
 			// Reach down and start trying to pick up the gear
-			stop();
+			startPickup();
 		}
 	}
 
@@ -101,7 +101,7 @@ public class GearPickup {
 			// not, we have a gear
 			if (System.currentTimeMillis() > fingersStartTime + 300) {
 				if (Math.abs(fingersEncoder.get()) - fingersEncLastPosition < 25) {
-					gearPickupFinger.set(0.40);
+					gearPickupFinger.set(0.60);
 					setVertical();
 					isPickingUp = false;
 				} else {

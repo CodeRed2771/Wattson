@@ -17,6 +17,7 @@ public class Shooter {
 	boolean isShooting = false;
 	boolean isFeeding = false;
 	double feederStartTime;
+	double shooterStartTime;
 	Target target;
 
 	public Shooter(Target target) {
@@ -68,11 +69,13 @@ public class Shooter {
 	public void spinUpShooter() {
 		isShooting = true;
 		target.boilerView();
-		shooter.set(Calibration.SHOOTER_SETPOINT);
+		shooterStartTime = System.currentTimeMillis();
+		shooter.configPeakOutputVoltage(12, -12);
+		shooter.set(-Calibration.SHOOTER_SETPOINT);  // spin backwards for a brief moment
 	}
 
 	public boolean isSpunUp() {
-		return Math.abs(shooter.getClosedLoopError()) < 5000;
+		return Math.abs(shooter.getClosedLoopError()) < 5000;   // this isn't actually doing anything
 
 	}
 
@@ -107,13 +110,16 @@ public class Shooter {
 	}
 
 	public void tick() {
-		SmartDashboard.putBoolean("SHOOTER SPUN UP", isSpunUp());
 		SmartDashboard.putBoolean("iShooting", isShooting);
 		SmartDashboard.putNumber("Shooter 1", shooter.getSetpoint());
 		SmartDashboard.putNumber("Shooter 2", shooterFollower.getSetpoint());
 
 		if (isShooting) {
-			shooter.set(SmartDashboard.getNumber("Shooter Setpoint", Calibration.SHOOTER_SETPOINT));
+			if (System.currentTimeMillis() > (shooterStartTime + 300)) {
+				// switch direction to forward after 750 ms
+				shooter.configPeakOutputVoltage(12, 0);
+				shooter.set(SmartDashboard.getNumber("Shooter Setpoint", Calibration.SHOOTER_SETPOINT));
+			}
 		}
 
 		shooter.setP(SmartDashboard.getNumber("Shooter P", Calibration.SHOOTER_P));
@@ -121,12 +127,8 @@ public class Shooter {
 		shooter.setD(SmartDashboard.getNumber("Shooter D", Calibration.SHOOTER_D));
 		shooter.setF(SmartDashboard.getNumber("Shooter F", Calibration.SHOOTER_F));
 		
-		SmartDashboard.putNumber("Ballfeeder Voltage", ballFeeder.getOutputVoltage());
-
 		SmartDashboard.putNumber("Shooter Error", shooter.getError());
-		SmartDashboard.putNumber("Shooter Closed Loop Error", shooter.getClosedLoopError());
 		SmartDashboard.putNumber("Shooter Get", shooter.get());
-		SmartDashboard.putNumber("Shooter output voltage", shooter.getOutputVoltage());
 		SmartDashboard.putNumber("Velocity", shooter.getEncVelocity());
 
 		if (isFeeding) {
