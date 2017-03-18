@@ -31,7 +31,7 @@ public class GearPickup {
 				Calibration.GEAR_PICKUP_ARM_D);
 		gearPickupArm.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Absolute);
 		gearPickupArm.changeControlMode(TalonControlMode.Position);
-		gearPickupArm.configPeakOutputVoltage(3, -3);
+		gearPickupArm.configPeakOutputVoltage(4, -5);
 
 		fingersEncoder = new Encoder(Wiring.FINGER_ENCODER_A, Wiring.FINGER_ENCODER_B);
 
@@ -69,18 +69,21 @@ public class GearPickup {
 
 	public void releaseGear() {
 		// reverse the fingers briefly, gets stopped in tick method
-		gearPickupFinger.set(-.4);
-		isReleasing = true;
-		isPickingUp = false;
-		fingersEncLastPosition = Math.abs(fingersEncoder.get());
+		if (!isReleasing) {
+			gearPickupFinger.set(.4);
+			isReleasing = true;
+			isPickingUp = false;
+			fingersEncLastPosition = Math.abs(fingersEncoder.get());
+		}
 	}
 
 	public void stopFingers() {
 		gearPickupFinger.set(0);
 		isReleasing = false;
 	}
-	
+
 	public void startPickup() {
+		fingersEncoder.reset();
 		isPickingUp = true;
 		gearPickupArm.set(Calibration.GEAR_PICKUP_ARM_HORIZONTAL);
 		isHorizontal = true;
@@ -109,8 +112,8 @@ public class GearPickup {
 			// not, we have a gear
 			if (System.currentTimeMillis() > fingersStartTime + 300) {
 				if (Math.abs(fingersEncoder.get()) - fingersEncLastPosition < 25) {
-					gearPickupFinger.set(0.60);
-					setVertical();
+					gearPickupFinger.set(-0.60);
+					verticalArm();
 					isPickingUp = false;
 				} else {
 					fingersStartTime = System.currentTimeMillis();
@@ -121,7 +124,7 @@ public class GearPickup {
 
 		if (isReleasing) {
 			// run the fingers backwards for 25 ticks to release gear
-			if (Math.abs(fingersEncoder.get()) < (fingersEncLastPosition - 25)) {
+			if (Math.abs(fingersEncoder.get()) - fingersEncLastPosition > 25) {
 				stopFingers();
 			}
 		}
