@@ -124,7 +124,7 @@ public class GearPickup {
 
 		if (isReleasing) {
 			// run the fingers backwards for 25 ticks to release gear
-			if (Math.abs(fingersEncoder.get()) - fingersEncLastPosition > 25) {
+			if (Math.abs(Math.abs(fingersEncoder.get()) - fingersEncLastPosition) > 25) {
 				stopFingers();
 			}
 		}
