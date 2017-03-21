@@ -182,7 +182,7 @@ public class DriveAuto {
         //  	SmartDashboard.putNumber("Right Drive Encoder Get: ", mainDrive.getRightEncoderObject().get());
         //     	SmartDashboard.putNumber("Left Drive Distance: ", leftEncoder.getDistance());
         //     	SmartDashboard.putNumber("Right Drive Distance: ", rightEncoder.getDistance());
-         //		SmartDashboard.putNumber("Right Drive Encoder Raw: ", rightEncoder.getRaw());
+        //		SmartDashboard.putNumber("Right Drive Encoder Raw: ", rightEncoder.getRaw());
         //		SmartDashboard.putNumber("Right Setpoint: ", rightDrivePID.getSetpoint());
 
     }
