@@ -30,6 +30,7 @@ public class KeyMap {
     private final HID.Axis driveRightAxis = LogitechF310.STICK_RIGHT_Y;
     private final HID.Axis driveLeftAxis = LogitechF310.STICK_LEFT_Y;
     private final HID.Axis climberAxis = LogitechF310.TRIGGER_LEFT_AXIS;
+    private final HID.Axis gearPositionAxis = LogitechF310.TRIGGER_RIGHT_AXIS;
 
     
     // CONTROLLER 1
@@ -119,6 +120,9 @@ public class KeyMap {
     }
     public boolean gearRelease() {
     	return getHID(gamepad2).button(gearRelease);
+    }
+    public boolean gearAutoPosition() {
+    	return getHID(gamepad1).axis(gearPositionAxis) > .5;
     }
     //NEW STUFF - 2017
 
