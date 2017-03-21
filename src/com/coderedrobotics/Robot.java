@@ -39,6 +39,7 @@ public class Robot extends IterativeRobot {
 	final String autoGearEncoder = "Gear Encoder";
 	final String autoGearVision = "autoGearVision";
 	final String autoTimerTest = "Timer Test";
+	final String autoBoilerEncoder = "Boiler Encoder";
 	String autoSelected;
 
 	AutoBaseClass mAutoProgram;
@@ -71,6 +72,7 @@ public class Robot extends IterativeRobot {
 		autoChooser.addDefault(autoDriveForward, autoDriveForward);
 		autoChooser.addObject(autoGearEncoder, autoGearEncoder);
 		autoChooser.addObject(autoGearVision, autoGearVision);
+		autoChooser.addObject(autoBoilerEncoder, autoBoilerEncoder);
 		autoChooser.addObject(autoTargetTest, autoTargetTest);
 		autoChooser.addObject(autoCalibrateTurn, autoCalibrateTurn);
 		autoChooser.addObject(autoCalibrateDrive, autoCalibrateDrive);
@@ -204,6 +206,9 @@ public class Robot extends IterativeRobot {
 			break;
 		case autoGearVision:
 			mAutoProgram = new AutoGearVision(driveAuto, robotPosition, target);
+			break;
+		case autoBoilerEncoder:
+			mAutoProgram = new AutoBoilerEncoder(driveAuto, robotPosition, target,  shooter);
 			break;
 		case autoDriveForward:
 			mAutoProgram = new AutoDriveForward(driveAuto, robotPosition);

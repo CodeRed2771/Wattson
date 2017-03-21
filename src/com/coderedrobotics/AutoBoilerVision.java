@@ -9,12 +9,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  Starts with target in view, aligns itself and drives to target
  
 */
-public class AutoBoiler extends AutoBaseClass {
+public class AutoBoilerVision extends AutoBaseClass {
 	Target target;
 	Shooter shooter;
 	boolean foundTarget = false;
 
-	public AutoBoiler(DriveAuto driveAuto, int robotPosition, Target target, Shooter shooter) {
+	public AutoBoilerVision(DriveAuto driveAuto, int robotPosition, Target target, Shooter shooter) {
 		super(driveAuto, robotPosition);
 		this.target = target;
 		this.shooter = shooter;
