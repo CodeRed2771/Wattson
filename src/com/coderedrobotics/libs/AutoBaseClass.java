@@ -84,5 +84,13 @@ public abstract class AutoBaseClass {
 	public void setTimerAndAdvanceStep(long milliseconds) {
 		mAutoTimer.setTimerAndAdvanceStage(milliseconds);
 	}
+	
+	public void setTimer(long milliseconds) {
+		mAutoTimer.setTimer(milliseconds);
+	}
+	
+	public boolean timeExpired() {
+		return mAutoTimer.timeExpired();
+	}
 
 }
