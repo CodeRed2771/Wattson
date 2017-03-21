@@ -1,4 +1,5 @@
 package com.coderedrobotics;
+
 /*
  * 2017 Code Red Robotics
  * 
@@ -7,6 +8,7 @@ package com.coderedrobotics;
  */
 import com.coderedrobotics.libs.AutoBaseClass;
 import com.coderedrobotics.libs.Logger;
+import com.coderedrobotics.libs.Timer;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.AnalogGyro;
@@ -25,8 +27,9 @@ public class Robot extends IterativeRobot {
 	Climber climber;
 	BallPickup ballPickup;
 	GearPickup gearPickup;
-	//ADXRS450_Gyro gyro;
+	// ADXRS450_Gyro gyro;
 	AnalogGyro gyro;
+	Timer autoDriveTimer;
 
 	SendableChooser autoChooser;
 	final String autoDriveForward = "Drive Forward";
@@ -37,27 +40,31 @@ public class Robot extends IterativeRobot {
 	final String autoGearVision = "autoGearVision";
 	final String autoTimerTest = "Timer Test";
 	String autoSelected;
-	
+
 	AutoBaseClass mAutoProgram;
-	
+
+	boolean autoDriving = false;
+
 	public void robotInit() {
-		//gyro = new ADXRS450_Gyro(Port.kOnboardCS0);
+		// gyro = new ADXRS450_Gyro(Port.kOnboardCS0);
 		gyro = new AnalogGyro(Wiring.GYRO_PORT);
 		gyro.calibrate();
-		
+
 		target = new Target();
 		drive = new Drive();
 		driveAuto = new DriveAuto(drive, gyro);
 
 		drive.set(0, 0);
 		drive.setPIDstate(true);
-		
+
 		shooter = new Shooter(target);
 		climber = new Climber();
 		ballPickup = new BallPickup();
 		gearPickup = new GearPickup();
-				
-//		driveAuto.showPIDValues();
+
+		autoDriveTimer = new Timer();
+
+		// driveAuto.showPIDValues();
 
 		autoChooser = new SendableChooser();
 
@@ -82,27 +89,30 @@ public class Robot extends IterativeRobot {
 		drive.set(0, 0);
 		target.enableVisionTargetMode(false, "");
 		gearPickup.park();
-		
-		// ballPickup.setPark(true);  // FOR TESTING ONLY
+
+		// ballPickup.setPark(true); // FOR TESTING ONLY
 	}
 
 	@Override
 	public void teleopPeriodic() {
 
 		// Drive
-		if (gamepad.flipDrive()){
-			drive.set(-gamepad.getRightAxis(), -gamepad.getLeftAxis());			
-		} else {
-			drive.set(gamepad.getLeftAxis(), gamepad.getRightAxis());			
+		if (!autoDriving) {
+			if (gamepad.flipDrive()) {
+				drive.set(-gamepad.getRightAxis(), -gamepad.getLeftAxis());
+			} else {
+				drive.set(gamepad.getLeftAxis(), gamepad.getRightAxis());
+			}
 		}
-		
+
 		// Shooter
-		if(gamepad.shooterWheels()){
+		if (gamepad.shooterWheels()) {
 			shooter.toggleShooter();
 		}
-		
-		// Start/stop shooter intake (BOTTOM) - only shoot while holding the button
-		if(gamepad.shooterIntake()){
+
+		// Start/stop shooter intake (BOTTOM) - only shoot while holding the
+		// button
+		if (gamepad.shooterIntake()) {
 			shooter.feedShooter();
 		} else
 			shooter.stopFeeder();
@@ -112,56 +122,78 @@ public class Robot extends IterativeRobot {
 			gearPickup.giveTheKrakenATurn();
 			ballPickup.toggle();
 		}
-		
+
 		// camera views
 		if (gamepad.cameraGearPickupView()) {
 			target.gearPickupView();
 		}
-		
+
 		if (gamepad.cameraRegularView()) {
 			target.regularView();
 		}
-		
+
 		// Gear
-		if(gamepad.gearArm()) {
-			ballPickup.park();      // any time we're doing something with Gear Arm, make sure pickup is parked
+		if (gamepad.gearArm()) {
+			ballPickup.park(); // any time we're doing something with Gear Arm,
+								// make sure pickup is parked
 			gearPickup.toggleArm();
 		}
-		
-		if(gamepad.retractGearArm()){
-			gearPickup.park(); 
-			ballPickup.park();       // any time we're doing something with Gear Arm, make sure pickup is parked
+
+		if (gamepad.retractGearArm()) {
+			gearPickup.park();
+			ballPickup.park(); // any time we're doing something with Gear Arm,
+								// make sure pickup is parked
 		}
-		
+
 		if (gamepad.gearRelease()) {
 			gearPickup.releaseGear();
-			ballPickup.park();       // any time we're doing something with Gear Arm, make sure pickup is parked
+			ballPickup.park(); // any time we're doing something with Gear Arm,
+								// make sure pickup is parked
 		}
-		
+
+		if (gamepad.gearAutoPosition() && !autoDriving) {
+			autoDriving = true;
+			driveAuto.reset();
+			driveAuto.setPIDstate(true);
+			driveAuto.driveInches(9, .7);
+			autoDriveTimer.setTimer(1000);
+		}
+
+		if (autoDriving) {
+			driveAuto.tick();
+			if (autoDriveTimer.timeExpired()) {
+				autoDriving = false;
+				driveAuto.setPIDstate(false);
+			}
+		}
+
+		SmartDashboard.putBoolean("TELEOP AUTO DRIVE", autoDriving);
+		SmartDashboard.putNumber("TELEOP TIMER MS LEFT", autoDriveTimer.getTimeRemainingMilliseconds());
+
 		// climber
 		climber.climb(gamepad.getClimberAxis());
 
 		shooter.tick();
 		ballPickup.tick();
 		gearPickup.tick();
-		
+
 		drive.tick();
 
 		SmartDashboard.putNumber("Gyro", gyro.getAngle());
 		target.displayDetails();
-		
+
 	}
 
 	public void autonomousInit() {
 		drive.set(0, 0);
 		drive.setPIDstate(true);
-		
+
 		driveAuto.reset();
-		
+
 		autoSelected = (String) autoChooser.getSelected();
 		SmartDashboard.putString("Auto selected: ", autoSelected);
-		
-		int robotPosition = (int)SmartDashboard.getNumber("Robot Position",2);
+
+		int robotPosition = (int) SmartDashboard.getNumber("Robot Position", 2);
 
 		switch (autoSelected) {
 		case autoTargetTest:
