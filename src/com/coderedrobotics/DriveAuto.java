@@ -16,13 +16,13 @@ public class DriveAuto {
     private PIDControllerAIAO rotDrivePID;
     private Drive mainDrive;
    // private ADXRS450_Gyro gyro;
-    private AnalogGyro gyro;
+    private ADXRS450_Gyro gyro;
     private double minDriveStartPower = .1;
 
     private double maxPowerAllowed = 1;
     private double curPowerSetting = 1;
         
-    public DriveAuto(Drive mainDrive, AnalogGyro gyro) {
+    public DriveAuto(Drive mainDrive, ADXRS450_Gyro gyro) {
         this.mainDrive = mainDrive;
         this.gyro = gyro;
 

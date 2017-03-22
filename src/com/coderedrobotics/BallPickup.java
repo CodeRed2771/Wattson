@@ -69,7 +69,7 @@ public class BallPickup {
 
 	public void tick() {
 		SmartDashboard.putNumber("sweeper encoder", sweeperMotor.getEncPosition());
-
+		SmartDashboard.putBoolean("Ball Pickup Enabled", enabled);
 //		pid.setPID(
 //				SmartDashboard.getNumber("sweep P", 0),
 //				SmartDashboard.getNumber("sweep I", 0),

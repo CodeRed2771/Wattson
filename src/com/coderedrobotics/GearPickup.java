@@ -36,7 +36,6 @@ public class GearPickup {
 		fingersEncoder = new Encoder(Wiring.FINGER_ENCODER_A, Wiring.FINGER_ENCODER_B);
 
 		SmartDashboard.putNumber("Arm P", Calibration.GEAR_PICKUP_ARM_P);
-		SmartDashboard.putNumber("Arm Setpoint", Calibration.GEAR_PICKUP_ARM_SETPOINT);
 
 	}
 
@@ -47,9 +46,9 @@ public class GearPickup {
 		stopFingers();
 	}
 
-	public void releasePickup() {
-		// Lift gear pickup up far enough to release the ball pickup mechanism.
-		gearPickupArm.set(Calibration.GEAR_PICKUP_ARM_SETPOINT);
+	public void releaseBallPickup() {
+		// Move gear pickup up far enough to release the ball pickup mechanism.
+		gearPickupArm.set(Calibration.GEAR_PICKUP_ARM_HORIZONTAL);
 	}
 
 	public void verticalArm() {
@@ -131,7 +130,7 @@ public class GearPickup {
 
 		gearPickupArm.setP(SmartDashboard.getNumber("Arm P", Calibration.GEAR_PICKUP_ARM_P));
 
-		SmartDashboard.putNumber("Arm Setpoint", Calibration.GEAR_PICKUP_ARM_SETPOINT);
+		SmartDashboard.putNumber("Arm Setpoint", gearPickupArm.getSetpoint());
 		SmartDashboard.putNumber("Arm Error: ", gearPickupArm.getClosedLoopError());
 	}
 }

@@ -34,7 +34,7 @@ public class Calibration {
 	public static final double ROT_I = 2.5;
 	public static final double ROT_D = 1;
 
-	public static final double AUTO_ROT_P = 0.1; // increased from .022 on 3/20/17 dvv
+	public static final double AUTO_ROT_P = 0.03; // increased from .022 on 3/20/17 dvv
 	public static final double AUTO_ROT_I = 0;
 	public static final double AUTO_ROT_D = 0.067;
 
@@ -63,13 +63,9 @@ public class Calibration {
 	public static final double BALL_PICKUP_SPEED = 0.35;
 
 	// Gear Pickup Setpoints
-	public static final double GEAR_PICKUP_ARM_SETPOINT = 0; // This setpoint is
-																// never
-																// invoked.
-																// Delete?
 	public static final double GEAR_PICKUP_ARM_HORIZONTAL = 0.992;
 	public static final double GEAR_PICKUP_ARM_READY = 0.6;
-	public static final double GEAR_PICKUP_ARM_PARK = 0.6;
+	public static final double GEAR_PICKUP_ARM_PARK = 0.45;
 	public static final double GEAR_PICKUP_ARM_VERTICAL = 0.55; // competition bot
 	//public static final double GEAR_PICKUP_ARM_VERTICAL = 0.7; // practice bot
 

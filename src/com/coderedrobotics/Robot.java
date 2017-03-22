@@ -27,8 +27,8 @@ public class Robot extends IterativeRobot {
 	Climber climber;
 	BallPickup ballPickup;
 	GearPickup gearPickup;
-	// ADXRS450_Gyro gyro;
-	AnalogGyro gyro;
+	ADXRS450_Gyro gyro;
+	//AnalogGyro gyro;
 	Timer autoDriveTimer;
 
 	SendableChooser autoChooser;
@@ -36,8 +36,8 @@ public class Robot extends IterativeRobot {
 	final String autoCalibrateDrive = "Calibrate Drive";
 	final String autoCalibrateTurn = "Calibrate Turn 180";
 	final String autoTargetTest = "Target Test";
-	final String autoGearEncoder = "Gear Encoder";
-	final String autoGearVision = "autoGearVision";
+	final String autoGearEncoder = "Gear Encoder"; // use the vision version instead
+	final String autoGearVision = "Gear Vision";
 	final String autoTimerTest = "Timer Test";
 	final String autoBoilerEncoder = "Boiler Encoder";
 	String autoSelected;
@@ -47,8 +47,8 @@ public class Robot extends IterativeRobot {
 	boolean autoDriving = false;
 
 	public void robotInit() {
-		// gyro = new ADXRS450_Gyro(Port.kOnboardCS0);
-		gyro = new AnalogGyro(Wiring.GYRO_PORT);
+		gyro = new ADXRS450_Gyro(Port.kOnboardCS0);
+		//gyro = new AnalogGyro(Wiring.GYRO_PORT);
 		gyro.calibrate();
 
 		target = new Target();
@@ -70,7 +70,7 @@ public class Robot extends IterativeRobot {
 		autoChooser = new SendableChooser();
 
 		autoChooser.addDefault(autoDriveForward, autoDriveForward);
-		autoChooser.addObject(autoGearEncoder, autoGearEncoder);
+		//autoChooser.addObject(autoGearEncoder, autoGearEncoder);
 		autoChooser.addObject(autoGearVision, autoGearVision);
 		autoChooser.addObject(autoBoilerEncoder, autoBoilerEncoder);
 		autoChooser.addObject(autoTargetTest, autoTargetTest);
@@ -208,7 +208,7 @@ public class Robot extends IterativeRobot {
 			mAutoProgram = new AutoGearVision(driveAuto, robotPosition, target);
 			break;
 		case autoBoilerEncoder:
-			mAutoProgram = new AutoBoilerEncoder(driveAuto, robotPosition, target,  shooter);
+			mAutoProgram = new AutoBoilerEncoder(driveAuto, robotPosition, target,  shooter, gearPickup);
 			break;
 		case autoDriveForward:
 			mAutoProgram = new AutoDriveForward(driveAuto, robotPosition);
@@ -239,6 +239,7 @@ public class Robot extends IterativeRobot {
 		driveAuto.tick();
 		driveAuto.showEncoderValues();
 		target.displayDetails();
+		shooter.tick();
 	}
 
 	@Override
