@@ -128,6 +128,13 @@ public class GearPickup {
 			}
 		}
 
+		// slow the upward motion once we get near the top
+		if (gearPickupArm.getPosition()<(Calibration.GEAR_PICKUP_ARM_VERTICAL+.1)){
+			gearPickupArm.configPeakOutputVoltage(4, -2);
+		}else{
+			gearPickupArm.configPeakOutputVoltage(4, -5);
+		}
+		
 		gearPickupArm.setP(SmartDashboard.getNumber("Arm P", Calibration.GEAR_PICKUP_ARM_P));
 
 		SmartDashboard.putNumber("Arm Setpoint", gearPickupArm.getSetpoint());
