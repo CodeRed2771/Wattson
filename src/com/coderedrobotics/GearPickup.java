@@ -75,6 +75,7 @@ public class GearPickup {
 			gearPickupFinger.set(.4);
 			isReleasing = true;
 			isPickingUp = false;
+			isWorkingOnGear = false;
 			fingersEncLastPosition = Math.abs(fingersEncoder.get());
 		}
 	}
