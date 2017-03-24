@@ -134,7 +134,7 @@ public class Target {
 	}
 
 	public void gearReceiverView() {
-		cameraServo.set(.75); // needs to be tested
+		cameraServo.set(.33); // needs to be tested
 	}
 
 	public double distanceFromGearTarget() {
@@ -149,7 +149,7 @@ public class Target {
 		if (darkFlag)
 			camera.setExposureManual(10);
 		else
-			camera.setExposureManual(50);
+			camera.setExposureManual(70);
 	}
 
 	public void enableVisionTargetMode(boolean enableFlag, String whichTarget) {
