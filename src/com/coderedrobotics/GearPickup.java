@@ -19,11 +19,14 @@ public class GearPickup {
 	double fingersStartTime;
 	double fingersEncLastPosition;
 	boolean isHorizontal;
-
+	boolean isWorkingOnGear;
+	
 	public GearPickup() {
 		isPickingUp = false;
-
+		isWorkingOnGear = false;
 		isHorizontal = false;
+		isReleasing = false;
+		
 		gearPickupFinger = new VictorSP(Wiring.GEAR_PICKUP_FINGERS);
 		gearPickupArm = new CANTalon(Wiring.GEAR_PICKUP_ARM);
 
@@ -84,6 +87,7 @@ public class GearPickup {
 	public void startPickup() {
 		fingersEncoder.reset();
 		isPickingUp = true;
+		isWorkingOnGear = true;
 		gearPickupArm.set(Calibration.GEAR_PICKUP_ARM_HORIZONTAL);
 		isHorizontal = true;
 		fingersStartTime = System.currentTimeMillis();
@@ -95,6 +99,7 @@ public class GearPickup {
 		if (isHorizontal) {
 			verticalArm();
 			stopFingers();
+			isWorkingOnGear = false;
 		} else {
 			// Reach down and start trying to pick up the gear
 			startPickup();
@@ -102,22 +107,20 @@ public class GearPickup {
 	}
 
 	public void tick() {
-		SmartDashboard.putNumber("Gear Pickup Position: ", gearPickupArm.getPosition());
-		SmartDashboard.putNumber("Finger Position: ", fingersEncoder.get());
-		SmartDashboard.putNumber("Last Finger Position: ", fingersEncLastPosition);
-
+		
 		if (isPickingUp) {
 			// check encoders periodically to see if they are still moving. If
 			// not, we have a gear
 			if (System.currentTimeMillis() > fingersStartTime + 300) {
+				
 				if (Math.abs(fingersEncoder.get()) - fingersEncLastPosition < 25) {
 					gearPickupFinger.set(-0.60);
 					verticalArm();
 					isPickingUp = false;
-				} else {
-					fingersStartTime = System.currentTimeMillis();
-					fingersEncLastPosition = Math.abs(fingersEncoder.get());
-				}
+				} 
+				
+				fingersStartTime = System.currentTimeMillis();
+				fingersEncLastPosition = Math.abs(fingersEncoder.get());
 			}
 		}
 
@@ -131,13 +134,27 @@ public class GearPickup {
 		// slow the upward motion once we get near the top
 		if (gearPickupArm.getPosition()<(Calibration.GEAR_PICKUP_ARM_VERTICAL+.1)){
 			gearPickupArm.configPeakOutputVoltage(4, -2);
-		}else{
+		} else {
 			gearPickupArm.configPeakOutputVoltage(4, -5);
 		}
 		
-		gearPickupArm.setP(SmartDashboard.getNumber("Arm P", Calibration.GEAR_PICKUP_ARM_P));
+		// check for a dropped gear
+		if (isWorkingOnGear && !isReleasing && !isPickingUp) {
+			// if our fingers have moved more than 25 ticks, then we dropped it, so start 
+			// acquiring again
+			if (Math.abs(Math.abs(fingersEncoder.get()) - fingersEncLastPosition) > 25) {
+				startPickup();
+			}
+			
+		}
+				
+//		gearPickupArm.setP(SmartDashboard.getNumber("Arm P", Calibration.GEAR_PICKUP_ARM_P));
 
-		SmartDashboard.putNumber("Arm Setpoint", gearPickupArm.getSetpoint());
-		SmartDashboard.putNumber("Arm Error: ", gearPickupArm.getClosedLoopError());
+//		SmartDashboard.putNumber("Gear Pickup Position: ", gearPickupArm.getPosition());
+//		SmartDashboard.putNumber("Arm Setpoint", gearPickupArm.getSetpoint());
+//		SmartDashboard.putNumber("Arm Error: ", gearPickupArm.getClosedLoopError());
+		//SmartDashboard.putNumber("Finger Position: ", fingersEncoder.get());
+		//SmartDashboard.putNumber("Last Finger Position: ", fingersEncLastPosition);
+
 	}
 }
