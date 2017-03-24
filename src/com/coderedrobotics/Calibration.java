@@ -65,8 +65,9 @@ public class Calibration {
 	// Gear Pickup Setpoints
 	public static final double GEAR_PICKUP_ARM_HORIZONTAL = 0.992;
 	public static final double GEAR_PICKUP_ARM_READY = 0.6;
-	public static final double GEAR_PICKUP_ARM_PARK = 0.45;
-	public static final double GEAR_PICKUP_ARM_VERTICAL = 0.55; // competition bot
+	//public static final double GEAR_PICKUP_ARM_PARK = 0.45;
+	public static final double GEAR_PICKUP_ARM_PARK = 0.60; // competition
+	public static final double GEAR_PICKUP_ARM_VERTICAL = 0.7; // competition bot
 	//public static final double GEAR_PICKUP_ARM_VERTICAL = 0.7; // practice bot
 
 	// Peg Length is actually the distance between the camera and the target if
