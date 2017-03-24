@@ -131,7 +131,7 @@ public class Robot extends IterativeRobot {
 		}
 
 		if (gamepad.cameraRegularView()) {
-			target.regularView();
+			target.gearReceiverView();
 		}
 
 		// Gear
