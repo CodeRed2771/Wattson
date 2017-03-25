@@ -29,7 +29,7 @@ public class AutoGearVision extends AutoBaseClass {
 					driveInches(-90, .4);
 					break;
 				case 3:
-					driveInches(-100, .4);
+					driveInches(-104, .4);
 					break;
 				}
 				break;
