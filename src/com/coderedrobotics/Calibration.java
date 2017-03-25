@@ -64,7 +64,7 @@ public class Calibration {
 
 	// Gear Pickup Setpoints
 //	public static final double GEAR_PICKUP_ARM_HORIZONTAL = 0.992;
-	public static final double GEAR_PICKUP_ARM_HORIZONTAL = 0.89; //competition
+	public static final double GEAR_PICKUP_ARM_HORIZONTAL = 0.95; //competition
 	public static final double GEAR_PICKUP_ARM_READY = 0.6;
 	//public static final double GEAR_PICKUP_ARM_PARK = 0.45;
 	public static final double GEAR_PICKUP_ARM_PARK = 0.60; // competition
