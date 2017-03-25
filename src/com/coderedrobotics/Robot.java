@@ -30,7 +30,9 @@ public class Robot extends IterativeRobot {
 	ADXRS450_Gyro gyro;
 	//AnalogGyro gyro;
 	Timer autoDriveTimer;
-
+	double lastLeftStick = 0;
+	double lastRightStick = 0;
+	
 	SendableChooser autoChooser;
 	final String autoDriveForward = "Drive Forward";
 	final String autoCalibrateDrive = "Calibrate Drive";
@@ -79,6 +81,8 @@ public class Robot extends IterativeRobot {
 
 		SmartDashboard.putData("Auto choices", autoChooser);
 		SmartDashboard.putNumber("Robot Position", 2);
+		
+		SmartDashboard.putNumber("Ramp Rate", .05);
 
 		gamepad = new KeyMap();
 
@@ -95,15 +99,19 @@ public class Robot extends IterativeRobot {
 		// ballPickup.setPark(true); // FOR TESTING ONLY
 	}
 
+	
 	@Override
 	public void teleopPeriodic() {
-
 		// Drive
 		if (!autoDriving) {
 			if (gamepad.flipDrive()) {
-				drive.set(-gamepad.getRightAxis(), -gamepad.getLeftAxis());
+				lastLeftStick = RampChange(-gamepad.getLeftAxis(), lastLeftStick);
+				lastRightStick = RampChange(-gamepad.getRightAxis(), lastRightStick);
+				drive.set(lastRightStick, lastLeftStick);
 			} else {
-				drive.set(gamepad.getLeftAxis(), gamepad.getRightAxis());
+				lastLeftStick = RampChange(gamepad.getLeftAxis(), lastLeftStick);
+				lastRightStick = RampChange(gamepad.getRightAxis(), lastRightStick);
+				drive.set(lastLeftStick, lastRightStick);
 			}
 		}
 
@@ -169,9 +177,6 @@ public class Robot extends IterativeRobot {
 			}
 		}
 
-		SmartDashboard.putBoolean("TELEOP AUTO DRIVE", autoDriving);
-		SmartDashboard.putNumber("TELEOP TIMER MS LEFT", autoDriveTimer.getTimeRemainingMilliseconds());
-
 		// climber
 		climber.climb(gamepad.getClimberAxis());
 
@@ -231,7 +236,7 @@ public class Robot extends IterativeRobot {
 
 		mAutoProgram.start();
 
-		Logger.getInstance().log("start auto");
+		//Logger.getInstance().log("start auto");
 	}
 
 	public void autonomousPeriodic() {
@@ -244,5 +249,30 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void testPeriodic() {
+	}
+	
+	private double RampChange(double calledForSpeed, double lastSpeedSetting) {
+		double newSpeed = 0;
+		double rampRate = 0;
+		
+		rampRate = SmartDashboard.getNumber("Ramp Rate", .05);
+		
+		newSpeed = calledForSpeed;
+		
+		if (calledForSpeed >= lastSpeedSetting) {
+			if (calledForSpeed - lastSpeedSetting > .1) {
+				newSpeed = lastSpeedSetting + .1;
+			}
+		} else
+		{
+			if (lastSpeedSetting - calledForSpeed > .1 ) {
+				newSpeed = lastSpeedSetting - .1;
+			}
+			
+		}
+		
+		SmartDashboard.putNumber("Ramp Adjust Amount", calledForSpeed - newSpeed);
+		
+		return calledForSpeed;
 	}
 }
