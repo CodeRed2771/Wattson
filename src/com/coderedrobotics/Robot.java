@@ -82,7 +82,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Auto choices", autoChooser);
 		SmartDashboard.putNumber("Robot Position", 2);
 		
-		SmartDashboard.putNumber("Ramp Rate", .08);
+		SmartDashboard.putNumber("Ramp Rate", .09);
 
 		gamepad = new KeyMap();
 
@@ -255,17 +255,17 @@ public class Robot extends IterativeRobot {
 		double newSpeed = 0;
 		double rampRate = 0;
 		
-		rampRate = SmartDashboard.getNumber("Ramp Rate", .08);
+		rampRate = SmartDashboard.getNumber("Ramp Rate", .09);
 		
 		newSpeed = calledForSpeed;
 		
 		if (calledForSpeed >= lastSpeedSetting) {
-			if (calledForSpeed - lastSpeedSetting > .1) {
+			if (calledForSpeed - lastSpeedSetting > rampRate) {
 				newSpeed = lastSpeedSetting + rampRate;
 			}
 		} else
 		{
-			if (lastSpeedSetting - calledForSpeed > .1 ) {
+			if (lastSpeedSetting - calledForSpeed > rampRate ) {
 				newSpeed = lastSpeedSetting - rampRate;
 			}
 			
