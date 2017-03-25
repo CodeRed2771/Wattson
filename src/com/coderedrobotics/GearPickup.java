@@ -43,10 +43,7 @@ public class GearPickup {
 	}
 
 	public void giveTheKrakenATurn() {
-		isPickingUp = false;
-		isHorizontal = false;
 		park();
-		stopFingers();
 	}
 
 	public void releaseBallPickup() {
@@ -67,8 +64,8 @@ public class GearPickup {
 	public void park() {
 		// Parks to original stored position
 		gearPickupArm.set(Calibration.GEAR_PICKUP_ARM_PARK);
+		stopFingers();
 		isHorizontal = false;
-		isReleasing = false;
 		isPickingUp = false;
 		isWorkingOnGear = false;
 		

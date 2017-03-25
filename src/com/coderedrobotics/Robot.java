@@ -82,7 +82,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Auto choices", autoChooser);
 		SmartDashboard.putNumber("Robot Position", 2);
 		
-		SmartDashboard.putNumber("Ramp Rate", .09);
+		SmartDashboard.putNumber("Ramp Rate", Calibration.RAMP_RATE_DRIVE);
 
 		gamepad = new KeyMap();
 
@@ -183,11 +183,9 @@ public class Robot extends IterativeRobot {
 		shooter.tick();
 		ballPickup.tick();
 		gearPickup.tick();
-
 		drive.tick();
 
-		SmartDashboard.putNumber("Gyro", gyro.getAngle());
-		target.displayDetails();
+//		target.displayDetails();
 
 	}
 
@@ -255,7 +253,7 @@ public class Robot extends IterativeRobot {
 		double newSpeed = 0;
 		double rampRate = 0;
 		
-		rampRate = SmartDashboard.getNumber("Ramp Rate", .09);
+		rampRate = SmartDashboard.getNumber("Ramp Rate", Calibration.RAMP_RATE_DRIVE);
 		
 		newSpeed = calledForSpeed;
 		

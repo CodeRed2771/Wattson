@@ -77,4 +77,6 @@ public class Calibration {
 	// robot.
 	public static final double PEG_LENGTH = 19;
 	public static final double LATERAL_CAMERA_OFFSET = 14;
+	
+	public static final double RAMP_RATE_DRIVE = 0.09;
 }
