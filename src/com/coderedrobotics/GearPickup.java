@@ -151,7 +151,7 @@ public class GearPickup {
 				
 //		gearPickupArm.setP(SmartDashboard.getNumber("Arm P", Calibration.GEAR_PICKUP_ARM_P));
 
-//		SmartDashboard.putNumber("Gear Pickup Position: ", gearPickupArm.getPosition());
+		SmartDashboard.putNumber("Gear Pickup Position: ", gearPickupArm.getPosition());
 //		SmartDashboard.putNumber("Arm Setpoint", gearPickupArm.getSetpoint());
 //		SmartDashboard.putNumber("Arm Error: ", gearPickupArm.getClosedLoopError());
 		//SmartDashboard.putNumber("Finger Position: ", fingersEncoder.get());
