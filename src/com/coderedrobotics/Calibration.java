@@ -75,7 +75,7 @@ public class Calibration {
 	// the
 	// tip of the gear peg is in the plane of the gear that is sitting in the
 	// robot.
-	public static final double PEG_LENGTH = 19;
+	public static final double PEG_LENGTH = 15;
 	public static final double LATERAL_CAMERA_OFFSET = 14;
 	
 	public static final double RAMP_RATE_DRIVE = 0.09;

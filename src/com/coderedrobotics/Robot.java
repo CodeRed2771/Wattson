@@ -194,7 +194,7 @@ public class Robot extends IterativeRobot {
 		drive.tick();
 		gearReceiver.tick();
 
-//		target.displayDetails();
+		target.displayDetails();
 
 	}
 

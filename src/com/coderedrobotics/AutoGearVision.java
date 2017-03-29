@@ -62,11 +62,11 @@ public class AutoGearVision extends AutoBaseClass {
 				break;
 				
 			case 4:
-				setTimerAndAdvanceStep(2000);
+				setTimer(1000);  // wait a second before checking images
+				target.setActiveMode(true); // start saving image data
 				break;
 				
 			case 5:
-				target.setActiveMode(true); // start saving image data
 				if (target.foundTarget()) {
 					switch (robotPosition()) {
 					case 1:

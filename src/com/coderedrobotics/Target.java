@@ -104,7 +104,7 @@ public class Target {
 	}
 
 	public boolean isOnTarget() {
-		return (Math.abs(degreesOffTarget()) <= 10);
+		return (Math.abs(degreesOffTarget()) <= 2);
 	}
 
 	public boolean foundTarget() {
@@ -122,7 +122,7 @@ public class Target {
 	}
 
 	public void gearTargetView() {
-		cameraServo.set(0.15); // good
+		cameraServo.set(0.05); // good
 	}
 
 	public void boilerView() {
@@ -146,10 +146,15 @@ public class Target {
 	}
 
 	public void setTargetingExposure(boolean darkFlag) {
-		if (darkFlag)
-			camera.setExposureManual(10);
-		else
-			camera.setExposureManual(70);
+		try {
+			if (darkFlag)
+				camera.setExposureManual(10);
+			else
+				camera.setExposureManual(70);
+		} catch (Exception ex) {
+
+		}
+
 	}
 
 	public void enableVisionTargetMode(boolean enableFlag, String whichTarget) {
@@ -163,6 +168,7 @@ public class Target {
 		} else {
 			gearPickupView();
 		}
+		setActiveMode(true);
 		setTargetingExposure(enableFlag);
 		enableLightRing(enableFlag);
 	}
@@ -212,6 +218,6 @@ public class Target {
 			SmartDashboard.putNumber("Degrees off target", degreesOffTarget());
 			SmartDashboard.putNumber("Gear Angle", getGearAngle());
 		}
-
+		SmartDashboard.putBoolean("Found Target", foundTarget());
 	}
 }

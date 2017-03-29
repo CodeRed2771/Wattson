@@ -25,48 +25,27 @@ public class AutoTargetTest extends AutoBaseClass {
 			case 0:
 				// align to the peg target
 				target.enableVisionTargetMode(true, "Gear");
+				advanceStep();
 				//setTimerAndAdvanceStage(2000);
 				break;
 				
 			case 1:
 				foundTarget = target.foundTarget();
 				if (foundTarget) {
-					advanceStep();
-				}else{
-					setStep(1000);
+					setTimerAndAdvanceStep(4000);					
+					turnDegrees(target.getGearAngle(), .5);
 				}
 				break;
 				
 			case 2:
-				if (foundTarget) {
-					setTimerAndAdvanceStep(2000);
-					turnDegrees(-target.getGearAngle(), 1);
-				} 
-				else {
-					// we just sit here because we can't see the target
-				}
+				if (driveAuto().hasArrived()) // done aligning
+					setStep(1); // go ahead and do it again
 				break;
 				
 			case 3: 
-				if (driveAuto().hasArrived()) // done aligning
-					advanceStep();
+				setStep(1); // go ahead and do it again
 				break;
 				
-			case 4:
-				// drive toward peg target and stop 10" short
-				setTimerAndAdvanceStep(5000);
-				driveInches(target.getGearDistance() - 10, .20);
-				break;
-				
-			case 5: 
-				if (driveAuto().hasArrived()) 
-					advanceStep();
-				break;
-
-			case 6:
-				target.enableVisionTargetMode(false, "");
-				//stop();
-				break;
 			}
 		}
 		
