@@ -51,6 +51,8 @@ public class KeyMap {
     private final HID.Button gearArmRetractButton = LogitechF310.BACK;
     private final HID.Button gearRelease = LogitechF310.START;
     
+    //gear receiver
+    private final HID.Button gearReceiverOpen = LogitechF310.A;
     
 
     // BUTTON STATES
@@ -123,6 +125,9 @@ public class KeyMap {
     }
     public boolean gearAutoPosition() {
     	return getHID(gamepad1).axis(gearPositionAxis) > .5;
+    }
+    public boolean gearReceiverOpen(){
+    	return getHID(gamepad1).button(gearReceiverOpen);
     }
     //NEW STUFF - 2017
 

@@ -28,6 +28,8 @@ public class Wiring {
 	public static final int SHOOTER_MOTOR_FOLLOWER = 6;
 	public static final int GEAR_PICKUP_ARM = 7;
 	public static final int BALL_PICKUP_FOLLOWER = 8;
+	public static final int GEAR_RECEIVER_LEADER = 3;
+	public static final int GEAR_RECEIVER_FOLLOWER = 8;
 
 	// DIGITAL INPUT
 	public static final int LEFT_ENCODER_A = 0;

@@ -47,6 +47,8 @@ public class Robot extends IterativeRobot {
 	AutoBaseClass mAutoProgram;
 
 	boolean autoDriving = false;
+	
+	GearReceiver gearReceiver;
 
 	public void robotInit() {
 		gyro = new ADXRS450_Gyro(Port.kOnboardCS0);
@@ -87,6 +89,8 @@ public class Robot extends IterativeRobot {
 		gamepad = new KeyMap();
 
 		target.setTargetingExposure(true);
+		
+		gearReceiver = new GearReceiver();
 	}
 
 	public void teleopInit() {
@@ -128,10 +132,10 @@ public class Robot extends IterativeRobot {
 			shooter.stopFeeder();
 
 		// Turn on/off ball pickup
-		if (gamepad.pickup()) {
-			gearPickup.giveTheKrakenATurn();
-			ballPickup.toggle();
-		}
+//		if (gamepad.pickup()) {
+//			gearPickup.giveTheKrakenATurn();
+//			ballPickup.toggle();
+//		}
 
 		// camera views
 		if (gamepad.cameraGearPickupView()) {
@@ -176,6 +180,10 @@ public class Robot extends IterativeRobot {
 				driveAuto.setPIDstate(false);
 			}
 		}
+		
+		if(gamepad.gearReceiverOpen()){
+			gearReceiver.openGearCatch();
+		}
 
 		// climber
 		climber.climb(gamepad.getClimberAxis());
@@ -184,6 +192,7 @@ public class Robot extends IterativeRobot {
 		ballPickup.tick();
 		gearPickup.tick();
 		drive.tick();
+		gearReceiver.tick();
 
 //		target.displayDetails();
 
