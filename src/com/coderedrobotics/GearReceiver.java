@@ -5,45 +5,39 @@ import com.ctre.CANTalon;
 import com.ctre.CANTalon.TalonControlMode;
 
 import edu.wpi.first.wpilibj.TalonSRX;
+import edu.wpi.first.wpilibj.VictorSP;
 
 public class GearReceiver {
-	
-	CANTalon gearReceiverLeader;
-	CANTalon gearReceiverFollower;
-	CurrentBreaker currentBreaker;
+	VictorSP gearMotor;
 	double gearCloseTime = 0;
 	boolean isOpening = false;
+	CurrentBreaker currentBreaker;
 	
 	public GearReceiver(){
-		gearReceiverLeader = new CANTalon(Wiring.GEAR_RECEIVER_LEADER);
-		gearReceiverFollower = new CANTalon(Wiring.GEAR_RECEIVER_FOLLOWER);
-		currentBreaker = new CurrentBreaker(null, (Integer) null, .5, 0, 0); //relook at this!!!
-		
-		gearReceiverLeader.configNominalOutputVoltage(0.0f,0.0f);
-		gearReceiverLeader.configPeakOutputVoltage(0, 1);
-		gearReceiverLeader.setProfile(0);
-		
-		gearReceiverFollower.changeControlMode(TalonControlMode.Follower);
-		gearReceiverFollower.set(gearReceiverFollower.getDeviceID());
+		gearMotor = new VictorSP(Wiring.GEAR_RECEIVER_MOTOR);
+		currentBreaker = new CurrentBreaker(null, Wiring.GEAR_RECEIVER_PDP, Calibration.GEAR_RECVR_MAX_CURRENT, 100, 200); //NOTE:  THIS PDP PORT IS NOT RIGHT!!!!!!!!!!!!!!!
 	}
 	
 	public void openGearCatch(){
 		isOpening = true;
-		gearReceiverLeader.set(.5);
+		currentBreaker.reset();
+		gearMotor.set(.3);
 		gearCloseTime = System.currentTimeMillis();
 	}
-	public void closeGearCatch(){
-		gearReceiverLeader.set(-.5);
+	
+	private void closeGearCatch(){
+		currentBreaker.reset();
+		gearMotor.set(-.3);
 	}
 	
 	public void tick(){
-		if(currentBreaker.tripped()){
-			gearReceiverLeader.set(0);
-		}
-		
-		if(System.currentTimeMillis() > gearCloseTime+5000){
+		if (System.currentTimeMillis() > gearCloseTime + 5000) {
 			closeGearCatch();
 			isOpening = false;
+		}
+		
+		if (currentBreaker.tripped()) {
+			gearMotor.set(0);
 		}
 	}
 }

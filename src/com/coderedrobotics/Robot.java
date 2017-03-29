@@ -64,7 +64,7 @@ public class Robot extends IterativeRobot {
 
 		shooter = new Shooter(target);
 		climber = new Climber();
-		ballPickup = new BallPickup();
+		//ballPickup = new BallPickup();
 		gearPickup = new GearPickup();
 
 		autoDriveTimer = new Timer();
@@ -148,20 +148,20 @@ public class Robot extends IterativeRobot {
 
 		// Gear
 		if (gamepad.gearArm()) {
-			ballPickup.park(); // any time we're doing something with Gear Arm,
+			//ballPickup.park(); // any time we're doing something with Gear Arm,
 								// make sure pickup is parked
 			gearPickup.toggleArm();
 		}
 
 		if (gamepad.retractGearArm()) {
 			gearPickup.park();
-			ballPickup.park(); // any time we're doing something with Gear Arm,
+			//ballPickup.park(); // any time we're doing something with Gear Arm,
 								// make sure pickup is parked
 		}
 
 		if (gamepad.gearRelease()) {
 			gearPickup.releaseGear();
-			ballPickup.park(); // any time we're doing something with Gear Arm,
+			//ballPickup.park(); // any time we're doing something with Gear Arm,
 								// make sure pickup is parked
 		}
 
@@ -189,7 +189,7 @@ public class Robot extends IterativeRobot {
 		climber.climb(gamepad.getClimberAxis());
 
 		shooter.tick();
-		ballPickup.tick();
+		//ballPickup.tick();
 		gearPickup.tick();
 		drive.tick();
 		gearReceiver.tick();

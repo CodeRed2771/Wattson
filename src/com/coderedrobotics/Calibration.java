@@ -79,4 +79,6 @@ public class Calibration {
 	public static final double LATERAL_CAMERA_OFFSET = 14;
 	
 	public static final double RAMP_RATE_DRIVE = 0.09;
+	
+	public static final double GEAR_RECVR_MAX_CURRENT = 5;
 }

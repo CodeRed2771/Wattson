@@ -1,17 +1,27 @@
 package com.coderedrobotics;
 
-import com.coderedrobotics.libs.CurrentBreaker;
-
-import edu.wpi.first.wpilibj.VictorSP;
+import com.ctre.CANTalon;
+import com.ctre.CANTalon.TalonControlMode;
 
 public class Climber {
-	VictorSP climberMotor;
+	CANTalon climbLeader;
+	CANTalon climbFollower;
 
 	public Climber() {
-		climberMotor = new VictorSP(Wiring.CLIMBER_MOTOR);
+
+		climbLeader = new CANTalon(Wiring.CLIMB_LEADER);
+		climbFollower = new CANTalon(Wiring.CLIMB_FOLLOWER);
+
+		climbLeader.configNominalOutputVoltage(0.0f, 0.0f);
+		climbLeader.configPeakOutputVoltage(13, 13);
+		climbLeader.setProfile(0);
+
+		climbFollower.changeControlMode(TalonControlMode.Follower);
+		climbFollower.set(climbLeader.getDeviceID());
 	}
 
 	public void climb(double climbPower) {
-		climberMotor.set(-Math.max(0, climbPower));
+		climbLeader.set(-Math.max(0, climbPower));
 	}
+
 }
