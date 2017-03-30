@@ -33,7 +33,7 @@ public class CurrentBreaker {
 	}
 
 	public void checkCurrent() {
-		SmartDashboard.putBoolean("Tripped", tripped);
+//		SmartDashboard.putBoolean("Tripped", tripped);
 		
 		if (System.currentTimeMillis() > ignoreTime) {
 			if (!tripped) {
@@ -72,8 +72,8 @@ public class CurrentBreaker {
 		motorOffTime = -1;
 		if (ignoreDuration != -1) {
 			ignoreTime = System.currentTimeMillis() + ignoreDuration;
-			 SmartDashboard.putNumber("ignoreDuration", ignoreDuration);
-			 SmartDashboard.putNumber("IgnoreTime", ignoreTime);
+//			 SmartDashboard.putNumber("ignoreDuration", ignoreDuration);
+//			 SmartDashboard.putNumber("IgnoreTime", ignoreTime);
 			// Logger.getInstance().log(Logger.Level.INFO,1,"ignoreDuration is
 			// "+ignoreDuration);
 			// Logger.getInstance().log(Logger.Level.INFO, 1, "Ignore Time Reset

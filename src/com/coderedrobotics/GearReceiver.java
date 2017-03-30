@@ -16,13 +16,13 @@ public class GearReceiver {
 	
 	public GearReceiver(){
 		gearMotor = new VictorSP(Wiring.GEAR_RECEIVER_MOTOR);
-		currentBreaker = new CurrentBreaker(null, Wiring.GEAR_RECEIVER_PDP, Calibration.GEAR_RECVR_MAX_CURRENT, 200, 400); //NOTE:  THIS PDP PORT IS NOT RIGHT!!!!!!!!!!!!!!!
+		currentBreaker = new CurrentBreaker(null, Wiring.GEAR_RECEIVER_PDP, Calibration.GEAR_RECVR_MAX_CURRENT, 200, 400); 
 	}
 	
 	public void openGearCatch(){
 		isOpening = true;
 		currentBreaker.reset();
-		gearMotor.set(-.3);
+		gearMotor.set(-.4);
 		gearCloseTime = System.currentTimeMillis();
 	}
 	
@@ -32,7 +32,7 @@ public class GearReceiver {
 	}
 	
 	public void tick(){
-		if (isOpening && (System.currentTimeMillis() > gearCloseTime + 3000)) {
+		if (isOpening && (System.currentTimeMillis() > gearCloseTime + 5000)) {
 			closeGearCatch();
 			isOpening = false;
 		}
