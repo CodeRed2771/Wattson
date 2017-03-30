@@ -42,39 +42,28 @@ public class Calibration {
 	public static final double AUTO_DRIVE_I = 0.7;
 	public static final double AUTO_DRIVE_D = 0.013;
 
-	// Drive Encoder
-	public static final double DRIVE_DISTANCE_PER_PULSE = 0.073; // we don't
-																	// actually
-																	// use this
-																	// one.
-																	// Delete?
 	public static final double DRIVE_DISTANCE_TICKS_PER_INCH = 20.1;
 
-	// Useless Stuff
-	public static final double DRIVE_TRAIN_REDUCTION_FACTOR = 0.5; // the code
-																	// that uses
-																	// this is
-																	// commented
-																	// out
-
+	// This is used in keymap to do something with the gamepads....
+	public static final double DRIVE_TRAIN_REDUCTION_FACTOR = 0.5; 
+	
 	// Ball Pickup
 	public static final double BALL_PICKUP_PARK_POSITION = 0.96;
 	public static final int BALL_PICKUP_TICKS_PER_REV = 4096;
 	public static final double BALL_PICKUP_SPEED = 0.35;
 
 	// Gear Pickup Setpoints
-//	public static final double GEAR_PICKUP_ARM_HORIZONTAL = 0.992;
-	public static final double GEAR_PICKUP_ARM_HORIZONTAL = 0.95; //competition
-	public static final double GEAR_PICKUP_ARM_READY = 0.6;
+	//public static final double GEAR_PICKUP_ARM_HORIZONTAL = 0.992;
 	//public static final double GEAR_PICKUP_ARM_PARK = 0.45;
-	public static final double GEAR_PICKUP_ARM_PARK = 0.60; // competition
-	public static final double GEAR_PICKUP_ARM_VERTICAL = 0.7; // competition bot
 	//public static final double GEAR_PICKUP_ARM_VERTICAL = 0.7; // practice bot
+	public static final double GEAR_PICKUP_ARM_READY = 0.35;
+	public static final double GEAR_PICKUP_ARM_PARK = 0.35; // competition
+	public static final double GEAR_PICKUP_ARM_VERTICAL = 0.45; // competition bot
+	public static final double GEAR_PICKUP_ARM_HORIZONTAL = 0.7; //competition
 
-	// Peg Length is actually the distance between the camera and the target if
-	// the
-	// tip of the gear peg is in the plane of the gear that is sitting in the
-	// robot.
+	// Peg Length is actually the distance between the camera and the target
+	// if the tip of the gear peg is in the plane of the gear that is 
+	// sitting in the robot.
 	public static final double PEG_LENGTH = 15;
 	public static final double LATERAL_CAMERA_OFFSET = 14;
 	
