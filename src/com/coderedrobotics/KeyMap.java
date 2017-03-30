@@ -127,7 +127,7 @@ public class KeyMap {
     	return getHID(gamepad1).axis(gearPositionAxis) > .5;
     }
     public boolean gearReceiverOpen(){
-    	return getHID(gamepad1).button(gearReceiverOpen);
+    	return getHID(gamepad2).button(gearReceiverOpen);
     }
     //NEW STUFF - 2017
 

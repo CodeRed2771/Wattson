@@ -33,14 +33,14 @@ public class CurrentBreaker {
 	}
 
 	public void checkCurrent() {
-
+		SmartDashboard.putBoolean("Tripped", tripped);
+		
 		if (System.currentTimeMillis() > ignoreTime) {
-
 			if (!tripped) {
 				tripped = (pdp.getCurrent(portnum) > currentThreshold);
 				// Logger.getInstance().log(Logger.Level.ERROR, 1,
-				// String.valueOf(pdp.getCurrent(portnum)));
-				// SmartDashboard.putBoolean("Tripped", tripped);
+//				 String.valueOf(pdp.getCurrent(portnum)));
+
 			}
 			if (motorOffTime == -1) {
 				motorOffTime = System.currentTimeMillis() + timeOut;
@@ -72,8 +72,8 @@ public class CurrentBreaker {
 		motorOffTime = -1;
 		if (ignoreDuration != -1) {
 			ignoreTime = System.currentTimeMillis() + ignoreDuration;
-			// SmartDashboard.putNumber("ignoreDuration", ignoreDuration);
-			// SmartDashboard.putNumber("IgnoreTime", ignoreTime);
+			 SmartDashboard.putNumber("ignoreDuration", ignoreDuration);
+			 SmartDashboard.putNumber("IgnoreTime", ignoreTime);
 			// Logger.getInstance().log(Logger.Level.INFO,1,"ignoreDuration is
 			// "+ignoreDuration);
 			// Logger.getInstance().log(Logger.Level.INFO, 1, "Ignore Time Reset

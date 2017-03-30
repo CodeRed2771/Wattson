@@ -17,7 +17,7 @@ public class Wiring {
 	public static final int LEFT_DRIVE_MOTOR2 = 9;
 	
 	// MOTOR CONTROLLER PDP PORTS
-	public static final int GEAR_RECEIVER_PDP = 13;  // not verified
+	public static final int GEAR_RECEIVER_PDP = 8;
 //	public static final int PICKUP_FINGER_PDP = 15;
 
 	// CAN MOTOR CONTROLLERS

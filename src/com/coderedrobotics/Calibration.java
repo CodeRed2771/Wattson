@@ -80,5 +80,5 @@ public class Calibration {
 	
 	public static final double RAMP_RATE_DRIVE = 0.09;
 	
-	public static final double GEAR_RECVR_MAX_CURRENT = 5;
+	public static final double GEAR_RECVR_MAX_CURRENT = 2;
 }
