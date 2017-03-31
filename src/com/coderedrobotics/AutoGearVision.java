@@ -23,7 +23,7 @@ public class AutoGearVision extends AutoBaseClass {
 				setTimerAndAdvanceStep(4000);
 				switch (robotPosition()) {
 				case 1:
-					driveInches(-90, .4);
+					driveInches(-97, .4);
 					break;
 				case 2:
 					driveInches(-90, .4);
