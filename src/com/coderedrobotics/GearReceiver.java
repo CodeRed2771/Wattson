@@ -32,7 +32,7 @@ public class GearReceiver {
 	}
 	
 	public void tick(){
-		if (isOpening && (System.currentTimeMillis() > gearCloseTime + 5000)) {
+		if (isOpening && (System.currentTimeMillis() > gearCloseTime + 4000)) {
 			closeGearCatch();
 			isOpening = false;
 		}
