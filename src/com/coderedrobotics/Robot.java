@@ -98,7 +98,7 @@ public class Robot extends IterativeRobot {
 		drive.setPIDstate(true);
 		drive.set(0, 0);
 		target.enableVisionTargetMode(false, "");
-		//gearPickup.park();
+		gearPickup.park();
 
 		// ballPickup.setPark(true); // FOR TESTING ONLY
 	}
