@@ -31,6 +31,7 @@ public class KeyMap {
     private final HID.Axis driveLeftAxis = LogitechF310.STICK_LEFT_Y;
     private final HID.Axis climberAxis = LogitechF310.TRIGGER_LEFT_AXIS;
     private final HID.Axis gearPositionAxis = LogitechF310.TRIGGER_RIGHT_AXIS;
+    private final HID.Button driveTrainOffButton = LogitechF310.B;
 
     
     // CONTROLLER 1
@@ -128,6 +129,9 @@ public class KeyMap {
     }
     public boolean gearReceiverOpen(){
     	return getHID(gamepad2).button(gearReceiverOpen);
+    }
+    public boolean driveTrainOffButton(){
+    	return getHID(gamepad1).button(driveTrainOffButton);
     }
     //NEW STUFF - 2017
 

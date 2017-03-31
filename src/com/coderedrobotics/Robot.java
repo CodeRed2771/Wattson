@@ -184,6 +184,12 @@ public class Robot extends IterativeRobot {
 		if(gamepad.gearReceiverOpen()){
 			gearReceiver.openGearCatch();
 		}
+		
+		if(gamepad.driveTrainOffButton()){
+			drive.setPIDstate(false);
+		}else{
+			drive.setPIDstate(true);
+		}
 
 		// climber
 		climber.climb(gamepad.getClimberAxis());
