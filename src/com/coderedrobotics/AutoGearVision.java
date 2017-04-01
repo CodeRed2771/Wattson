@@ -85,7 +85,8 @@ public class AutoGearVision extends AutoBaseClass {
 						setTimerAndAdvanceStep(2000);
 						break;
 					}
-				}
+				} else  // didn't get a target so just drive forward
+					setStep(8);
 				break;
 
 			case 7:
@@ -102,7 +103,7 @@ public class AutoGearVision extends AutoBaseClass {
 				case 2:
 					break;
 				case 3:
-					driveInches(-50, .25);
+					driveInches(-30, .25);
 					break;
 
 				}
