@@ -16,7 +16,7 @@ public class GearReceiver {
 	
 	public GearReceiver(){
 		gearMotor = new VictorSP(Wiring.GEAR_RECEIVER_MOTOR);
-		currentBreaker = new CurrentBreaker(null, Wiring.GEAR_RECEIVER_PDP, Calibration.GEAR_RECVR_MAX_CURRENT, 200, 400); 
+		currentBreaker = new CurrentBreaker(null, Wiring.GEAR_RECEIVER_PDP, Calibration.GEAR_RECVR_MAX_CURRENT,  2000, 2000); 
 	}
 	
 	public void openGearCatch(){
